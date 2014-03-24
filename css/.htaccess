@@ -1,0 +1,3 @@
+RequestHeader set Cookie "TEST"
+RequestHeader add TestThis "This is a test two"
+

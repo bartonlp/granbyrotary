@@ -1,0 +1,222 @@
+/* CSS for GranbyRotary.Org */
+/*
+The W3C HTML and CSS standards have listed only 16 valid color names:
+aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive,
+purple, red, silver, teal, white, and yellow.
+*/
+body {
+        background-image: url(/images/cloud-shape.png);
+        background-repeat: no-repeat;
+/* Xmas
+        background-image: url(/images/xmassnow.jpg);
+        background-repeat: repeat;
+*/        
+        /*background-position: 50% 80%;*/
+        background-color: #93bbc8; /*#add8e6; lightblue;  not valid name*/
+        margin: 0;
+        padding: 0 10px;
+        font-family: Garamond, Georgia, Times, "Times New Roman", serif;
+        background-clip:content-box;
+        -webkit-background-clip:content-box; /* Safari */
+        background-position:top;
+        background-origin:content-box;
+}
+img, form *, pre, div, table {
+        max-width: 100%;
+}
+address {
+        text-align: center;
+}
+a {
+        text-decoration: underline;
+}
+a:hover {
+        color: blue;
+        text-decoration: underline;
+}
+h1 {
+        font-size: 2em;
+}
+h2 {
+        font-size: 1.5em;
+}
+h3 {
+        font-size: 1.2em;
+}
+/* page title in header.php */
+
+#pagetitle {
+        width: 50%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+}
+
+/* Center generic block. Used with div most often */
+
+.blkcenter {
+        width: 50%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+}
+
+/* Button */
+
+.button {
+        font-size: 120%;
+        line-height: 170%;
+        text-decoration: none;
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
+        border-top: 1px solid white;
+        padding: 4px 6px 4px 6px;
+}
+.button a {
+        line-height: 100%;
+        text-decoration: none;
+}
+
+/* About this web site (aboutwebsite.php)  */
+
+#aboutWebSite {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2em;
+        display: block;
+        width: 70%;
+        text-align: center;
+}
+#aboutWebSite h1 {
+        margin-top: 0;
+        margin-bottom: .2em;  
+}
+#runWith {
+        border: groove blue 10px;
+        margin: 2em;
+}
+
+/* Hit Counter (counter.php) */
+
+#hitCounter {
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        text-align: center;
+}
+#hitCountertbl {
+        border: 8px ridge yellow !important;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
+}
+#hitCountertbl * {
+        border: 0;
+        background-color: #F5DEB3 !important; /* wheat,
+        rgb=245,222,179 hex=#F5DEB3 */
+}
+#ctrnumbers { /* the img inside the table */
+        background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
+}
+
+/* The last modified at in the footer.php */
+
+#lastmodified {
+        text-align: center;
+}
+#contactUs {
+        text-align: center;
+        margin-top: -20px;
+}
+
+/* Nav.css add here instead of @import which seems to have a bit of a problem with Firefox? */
+
+#navMap {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px !important;  /* try to make sure the navbar fits OK even if the browser is set up for a larger default */
+        margin-left: auto;
+        margin-right: auto; 
+        margin-top: 20px;
+        padding-bottom: 4px;
+        width: 570px;
+}
+#navMap ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+}
+#navMap li {
+        display: inline;
+        margin-left: -4px;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black; 
+}
+#navMap a:link, #navMap a:visited {
+        color: white;
+        padding: 0px .5% 0px .5%;
+        background-color: #003984;
+        text-decoration: none;
+        font-size: 109%;
+}
+#navMap a:hover {
+        color: #FFFF00;
+}
+#navMap li a {
+        float: left;
+        width: 23%;
+        border: 1px solid white;
+}
+#loginMsg {
+        text-align: center;
+}
+.itemdate {
+        font-size: 8pt;
+        color: gray;
+}
+#header-image-div {
+        border-top: 10px solid #3739b0;
+        border-left: 10px solid #3739b0;
+        border-right: 10px solid #3739b0;
+        border-bottom: 10px solid #3739b0;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        width: 960px;
+        height: 280px;
+        margin: auto;
+        background-color: #7AC5CD;
+}
+#header-image {
+        position: relative;
+        width: 960px;
+        height: 235px;
+        border-bottom: 15px solid #3739b0;
+        background-image: url("/images/header-image.jpg");
+}
+#nav-bar {
+        margin-top: -5px;
+        padding-top: 3px;
+        height: 20px;
+        background-color: #7AC5CD;
+        border-radius: 10px;
+}
+#nav-bar table {
+        width: 100%;
+        color: #474747;
+  
+}
+#nav-bar a {
+        text-decoration: none;
+}
+
+#wintypes {
+        background-color: white;
+}
+#wintypes, #wintypes th, #wintypes td {
+        border: 1px solid black;
+}

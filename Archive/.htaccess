@@ -1,0 +1,13 @@
+XBitHack on
+Options +Indexes +Includes
+
+Order Deny,Allow
+Deny from All
+
+AuthName "Granby Rotary Archive"
+AuthType Basic
+AuthUserFile /home/barton11/granbyrotarydotorg/Archive/.htpasswd
+require valid-user
+Satisfy Any
+
+

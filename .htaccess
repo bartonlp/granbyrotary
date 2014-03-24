@@ -1,0 +1,23 @@
+XBitHack on
+Options -Indexes +Includes +FollowSymLinks
+
+# disable magic quotes. They almost always cause problems!
+# does not work on vps12660.inmotionhosting.com
+#php_flag magic_quotes_gpc Off
+
+# Turn on rewrite
+RewriteEngine on
+#RewriteBase /
+RewriteRule ^rssfeed.xml    articles/createrss.php [L]
+# Rewrite for articles
+RewriteRule ^articles/article\.(\d+)  articles/article.php?article=$1 [L]
+RewriteRule ^rotary.css css/rotary.css [L]
+
+# START of block logic
+# blocked ip addresses. Add each IP. All but the last should have the [OR] flag. The last one should not have it.
+# RewriteCond %{REMOTE_HOST} ^67.40.37.187 [OR] # This is my ip address at 12/10/2009 it may change
+#<blocked ip addresses start>
+#RewriteCond %{REMOTE_HOST} ^90.157.48.55
+#<blocked ip addresses end>
+#RewriteRule .* blocked.php [L]
+# END of block logic

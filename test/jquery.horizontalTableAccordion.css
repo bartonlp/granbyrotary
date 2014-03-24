@@ -1,0 +1,28 @@
+.horizontalTableAccordion {
+    table-layout: fixed;
+    border-top: 5px solid #ccc;
+    border-collapse: collapse;
+    background: #fff;
+    width: 100%;
+}
+
+.horizontalTableAccordion td {
+    border: 1px solid #ccc;
+    padding: 2px 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.horizontalTableAccordion thead th {
+    border-bottom: 1px solid #ccc;
+    padding: 2px 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    background: yellow;
+    display: table-cell !important;
+}
+
+td.correct_text_spacing {
+    white-space: normal;
+}

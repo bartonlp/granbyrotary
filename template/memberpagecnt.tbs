@@ -1,0 +1,89 @@
+[pageHead;noerr;htmlconv=no;protect=no]
+
+<div id='popup'
+  style='position: absolute; background-color: white; display: none; border:
+     3px solid black'></div>
+
+<div id="membercnt">
+<p>From <i>memberpagecnt</i> table joined with <i>rotarymembers</i> table.</p>
+<table id='membercnttbl'>
+   <thead>
+   <tr>
+      <th>[top.val;block=th]</th>
+   </tr>
+   </thead>
+   <tbody>
+      <tr name='[membercnt.id]'>
+         <td class="page">[membercnt.page;block=tr]</td>
+         <td name='[membercnt.name]' class='id'>[membercnt.id]</td>
+         <td>[membercnt.agent]</td>
+         <td class="count">[membercnt.count]</td>
+         <td>[membercnt.lasttime]</td>
+      </tr>
+   </tbody>
+   <tfoot>
+      <tr>
+         <td colspan=5 id="sumcount">Count=0</td>
+      </tr>
+   </tfoot>
+</table>
+</div>
+<hr/>
+<div id="feedcnt">
+   
+<p>RSS Feed Count. Most recent at top.</p>
+<p>From the <i>feedcnt</i> table.</p>
+
+<table id='feedcnttbl'>
+   <thead>
+   <tr><th>Agent</th><th>Count</th><th>Last Time</th></tr>
+   </thead>
+   <tbody>
+   <tr>
+      <td>[feedcnt.agent;block=tr]</td>
+      <td>[feedcnt.count]</td>
+      <td>[feedcnt.lasttime]</td>
+   </tr>
+   </tbody>
+</table>
+<hr/>
+<p>Article Count</p>
+<p>From the <i>articlecnt</i> table joined with <i>articles</i> and <i>rotarymembers</i> tables.</p>
+<table id='articlecnttbl'>
+   <thead>
+   <tr><th>Article Id</th><th>Article Name</th><th>Member
+      Id</th><th>Count</th><th>Last Time</th></tr>
+   </thead>
+   <tbody>
+   <tr>
+      <td>[articlecnt.id;block=tr]</td>
+      <td>[articlecnt.articleName]</td>
+      <td name='[articlecnt.memberName]' class="id">[articlecnt.memberId]</td>
+      <td>[articlecnt.count]</td>
+      <td>[articlecnt.lasttime]</td>
+   </tr>
+   </tbody>
+</table>
+<p>Article Count Non Members</p>
+<p>From the <i>articlecntnonmbrs</i> table joined with <i>articles</i> tables.</p>
+<p>Shows Articles Read by NON Members.</p>
+<table id='articlecntnonmbrstbl'>
+   <thead>
+   <tr><th>Article Id</th><th>Article Name</th><th>Ip Address</th><th>Agent</th><th>Count</th><th>Last Time</th></tr>
+   </thead>
+   <tbody>
+   <tr>
+      <td>[articlecntnonmbrs.id;block=tr]</td>
+      <td>[articlecntnonmbrs.articleName]</td>
+      <td>[articlecntnonmbrs.ip]</td>
+      <td>[articlecntnonmbrs.agent]</td>
+      <td>[articlecntnonmbrs.count]</td>
+      <td>[articlecntnonmbrs.lasttime]</td>
+   </tr>
+   </tbody>
+</table>
+</div>
+<hr/>
+
+[footer;htmlconv=no]
+

@@ -1,0 +1,81 @@
+<?php
+// <start> Standard Start Stuff 
+require_once("/home/barton11/includes/granbyrotary.conf");
+$S = new GranbyRotary;
+
+require_once("$DocRootPath/tbs_class.php");
+$TBS = new clsTinyButStrong ;
+
+// Add Page Title for header here
+
+$pageTitle =<<<EOL
+EOL;
+
+// make header and footer strings
+
+$hdr =  $S->getBanner($pageTitle);
+$ftr = $S->getFooter();
+
+// Add Style for page here
+
+$style=<<<EOL
+EOL;
+
+// Add Script for page here
+
+$script=<<<EOL
+EOL;
+
+$tbsFile = 'template.tbs';  // This is the standard template file if you want something else change this!
+$TBS->LoadTemplate($tbsFile);
+
+// Merge header and footer  
+$TBS->MergeField('header',$hdr);
+$TBS->MergeField('footer',$ftr);
+
+// This is for the [var.bodyscript;script=[var.bodyscript;val];noerr;subtbl]
+// tag in the template.tbs file. If this is NOT set then nothing is
+// added. 
+
+$bodyscript = '';
+
+// </start> end of standard stuff
+
+// START OF CUSTOM PAGE STUFF
+// example Merge stuff
+//$caption = array('page'=>'Page', 'id'=>'Id', 'agent'=>'Agent', 'count'=>'Count', 'time'=>'Last Time');
+//$TBS->MergeBlock('top', $caption);
+//$TBS->MergeBlock('membercnt', $S->getDb(), 'select * from memberpagecnt order by page');
+
+// To load files for the parts of the body
+// In template.tbs there are eight [body.partX;htmlconv=no;noerr],
+// where X is 1 through 8, tags. If the files exist in the form
+// <basename minus extension>.partX.txt then it is loaded (for
+// example: 9health.php is the PHP file and the partX would look
+// like:
+// 9health.part1.txt, 9health.part2.txt, etc.
+// Each .txt file is HTML text only! Each is a section of the body
+// with no <html><head><body> tags or their end tags!
+// If you need another template instead of plain HTML use the script
+// tag: set $bodyscript to a file with stuff like in the files
+// test1.php and test2.txt. See the file test1.php, and
+// test2.txt.
+
+function loadFile($s) {
+  $pre = basename($_SERVER[PHP_SELF], '.php');
+  $file = "${pre}.${s}.txt";
+  if(file_exists($file)) {
+    $data = file_get_contents($file);
+  }
+  return $data;
+}
+
+$TBS->MergeField('body', 'loadFile', true);
+
+// ADD ADDITIONAL MergeField() or MergeBlock() items. SEE ABOVE FOR
+// EXAMPLES>
+
+// Show the page
+$TBS->Show();
+?>
+

@@ -1,0 +1,615 @@
+-- MySQL dump 10.13  Distrib 5.5.35, for Linux (x86_64)
+--
+-- Host: localhost    Database: barton11_granbyrotarydotorg
+-- ------------------------------------------------------
+-- Server version	5.5.35-cll
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `articlecnt`
+--
+
+DROP TABLE IF EXISTS `articlecnt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `articlecnt` (
+  `id` int(11) NOT NULL,
+  `memberId` int(11) NOT NULL DEFAULT '0',
+  `count` int(11) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`,`memberId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `articlecntnonmbrs`
+--
+
+DROP TABLE IF EXISTS `articlecntnonmbrs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `articlecntnonmbrs` (
+  `id` int(11) NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `agent` varchar(255) NOT NULL,
+  `count` int(11) DEFAULT '1',
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`,`ip`,`agent`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `articles`
+--
+
+DROP TABLE IF EXISTS `articles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `articles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `pageorder` float(10,6) DEFAULT '9999.000000',
+  `rssfeedId_fk` int(11) DEFAULT NULL,
+  `rssfeed` text,
+  `article` text,
+  `header` text,
+  `articleInclude` enum('rss','article','both') DEFAULT 'both',
+  `expired` datetime DEFAULT '2020-01-01 00:00:00',
+  `created` datetime DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bboard`
+--
+
+DROP TABLE IF EXISTS `bboard`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bboard` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `item` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) DEFAULT NULL,
+  `bbtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `message` blob,
+  `refid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`item`),
+  KEY `id` (`id`),
+  KEY `refid` (`refid`)
+) ENGINE=MyISAM AUTO_INCREMENT=133 DEFAULT CHARSET=latin1 PACK_KEYS=1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bbsreadmsg`
+--
+
+DROP TABLE IF EXISTS `bbsreadmsg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bbsreadmsg` (
+  `item` int(11) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL DEFAULT '0',
+  `msg_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`item`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `blocked`
+--
+
+DROP TABLE IF EXISTS `blocked`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `blocked` (
+  `ip` varchar(20) NOT NULL,
+  `agent` varchar(255) DEFAULT NULL,
+  `count` int(11) DEFAULT '0',
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `blptest`
+--
+
+DROP TABLE IF EXISTS `blptest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `blptest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bots`
+--
+
+DROP TABLE IF EXISTS `bots`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bots` (
+  `ip` varchar(20) NOT NULL,
+  `agent` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `calendar`
+--
+
+DROP TABLE IF EXISTS `calendar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `calendar` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `message` text,
+  `creatorId` int(11) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `editorId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `clubofficers`
+--
+
+DROP TABLE IF EXISTS `clubofficers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clubofficers` (
+  `clubname` varchar(255) NOT NULL,
+  `clubmembers` int(11) DEFAULT NULL,
+  `clubcreated` date DEFAULT NULL,
+  `meetingday` varchar(20) DEFAULT NULL,
+  `meetingtime` varchar(10) DEFAULT NULL,
+  `meetinglocation` varchar(255) DEFAULT NULL,
+  `term` varchar(10) DEFAULT '2010',
+  `pname` varchar(50) DEFAULT NULL,
+  `paddress` varchar(255) DEFAULT NULL,
+  `phphone` varchar(20) DEFAULT NULL,
+  `pbphone` varchar(20) DEFAULT NULL,
+  `pcphone` varchar(20) DEFAULT NULL,
+  `pemail` varchar(255) DEFAULT NULL,
+  `sname` varchar(50) DEFAULT NULL,
+  `saddress` varchar(255) DEFAULT NULL,
+  `shphone` varchar(20) DEFAULT NULL,
+  `sbphone` varchar(20) DEFAULT NULL,
+  `scphone` varchar(20) DEFAULT NULL,
+  `semail` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`clubname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `counter`
+--
+
+DROP TABLE IF EXISTS `counter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `counter` (
+  `filename` varchar(255) NOT NULL,
+  `count` int(11) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`filename`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `counter2`
+--
+
+DROP TABLE IF EXISTS `counter2`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `counter2` (
+  `date` date NOT NULL DEFAULT '0000-00-00',
+  `filename` varchar(255) NOT NULL DEFAULT '',
+  `count` int(11) DEFAULT NULL,
+  `members` int(11) DEFAULT NULL,
+  `bots` int(11) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`date`,`filename`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `daycounts`
+--
+
+DROP TABLE IF EXISTS `daycounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `daycounts` (
+  `date` date NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `id` int(11) DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
+  `robotcnt` int(11) DEFAULT '0',
+  `members` int(11) DEFAULT '0',
+  `visits` int(11) DEFAULT '0',
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`date`,`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `emails`
+--
+
+DROP TABLE IF EXISTS `emails`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `emails` (
+  `id_fk` int(11) NOT NULL,
+  `application` varchar(255) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `fromaddress` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `toaddress` varchar(255) NOT NULL,
+  `sendtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `attached` varchar(255) DEFAULT NULL,
+  `item` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`item`)
+) ENGINE=MyISAM AUTO_INCREMENT=686 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `feedcnt`
+--
+
+DROP TABLE IF EXISTS `feedcnt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `feedcnt` (
+  `agent` varchar(255) NOT NULL,
+  `count` int(11) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`agent`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `htgroup`
+--
+
+DROP TABLE IF EXISTS `htgroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `htgroup` (
+  `username` char(25) NOT NULL,
+  `groups` char(25) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `htpasswd`
+--
+
+DROP TABLE IF EXISTS `htpasswd`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `htpasswd` (
+  `username` char(25) NOT NULL,
+  `passwd` char(25) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `interact`
+--
+
+DROP TABLE IF EXISTS `interact`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `interact` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `message` text,
+  `creatorId` int(11) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `editorId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `logagent`
+--
+
+DROP TABLE IF EXISTS `logagent`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `logagent` (
+  `ip` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `agent` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `id` int(11) DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ip`,`agent`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 PACK_KEYS=1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `logip`
+--
+
+DROP TABLE IF EXISTS `logip`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `logip` (
+  `ip` varchar(255) NOT NULL,
+  `id` int(11) DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `meetings`
+--
+
+DROP TABLE IF EXISTS `meetings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `meetings` (
+  `name` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `yes` enum('not confirmed','confirmed','can-not') DEFAULT 'not confirmed',
+  `id` int(11) NOT NULL,
+  `type` enum('speaker','business','none','open') DEFAULT 'speaker',
+  `subject` varchar(255) DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `memberfeedinfo`
+--
+
+DROP TABLE IF EXISTS `memberfeedinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `memberfeedinfo` (
+  `title` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL DEFAULT '0',
+  `date` datetime NOT NULL,
+  PRIMARY KEY (`title`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `memberpagecnt`
+--
+
+DROP TABLE IF EXISTS `memberpagecnt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `memberpagecnt` (
+  `page` varchar(255) NOT NULL,
+  `id` int(11) NOT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `agent` varchar(255) DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`page`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `planning_guide`
+--
+
+DROP TABLE IF EXISTS `planning_guide`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `planning_guide` (
+  `clubname` varchar(255) NOT NULL,
+  `officeyear` int(11) NOT NULL,
+  `presidentname` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `page2` text,
+  `page3` text,
+  `page4` text,
+  `page5` text,
+  `page6` text,
+  `page7` text,
+  PRIMARY KEY (`clubname`,`officeyear`,`presidentname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `rotarymembers`
+--
+
+DROP TABLE IF EXISTS `rotarymembers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rotarymembers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `FName` varchar(255) NOT NULL,
+  `LName` varchar(255) NOT NULL,
+  `office` varchar(255) DEFAULT NULL,
+  `Email` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `hphone` varchar(255) DEFAULT NULL,
+  `bphone` varchar(255) DEFAULT NULL,
+  `cphone` varchar(255) DEFAULT NULL,
+  `bday` date DEFAULT NULL,
+  `rotanniv` date DEFAULT NULL,
+  `status` enum('active','inactive','visitor','honorary','otherclub','delete') DEFAULT NULL,
+  `last` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `visittime` datetime DEFAULT NULL,
+  `lastnews` datetime DEFAULT '0000-00-00 00:00:00',
+  `visits` int(11) DEFAULT '0',
+  `club` varchar(255) DEFAULT NULL,
+  `otherclub` enum('granby','grandlake','kremmling','winterpark','interact','none') DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `districtid` int(11) DEFAULT '0',
+  `webadmin` enum('no','yes') DEFAULT 'no',
+  `makeupid` varchar(255) DEFAULT '',
+  `badge` varchar(10) DEFAULT NULL,
+  `fax` varchar(20) DEFAULT NULL,
+  `anniv` varchar(20) DEFAULT NULL,
+  `classif` varchar(50) DEFAULT NULL,
+  `spouse` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `rssfeeds`
+--
+
+DROP TABLE IF EXISTS `rssfeeds`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rssfeeds` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `articleId_fk` int(11) DEFAULT NULL,
+  `rsstitle` text,
+  `rsslink` text,
+  `rssdesc` text,
+  `rssdate` varchar(50) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `expired` datetime DEFAULT '2020-01-01 00:00:00',
+  `feedorder` float(10,6) DEFAULT '9999.000000',
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `runlength`
+--
+
+DROP TABLE IF EXISTS `runlength`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `runlength` (
+  `agent` varbinary(255) NOT NULL,
+  `count` int(11) DEFAULT '0',
+  `counts` varchar(255) DEFAULT NULL,
+  `flag` int(1) DEFAULT '0',
+  PRIMARY KEY (`agent`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `screensize`
+--
+
+DROP TABLE IF EXISTS `screensize`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `screensize` (
+  `id` int(11) NOT NULL,
+  `size` varchar(20) NOT NULL,
+  `count` int(11) DEFAULT '1',
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`,`size`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `site`
+--
+
+DROP TABLE IF EXISTS `site`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `site` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page` varchar(255) NOT NULL,
+  `itemname` varchar(255) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `bodytext` text,
+  `date` datetime DEFAULT NULL,
+  `status` enum('active','inactive','delete') DEFAULT 'active',
+  `lasttime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `creator` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tmptable`
+--
+
+DROP TABLE IF EXISTS `tmptable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tmptable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fname` varchar(50) DEFAULT NULL,
+  `lname` varchar(50) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `hphone` varchar(20) DEFAULT NULL,
+  `bphone` varchar(20) DEFAULT NULL,
+  `cphone` varchar(20) DEFAULT NULL,
+  `clubname` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tracker`
+--
+
+DROP TABLE IF EXISTS `tracker`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tracker` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page` varchar(255) DEFAULT NULL,
+  `ip` varchar(20) DEFAULT NULL,
+  `agent` varchar(255) DEFAULT NULL,
+  `starttime` datetime DEFAULT NULL,
+  `endtime` datetime DEFAULT NULL,
+  `difftime` time DEFAULT NULL,
+  `referrer` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=202 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2014-03-24  1:00:05

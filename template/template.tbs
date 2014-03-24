@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>  
+<head>
+  <title>[var.title;magnet=title;noerr]</title>
+  <meta name="description" content="[var.metadesc;magnet=meta;noerr]" />
+  <meta name="keywords" content="rotary [var.keywords;noerr]" />
+
+   <!-- Link our custom CSS -->
+   <link rel="stylesheet" title="Rotary Style Sheet"
+        href="/rotary.css" type="text/css" />
+
+   <!-- Inline Javascript if any -->
+   <script type="text/javascript">
+[var.script;magnet=script;noerr;htmlconv=no;protect=no]
+   </script>
+
+   <!-- Inline CSS if any -->
+   <style type='text/css'>
+[var.style;magnet=style;noerr;htmlconv=no]
+   </style>
+
+</head>
+<body>
+<!-- Header Goes Here -->
+[header;htmlconv=no;noerr]
+<!-- End Header -->
+<!-- Body items go here -->
+[body.part1;htmlconv=no;noerr][body.part2;htmlconv=no;noerr][body.part3;htmlconv=no;noerr][body.part4;htmlconv=no;noerr]
+[body.part5;htmlconv=no;noerr][body.part6;htmlconv=no;noerr][body.part7;htmlconv=no;noerr][body.part8;htmlconv=no;noerr]
+<!-- End Body items -->
+<!-- Script goes here if it exists -->
+[var.bodyscript;script=[var.bodyscript;val;noerr];noerr;subtpl]
+<!-- End Script -->
+<hr/>
+
+<!-- Footer Goes Here -->
+[footer;htmlconv=no;noerr]
+<!-- End Footer -->
+</body>
+</html>
+
+

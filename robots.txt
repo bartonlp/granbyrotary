@@ -1,0 +1,43 @@
+User-Agent: *
+Disallow: /blocked.php
+Disallow: /ctrnumbers.php
+Disallow: /edituserinfo.php
+Disallow: /email.php
+Disallow: /bboard.php
+Disallow: /getNameById.php
+Disallow: /login.php
+Disallow: /resetcookie.php
+Disallow: /rotary.i.php
+Disallow: /tbs_class.php
+Disallow: /volunteer.php
+Disallow: /*.tbs
+Disallow: /*.js
+Disallow: /*.txt
+Disallow: /*.css
+Disallow: /*.ajax.*
+
+Disallow: /template/
+Disallow: /admin/
+Disallow: /scripts/
+Disallow: /fonts/
+Disallow: /images/
+Disallow: /officers/
+Disallow: /other/
+Disallow: /sqlScripts/
+Disallow: /articles/
+Disallow: /Archive/
+Disallow: /newsletters/
+Disallow: /test/
+
+# root directory things we don't want scanned
+
+Disallow: /proxy.rss.php
+Disallow: /getNameById.ajax.php
+Disallow: /ctrnumbers.php
+Disallow: /multmail.php
+Disallow: /rotaryftp.txt
+Disallow: /rssfeed.php
+Disallow: /tres-3-2-09.txt
+Disallow: /vMailer.ajax.php
+Disallow: /filelist.txt
+
