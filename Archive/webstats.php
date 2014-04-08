@@ -2,7 +2,7 @@
 // Display Web Statistics for Granby Rotary
 
 $referer = $_SERVER['HTTP_REFERER'];
-/*
+
 if(!preg_match("/granbyrotary\.org/", $referer)) {
   echo <<<EOL
 <h1>Access Forbiden</h1>
@@ -11,14 +11,11 @@ if(!preg_match("/granbyrotary\.org/", $referer)) {
 EOL;
   exit();
 }
-*/
 
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
   include(TOPFILE);
 } else throw new Exception(TOPFILE . " not found");
-
-$myIp = gethostbyname($siteinfo['myUri']); // get my home ip address
 
 // Ajax updatebots
 
@@ -40,6 +37,19 @@ if($_GET["table"]) {
   $t = new dbTables($S);
 
   switch($_GET["table"]) {
+    case "tracker":
+      $myIp = gethostbyname($siteinfo['myUri']); // get my home ip address
+
+      $sql = "select * from tracker where ip!='$myIp' && " .
+             "starttime > date_sub(now(), interval 7 day) ".
+             "order by starttime desc";
+      
+      list($table) = $t->maketable($sql, array('attr'=>array('id'=>"tracker", 'border'=>'1')));
+      if(empty($table)) {
+        $table = "No Data Found";
+      }
+      echo $table;
+      break;
     case "counter":
       $sql = "select * from counter where lasttime > date_sub(now(), interval 7 day)";
       list($table) = $t->maketable($sql, array('attr'=>array('id'=>"counter", 'border'=>"1")));
@@ -244,225 +254,13 @@ $h->extra = <<<EOF
   <link rel="stylesheet" href="css/hits.css" type="text/css" />
   <script src="js/tablesorter/jquery.metadata.js"></script>
   <script src="js/tablesorter/jquery.tablesorter.js"></script>
-  <script>
+
+  <script type="text/javascript">
 jQuery(document).ready(function($) {
   var tablename="{$_GET['table']}";
   var idName=$members;
 
-  var flags = {webmaster: false, robots: false, ip: false , page: false};
-
-  $("#tracker").tablesorter().addClass('tablesorter');
-
-  // Don't show webmaster
-
-  var myIp = "$myIp";
-
-  // Check Flags look at other flags
-
-  function checkFlags(flag) {
-    var msg;
-
-    if(flag) { // Flag is true.
-      switch(flag) {
-        case 'webmaster': // default is don't show
-          $(".webmaster").parent().hide();
-          msg = "Show ";
-          flags.webmaster = false;
-          break;
-        case 'robots': // true means we are showing robots
-          $('.robots').parent().hide();
-          msg = "Show ";
-          flags.robots = false;
-          break;
-        case 'ip': // true means only this ip is showing so we want to make all ips show
-          $(".ip").removeClass('ip');
-          $("#tracker tr").show();
-
-          if(flags.page) {
-            $("#tracker td:first-child:not('.page')").parent().hide();
-          }
-             
-          if(!flags.webmaster) {
-            $(".webmaster").parent().hide();
-          }
-          if(!flags.robots) {
-            $(".robots").parent().hide();
-          }
-          msg = "Only ";
-          flags.ip = false;
-             
-          break;
-        case 'page': // true means we are only showing this page
-          $(".page").removeClass('page');
-          $("#tracker tr").show();
-                          
-          if(flags.ip) {
-            $("#tracker td:nth-child(2):not('.ip')").parent().hide();
-          }
-
-          if(!flags.webmaster) {
-            $(".webmaster").parent().hide();
-          }
-          if(!flags.robots) {
-            $(".robots").parent().hide();
-          }
-          msg = "Only ";
-          flags.page = false;
-          break;
-      }
-      $("#"+ flag).text(msg + flag);
-      return;
-    }   
-
-    for(var f in flags) {
-      if(flags[f]) { // if true
-        switch(f) {
-          case 'webmaster':
-            flags.webmaster = false;
-            if(true in flags) {
-              $(".webmaster").parent().not(":hidden").show();
-            } else {
-              $(".webmaster").parent().show();
-            }
-            flags.webmaster = true;
-            msg = "Hide ";
-            break;
-          case 'robots':
-            flags.robots = false;
-            if(true in flags) {
-              $('.robots').parent().not(":hidden").show();
-            } else {
-              $(".robots").parent().show();
-            }
-            flags.robots = true;
-            msg = "Hide ";
-            break;
-          case 'ip': 
-            $("#tracker tr td:nth-child(2):not('.ip')").parent().hide();
-            msg = "All ";
-            break;
-          case 'page':
-            $("#tracker tr td:first-child:not('.page')").parent().hide();
-            msg = "All ";
-            break;
-        }
-        $("#"+ f).text(msg + f);
-      }   
-    }
-  }
-
-  // To start Webmaster is hidden
-
-  $("#tracker td:nth-child(2)").each(function(i, v) {
-    if($(v).text() == myIp) {
-      $(v).addClass("webmaster").css("color", "green").parent().hide();
-    }
-  });
-
-  // To start Robots are hidden
-
-  $("#tracker td:nth-child(3)").each(function(i, v) {
-    var agent = $(v).text(), pat = new RegExp("bot|[+]*http|crawl", "i");
-    if(pat.test(agent)) {
-      $(v).addClass('robots').css("color", "red").parent().hide(); // Color robots red
-    }
-  });
-  
-  // Put a couple of buttons before the table
-
-  $("#tracker").before("<div id='trackerselectdiv'>"+
-                       "<button id='webmaster'>Show webmaster</button>"+
-                       "<button id='robots'>Show robots</button>"+
-                       "<button id='page'>Only page</button>"+
-                       "<button id='ip'>Only ip</button>"+
-                       "</div>");
-
-  // ShwoHide Webmaster clicked
-
-  $("#webmaster").click(function(e) {
-    if(flags.webmaster) {
-      checkFlags('webmaster');
-    } else {
-      // Show
-      flags.webmaster = true;
-      // Now show only my IP
-      checkFlags();
-    }
-    //flags.webmaster = !flags.webmaster;
-  });
-
-  // Page clicked
-
-  $("#tracker td:first-child").click(function(e) {
-    if(flags.page) {
-      checkFlags('page');
-    } else {
-      // show only this page
-      flags.page = true;
-      var page = $(this).text();
-      $("#tracker tr td:first-child").each(function(i, v) {
-        if($(v).text() == page) {
-          $(v).addClass('page');
-        }
-      });
-      checkFlags();
-    }
-  });
-
-  // IP address clicked
-
-  $("#tracker td:nth-child(2)").click(function(e) {
-    if(flags.ip) {
-      checkFlags('ip');
-    } else {
-      // show only IP
-      flags.ip = true;
-      var ip = $(this).text();
-      $("#tracker tr td:nth-child(2)").each(function(i, v) {
-        if($(v).text() == ip) {
-          $(v).addClass('ip');
-        }
-      });
-      checkFlags();
-    }
-  });
-
-  // ShowHideBots clicked
-
-  $("#robots").click(function() {
-    if(flags.robots) {
-      // hide
-      checkFlags('robots');
-    } else {
-      // show
-      flags.robots = true;
-      checkFlags();
-    }
-  });
-
-  $("#ip").click(function() {
-    if(flags.ip) {
-      // hide
-      checkFlags('ip');
-    } else {
-      // show
-      alert("click on the IP address you want to show");
-    }
-  });
-
-  $("#page").click(function() {
-    if(flags.page) {
-      // hide
-      checkFlags('page');
-    } else {
-      // show
-      alert("click on the page you want to show");
-    }
-  });
-
-  //************************************************
   // create a div for name popup
-
   $("body").append("<div id='popup' style='position: absolute; display: none; border: 2px solid black; background-color: #8dbdd8; padding: 5px;'></div>");
 
   $(".wrapper").on("click", "#memberpagecnt td:nth-child(2)", function(e) {
@@ -490,7 +288,6 @@ jQuery(document).ready(function($) {
     $("div[name='"+tablename+"']").show();
     $("div[name='"+tablename+"']").prev().children().first().text("Hide Table");
   }
-
   $(".showhide").css("cursor", "pointer");
 
   // when the Show/Hide button for the table is pressed we do an Ajax call to get the data and
@@ -530,6 +327,7 @@ jQuery(document).ready(function($) {
           switch(tablename) {
             case "counter":
             case "counter2":
+            case "tracker":
             case "memberpagecnt":
               $("#"+tablename).tablesorter(); 
               break;
@@ -668,6 +466,28 @@ jQuery(document).ready(function($) {
             }
     });
   });
+
+  // tracker click on ip to only show that ip
+
+  $(".wrapper").on("click", "#tracker td:nth-child(3)" , function(e) {
+    if(this.flag) {
+      // show all
+      $("#tracker tr").show();
+      $("#showall").remove();
+    } else {
+      // show only IP
+      var ip = $(this).text();
+      $("#tracker tr").hide();
+      $("#tracker tr td:contains("+ip+")").parent().show();
+      $(".table[name='tracker']").before("<button id='showall'>Show All</button>");
+      $("#showall").click(function(e) {
+        $("#tracker tr").show();
+        $(this).remove();
+      });
+    }
+    this.flag = !this.flag;
+    return false;
+  });
 });
   </script>
 
@@ -677,23 +497,16 @@ button {
   -moz-border-radius: 7px;
   border-radius: 7px;
   font-size: 1.2em;
-  margin-bottom: 10px;
 }
 #tracker {
   width: 100%;
 }
-#tracker td:first-child:hover {
-  cursor: pointer;
-}
-#tracker td:nth-child(2):hover {
+#tracker td:nth-child(3):hover {
   cursor: pointer;
 }
 #tracker td:last-child {
   word-break: break-all;
   word-break: break-word; /* for chrome */
-}
-#tracker td:nth-child(4), #tracker td:nth-child(5) {
-  width: 5em;
 }
 #daycount tbody tr td { /*visitors*/
   text-align: right;
@@ -880,39 +693,12 @@ echo <<<EOF
 <p>From the <i>counter2</i> table for last 7 days.</p>
 <a name='counter2'></a>
 </div>
-EOF;
 
-function tcallback(&$row, &$desc) {
-  $ref = urldecode($row['referrer']);
-  // if google then remove the rest because google doesn't have an info in q= any more.
-  if(strpos($ref, 'google') !== false) {
-    $ref = preg_replace("~\?.*$~", '', $ref);
-  }
-  $row['referrer'] = $ref;
-}
-
-$sql = "select sec_to_time(sum(difftime)/count(*)) from tracker where endtime!='' && hour(difftime)=0";
-$S->query($sql);
-list($av) = $S->fetchrow('num');
-
-$sql = "select page, ip, agent, starttime, endtime, difftime, referrer ".
-       "from tracker where starttime > date_sub(now(), interval 3 day) order by starttime desc";
-
-list($trackertable) = $t->maketable($sql, array('callback'=>tcallback,
-                                                'attr'=>array('id'=>"tracker", 'border'=>'1')));
-if(empty($trackertable)) {
-  $trackertable = "No Data Found";
-}
-
-echo <<<EOF
 <hr/>
 <h2 class='table'>Page Tracker</h2>
 <div class='table' name="tracker">
-<p>From the <i>tracker</i> table for last 3 days.</p>
-<p>Average stay time: $av (times over an hour are discarded.)</p>
-
+<p>From the <i>tracker</i> table for last 7 days.</p>
 <a name='tracker'></a>
-$trackertable
 </div>
 
 <hr/>
