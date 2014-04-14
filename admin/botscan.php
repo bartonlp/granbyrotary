@@ -39,6 +39,8 @@ foreach($opentxt as $t) {
     
     preg_match("/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?\"-\" \"(.*?)\"/", $v, $m);
 
+    $S->query("insert ignore into bots2 values('$m[2]')");
+    
     try {
       $sql="insert into bots (ip, agent) values('$m[1]', '$m[2]')";
       $new += $S->query($sql);

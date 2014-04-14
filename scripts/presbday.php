@@ -1,5 +1,7 @@
 #!/usr/bin/php -q
 <?php
+// BLP 2014-04-14 -- fixed weekofyear logic
+
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
   include(TOPFILE);
@@ -12,15 +14,16 @@ $S->query("select concat(fname, ' ',lname), email from rotarymembers ".
           "where office='President' and otherclub='granby'");
 list($presname, $presemail) = $S->fetchrow('num');
 
-//$presemail ="bartonphillips@gmail.com";
+//$presemail = "bartonphillips@gmail.com";
 
 $weekofyear = date("W"); // weeks start on Monday
-echo "Week: $weekofyear\n";
+echo "weekofyear: $weekofyear\n";
 
 $n = $S->query("select concat(fname, ' ', lname), email, bday, week(bday) from rotarymembers ".
-          "where week(bday)+1 = '$weekofyear' and status='active' and otherclub='granby' ");
+          "where week(bday) = '$weekofyear' and status='active' and otherclub='granby' ");
 
 $havehas = "has";
+
 if($n > 1) {
   $plural = 's';
   $havehas = "have";
@@ -46,7 +49,6 @@ if($n) {
        $msg,
        "From: info@granbyrotary.org\r\nCC: bartonphillips@gmail.com\r\n",
        "-f bartonphillips@gmail.com");
-    
 } else {
   echo "No birthdays this week.\n";
 }

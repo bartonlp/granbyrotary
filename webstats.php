@@ -2,7 +2,7 @@
 // Display Web Statistics for Granby Rotary
 
 $referer = $_SERVER['HTTP_REFERER'];
-/*
+
 if(!preg_match("/granbyrotary\.org/", $referer)) {
   echo <<<EOL
 <h1>Access Forbiden</h1>
@@ -11,7 +11,6 @@ if(!preg_match("/granbyrotary\.org/", $referer)) {
 EOL;
   exit();
 }
-*/
 
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
@@ -24,11 +23,13 @@ $myIp = gethostbyname($siteinfo['myUri']); // get my home ip address
 
 if($_GET['page'] == 'updatebots') {
   $S = new Database($dbinfo);
+
+  $S->query("insert ignore into bots2 value('{$_GET['agent']}')");
   
   $sql = "insert ignore into bots (ip, agent) values('{$_GET['ip']}', '{$_GET['agent']}')";
 
   $n = $S->query($sql);
-
+  
   echo json_encode(array('n'=>$n, 'sql'=>$sql));
   exit();
 }
@@ -60,24 +61,25 @@ if($_GET["table"]) {
     case "ipAgentHits":
       function ipagentcallback(&$row, &$desc) {
         global $S;
+        
+        $agent = $S->escape($row['Agent']);
+
+        $tr = "<tr";
+
+        $n = $S->query("select agent from bots2 where agent='$agent'");
+        if($n) {
+          $tr .= " style='color: red'";
+        }
 
         // escape markup in agent
         $row['Agent'] = escapeltgt($row['Agent']);
 
-        $tr = "<tr";
         if($row[id]) {
           if($row[id] == '25') {
             $tr .= " class='blp'";
           } 
         } else {
           $tr .= " class='noId'";
-        }
-
-        $ip = $row['IP'];
-
-        $n = $S->query("select ip from bots where ip='$ip'");
-        if($n) {
-          $tr .= " style='color: red'";
         }
         $tr .= ">";
 
@@ -237,6 +239,13 @@ $members = array();
 while(list($id, $name) = $S->fetchrow('num')) {
   $members[$id] = $name;
 }
+
+$sql = "select ip, id from memberpagecnt";
+$S->query($sql);
+while(list($ip, $id) = $S->fetchrow('num')) {
+  $memberbyip[$ip] = $members[$id];
+}
+
 $members = json_encode($members);
 
 $h->extra = <<<EOF
@@ -248,6 +257,7 @@ $h->extra = <<<EOF
 jQuery(document).ready(function($) {
   var tablename="{$_GET['table']}";
   var idName=$members;
+  //var memberByIp=$memberbyip;
 
   var flags = {webmaster: false, robots: false, ip: false , page: false};
 
@@ -361,12 +371,7 @@ jQuery(document).ready(function($) {
 
   // To start Robots are hidden
 
-  $("#tracker td:nth-child(3)").each(function(i, v) {
-    var agent = $(v).text(), pat = new RegExp("bot|[+]*http|crawl", "i");
-    if(pat.test(agent)) {
-      $(v).addClass('robots').css("color", "red").parent().hide(); // Color robots red
-    }
-  });
+  $(".bot td:nth-child(4)").addClass('robots').css("color", "red").parent().hide();
   
   // Put a couple of buttons before the table
 
@@ -376,6 +381,31 @@ jQuery(document).ready(function($) {
                        "<button id='page'>Only page</button>"+
                        "<button id='ip'>Only ip</button>"+
                        "</div>");
+
+  $("#tracker td:nth-child(2)").hover(function(e) {
+    var ip = $(this).text();
+    var pos = $(this).offset();
+    var id = new Array;
+    var i;
+    for(i in memberByIp) {
+      if(i == ip) {
+        id.push(memberByIp[i]);
+      }
+    }
+    if(id.length == 0) {
+      return false;
+    }
+
+    var name = '';
+
+    for(var i in id) {
+      name += idName[id[i]] + "<br>";
+    }
+    $("#popup").html(name).css({display: 'block', top: pos.top, left: pos.left+50});
+  },
+  function(e) {
+    $("#popup").hide();
+  });
 
   // ShwoHide Webmaster clicked
 
@@ -682,18 +712,31 @@ button {
 #tracker {
   width: 100%;
 }
+/* page */
 #tracker td:first-child:hover {
   cursor: pointer;
 }
+/* ip */
 #tracker td:nth-child(2):hover {
   cursor: pointer;
 }
+/* Member */
+#tracker td:nth-child(3) {
+  width: 100px;
+}
+/* agent, starttime, endtime */
+#tracker td:nth-child(5), #tracker td:nth-child(6) {
+  width: 5em;
+}
+/* time */
+#tracker td:nth-child(7) {
+  width: 3em;
+}
+/* referrer */
 #tracker td:last-child {
   word-break: break-all;
   word-break: break-word; /* for chrome */
-}
-#tracker td:nth-child(4), #tracker td:nth-child(5) {
-  width: 5em;
+  width: 100px;
 }
 #daycount tbody tr td { /*visitors*/
   text-align: right;
@@ -883,19 +926,32 @@ echo <<<EOF
 EOF;
 
 function tcallback(&$row, &$desc) {
+  global $memberbyip, $S;
+
+  $agent = $S->escape($row['agent']);
+
+  if($S->query("select agent from bots2 where agent='$agent'")) {
+    $desc = preg_replace("~<tr>~", "<tr class='bot'>", $desc);
+  }
+  
   $ref = urldecode($row['referrer']);
   // if google then remove the rest because google doesn't have an info in q= any more.
   if(strpos($ref, 'google') !== false) {
     $ref = preg_replace("~\?.*$~", '', $ref);
   }
   $row['referrer'] = $ref;
+  if($memberbyip[$row['ip']]) {
+    $row['Member'] = "{$memberbyip[$row['ip']]}";
+  } else {
+    $row['Member'] = '';
+  }
 }
 
 $sql = "select sec_to_time(sum(difftime)/count(*)) from tracker where endtime!='' && hour(difftime)=0";
 $S->query($sql);
 list($av) = $S->fetchrow('num');
 
-$sql = "select page, ip, agent, starttime, endtime, difftime, referrer ".
+$sql = "select page, ip, 'Member', agent, starttime, endtime, difftime as time, referrer ".
        "from tracker where starttime > date_sub(now(), interval 3 day) order by starttime desc";
 
 list($trackertable) = $t->maketable($sql, array('callback'=>tcallback,
