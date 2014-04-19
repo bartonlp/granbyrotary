@@ -76,9 +76,12 @@ create table articlepreview (
 EOF;
 
   // Create a table and store the values in it.
+  
   $S->query("drop table if exists articlepreview");
   $S->query($query);
-  $S->query("insert into articlepreview values('$articleName', '$articleHeading', '$articleBody', '$articleExpired')");
+  
+  $S->query("insert into articlepreview ".
+            "values('$articleName', '$articleHeading', '$articleBody', '$articleExpired')");
 
   $h->extra = <<<EOF
   <script>
@@ -181,14 +184,20 @@ function make($S) {
     // This is an edit so update the $id entry
     $anchor =  $S->escape("<a name='article.$id'></a>");
 
-    $query = "select articleName, concat('$anchor\n<h2>', articleHeading, '</h2>\n', articleBody) as articleBody " .
+    $query = "select articleName, concat('$anchor\n<h2>', ".
+             "articleHeading, '</h2>\n', articleBody) as articleBody " .
              "from articlepreview";
 
-    $S->query($query);
-    $row = $S->fetchrow('assoc');
-    extract($row);
-    $articleBody = $S->escape($articleBody);
-    $query = "update articles set name='$articleName', article='$articleBody', articleInclude='article' where id='$id'";
+    if($S->query($query)) {
+      $row = $S->fetchrow('assoc');
+      extract($row);
+      $articleBody = $S->escape($articleBody);
+      $query = "update articles set name='$articleName', article='$articleBody', ".
+               "articleInclude='article' where id='$id'";
+    } else {
+      echo "ERROR: no info found in articlepreview<br>";
+      exit();
+    }
   }
 
   if($DEBUG) {
@@ -242,7 +251,7 @@ function make($S) {
 
   $rssfeedId_fk = empty($rssfeed) ? 0 : ($t = $S->getLastInsertId()) ? $t : $rssfeedId_fk;
 
-  echo "rssfeedId_fk=$rssfeedId_fk<br>";
+  //echo "rssfeedId_fk=$rssfeedId_fk<br>";
   
   if($articleExpired) {
     $query = "update articles set rssfeedId_fk='$rssfeedId_fk', expired='$articleExpired' where id='$articleId'";
