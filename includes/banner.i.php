@@ -1,9 +1,26 @@
 <?php
 $pageBannerText = <<<EOF
 <div id="header-image-div">
-<div id="header-image"></div>
-<div id="nav-bar">
+<div id="header-image">
+<img src="banner-photos/CIMG0001n.JPG"/>
+<img id='wheel' src='images/wheel.gif'/>
+<img id='granbyrotarytext' src='images/text-granbyrotary.png'/>
+</div>
+
+<div id="navMap">
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="member_directory.php">Members</a></li>
+<li><a href="about.php">About&nbsp;Rotary</a></li>
+<li><a href="news.php">News</a></li>
+<li><a href="calendar.php">Club&nbsp;Calendar</a></li>
+<li><a href="meetings.php">Meetings</a></li>
+<li><a href="edituserinfo.php">User&nbsp;Profile</a></li>
+<li><a href="webstats.php">Web&nbsp;Stats</a></li>
+</ul>
+<!--
 <table>
+<tbody>
 <tr>
 <th><a href="/">Home</a></th>
 <th><a href="member_directory.php">Members</a></th>
@@ -14,7 +31,9 @@ $pageBannerText = <<<EOF
 <th><a href="edituserinfo.php">User Profile</a></th>
 <th><a href="webstats.php">Web Stats</a></th>
 </tr>
+</tbody>
 </table>
+-->
 </div>
 </div>
 <header>
@@ -36,7 +55,7 @@ EOF;
   $msie = $m[1];
 
   $pageBannerText .= <<<EOF
-<!--[if eq IE 8]>
+<!--[if IE 8]>
 <hr>
 style='color: red; background-color: white; border: 1px solid black; padding: 5px;'>
 You are running Internet Explorer 8. If you are NOT running Windows XP you should upgrade to IE9

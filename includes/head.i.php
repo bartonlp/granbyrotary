@@ -3,6 +3,7 @@ $pageHeadText = <<<EOF
 <head>
   <title>{$arg['title']} (n)</title>
   <!-- METAs -->
+  <meta name=viewport content="width=device-width, initial-scale=1">
   <meta charset="utf-8"/>
   <meta name="Author" content="Barton L. Phillips, mailto:barton@granbyrotary.org"/>
   <meta name="description" content="{$arg['desc']}"/>
@@ -32,6 +33,7 @@ $pageHeadText = <<<EOF
   <script src="/js/tracker.js"></script>
   <!-- Site Script -->
   <!-- Screen size logic -->
+<!--
   <script>
 jQuery(document).ready(function($) {
   var xscreen = screen.width;
@@ -72,6 +74,7 @@ jQuery(document).ready(function($) {
   });
 });
   </script>
+-->
   <!-- (\$arg['extra']) Script/Styles -->
 {$arg['extra']}
 

@@ -116,14 +116,13 @@ h3 {
 }
 #hitCountertbl * {
         border: 0;
-        background-color: #F5DEB3 !important; /* wheat,
-        rgb=245,222,179 hex=#F5DEB3 */
+        background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
 }
 #ctrnumbers { /* the img inside the table */
         background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
 }
 
-/* The last modified at in the footer.php */
+/* The last modified is in the footer.php */
 
 #lastmodified {
         text-align: center;
@@ -133,16 +132,14 @@ h3 {
         margin-top: -20px;
 }
 
-/* Nav.css add here instead of @import which seems to have a bit of a problem with Firefox? */
-
 #navMap {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 16px !important;  /* try to make sure the navbar fits OK even if the browser is set up for a larger default */
         margin-left: auto;
         margin-right: auto; 
-        margin-top: 20px;
+        margin-top: 5px;
         padding-bottom: 4px;
-        width: 570px;
+        width: 100%;
 }
 #navMap ul {
         list-style: none;
@@ -153,23 +150,22 @@ h3 {
 }
 #navMap li {
         display: inline;
-        margin-left: -4px;
+        /*margin-left: -4px;
         border-top: 1px solid black;
-        border-bottom: 1px solid black; 
+        border-bottom: 1px solid black; */
 }
 #navMap a:link, #navMap a:visited {
         color: white;
-        padding: 0px .5% 0px .5%;
         background-color: #003984;
         text-decoration: none;
-        font-size: 109%;
 }
 #navMap a:hover {
         color: #FFFF00;
 }
 #navMap li a {
-        float: left;
+        /*float: left;*/
         width: 23%;
+        padding: 0px .5% 0px .5%;
         border: 1px solid white;
 }
 #loginMsg {
@@ -193,11 +189,16 @@ h3 {
 }
 #header-image {
         position: relative;
-        width: 960px;
+        width: 100%;
         height: 235px;
         border-bottom: 15px solid #3739b0;
-        background-image: url("/images/header-image.jpg");
 }
+#header-image img:first-child { /* this is the photo of granby */
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+}
+/*
 #nav-bar {
         margin-top: -5px;
         padding-top: 3px;
@@ -205,18 +206,86 @@ h3 {
         background-color: #7AC5CD;
         border-radius: 10px;
 }
-#nav-bar table {
+#nav-bar ul {
         width: 100%;
         color: #474747;
-  
+}
+#nav-bar li {
+        display: inline;
 }
 #nav-bar a {
         text-decoration: none;
 }
-
+*/
 #wintypes {
         background-color: white;
 }
 #wintypes, #wintypes th, #wintypes td {
         border: 1px solid black;
+}
+#wheel {
+  position: absolute;
+  top: 65px;
+  left: 85px;
+  z-index: 300;
+}
+#granbyrotarytext {
+  position: absolute;
+  top: 120px;
+  left: 229px;
+  width: 67%;
+  z-index: 300;
+}
+
+@media (max-width: 960px) {
+        #header-image-div {
+                width: 95%;
+        }
+}
+@media (max-width: 800px) {
+        #navMap a {
+                font-size: 12px;
+        }
+}
+@media (max-width: 770px) {
+        #granbyrotarytext {
+                left: 100px;
+        }
+        #wheel {
+                width: 90px;
+                left: 10px;
+        }
+}
+@media (max-width: 600px) {
+        #header-image-div {
+                height: 300px;
+        }
+@media (max-width: 400px) {
+        #navMap ul {
+                margin-top: 0px;
+                line-height: 30px;
+        }
+        #navMap a {
+                font-size: 20px;
+        }
+        #navMap li a {
+                padding: 0px 10px 0px 10px;
+        }
+        #header-image-div {
+                height: 230px;
+        }
+        #header-image {
+                height: 100px;
+                border-bottom: 5px solid #3739b0;
+        }
+        #header-image img:first-child {
+                width: 100%;
+                height: 100%;
+        }
+        #wheel {
+                top: 10px;
+        }
+        #granbyrotarytext {
+                top: 50px;
+        }
 }

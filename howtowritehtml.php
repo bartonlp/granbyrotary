@@ -13,7 +13,7 @@ echo $top;
 // Use the howtowritehtml.php from my home site, bartonphillips.com.
 // This php will either use an already instantiated SiteClass ($S) or if one does not already exist
 // it uses Blp.
-include(TOP ."/bartonphillips.com/htdocs/howtowritehtml.php");
+include(TOP ."/www/howtowritehtml.php");
 echo $footer;
 ?>
    

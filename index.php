@@ -121,26 +121,27 @@ if(!$mbox) {
 // set up the scripts and styles
 
 $h->extra = <<<EOF
-   <script src="js/dropdown.js"></script>
+   <script async src="js/dropdown.js"></script>
 
    <script>
-// For slideshow remove when slideshow goes
-var images = new Array, bannerImages = new Array, inx = 0, binx = 0;
+var bannerImages = new Array, binx = 0;
 
 function dobanner(photos) {
-  for(var i=0; i < photos.length; ++i) {
+  for(var i=0, l=0; i < photos.length; ++i) {
     var image = new Image;
     image.mpcInx = i;
     image.src = photos[i];
     $(image).load(function() {
       bannerImages[this.mpcInx] = this;
+      if(++l == photos.length) {
+        return bannershow();
+      }
     });
 
     $(image).error(function(err) {
       console.log(err);
     });
   }
-  return bannershow();
 };
 
 function bannershow() {
@@ -149,12 +150,12 @@ function bannershow() {
   }
 
   var image = bannerImages[binx++];
-  $(image).css({width: '100%', height: '100%', 'z-index': '100'});
+  //$(image).css({width: '100%', height: '100%', 'z-index': '100'});
 
   $("#header-image").html(image);
   $("#wheel, #granbyrotarytext").remove();
   $("#header-image").append("<img id='wheel' src='images/wheel.gif'/>"+
-                  "<img id='granbyrotarytext' src='images/test.png'/>");
+                  "<img id='granbyrotarytext' src='images/text-granbyrotary.png'/>");
 
   setTimeout(bannershow, 5000);
 }
@@ -162,19 +163,9 @@ function bannershow() {
 jQuery(document).ready(function($) {
   $("#child").hide();
 
-  $("#header-image").append("<img id='wheel' src='images/wheel.gif'/>"+
-                            "<img id='granbyrotarytext' src='images/test.png'/>");
-
   // Banner photos
   var bannerPhotos = new Array($banner_photos);
   dobanner(bannerPhotos);
-
-  // remove when slideshow goes
-  var photos = new Array($photos);
-  $("#pictures-silvercreek").css({width: '600'});
-
-  doslideshow(photos);
-  // end of slideshow logic
 
   $("#parent").click(function() {
     if(!this.flag)
@@ -186,7 +177,7 @@ jQuery(document).ready(function($) {
 });
    </script>
 
-   <style type="text/css">
+   <style>
 #loginMsg {
         text-align: center;
 }
@@ -194,7 +185,7 @@ jQuery(document).ready(function($) {
         font-variant: small-caps;
         font-size: x-large;
 }
-/*
+/* not used
 #wrapper {
         float: right;
         width: 50%;
@@ -261,19 +252,6 @@ jQuery(document).ready(function($) {
 }
 #moTotal td {
         padding: 5px;
-}
-
-#wheel {
-  position: absolute;
-  top: 65px;
-  left: 85px;
-  z-index: 300;
-}
-#granbyrotarytext {
-  position: absolute;
-  top: 120px;
-  left: 229px;
-  z-index: 300;
 }
    </style>
 EOF;
@@ -434,6 +412,8 @@ EOF;
 EOF;
 }
 
+// Render page
+  
 echo <<<EOF
 $top
 <!-- START UpdateSite: PresidentMsg -->
