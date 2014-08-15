@@ -1,4 +1,5 @@
 <?php
+// BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
   include(TOPFILE);
@@ -278,6 +279,7 @@ EOF;
 }
 
 
+/* BLP 2014-07-17 -- Remove. Added to includes/banner.i.php
 // Check to see if this member is a web administrator
 
 if($S->isAdmin($S->id)) {
@@ -285,6 +287,7 @@ if($S->isAdmin($S->id)) {
   
   $AdminText = $S->adminText();
 }
+*/
   
 $h->banner = <<<EOF
       <p>PO Box 1430<br/>
@@ -423,12 +426,13 @@ $presidentmsg
 <p>The Rotary Club of Granby was chartered in 1987, and its membership includes men and women representing a wide cross-section of
 local businesses and professions. The club meets each Wednesday for fellowship, lunch, and interesting and informative programs
 dealing with topics of local and global importance.</p>
-<p>The 2013-2014 Club President is
-<a href="email.php?id=189">Mark Shearon</a>.
+<p>The 2014-2015 Club President is
+<a href="email.php?id=189">Sean Richardson</a>.
 See the <a href="about.php#officerstbl">About Page</a> for a full list of officers and chair persons.</p>
-<p>The club is part of Rotary District 5450, comprised of 51 clubs and over 3,000 members. The 2013-2014 Rotary District Governor
-is <a target="_blank" href="http://www.clubrunner.ca/portal/Home.aspx?accountid=50085">Dan Himelspach</a>.</p>
-<p>The 2013-2014 President of Rotary International is Ron D. Burton.</p>
+<p>The club is part of Rotary District 5450, comprised of 51 clubs and over 3,000 members.
+The 2014-2015 Rotary District Governor
+is <a target="_blank" href="http://www.clubrunner.ca/portal/Home.aspx?accountid=50085">Peter Ewing</a>.</p>
+<p>The 2014-2015 President of Rotary International is Gary C.K. Huang.</p>
 
 <hr/>
 <!-- Start UpdateSite: Polio Info -->

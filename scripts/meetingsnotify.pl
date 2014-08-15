@@ -60,11 +60,13 @@ MSG
     if($yes ne 'confirmed') {
       $message = <<"MSG";
 $fname $lname your are scheduled to give a Meeting Presentation next week ($date).
-You have not CONFIRMED your talk on the meeting page of our web site (http://www.granbyrotary.org/meetings.php).
-If you are going to make your presentation please fill in the subject and presenters name if other than yours.
+You have not CONFIRMED your talk on the meeting page of our web site
+(http://www.granbyrotary.org/meetings.php).
+If you are going to make your presentation please fill in the subject and presenters name
+if other than yours.
 If you can not make the presentation please contact me ASAP so I can arrange for someone else to talk.
-You can just reply to this email and I will fill in the meeting subject if you would rather not use the
-web page.
+You can just reply to this email and I will fill in the meeting subject if you would rather not
+use the web page.
 
 An automated email is sent to the SkyHiNews early Thursday morning with the presenter's name and
 the topic of the talk. The information then appears in the SkyHiNews calendar on Friday
@@ -79,7 +81,7 @@ MSG
     } else {
       $message = <<"MSG";
 $fname $lname your are scheduled to give a Meeting Presentation next week ($date). Your talk is:
-"$talkSubject" by "$name". This is just a reminder. If anything has come in the way of you giving this talk
+"$talkSubject" by "$name". This is just a reminder. If anything has come in the way of giving this talk
 please reply to this email and let me know ASAP so I can arrange for someone else to give the talk.
 
 Thank You
@@ -94,7 +96,8 @@ MSG
 $fname $lname your are scheduled to give a Meeting Presentation on $date.
 Please check the web site at http://www.granbyrotary.org/meetings.php and
 fill in the 'Subject' and the name of the presenter if is no going to be you.
-Or you can reply to this email with the subject of your talk and I will fill in the information for you.
+Or you can reply to this email with the subject of your talk and I will fill in the
+information for you.
 Once the subject is filled in on the website I will not bother you until the week before your talk.
 
 An automated email is sent to the SkyHiNews early Thursday morning with the presenter's name and
@@ -129,7 +132,8 @@ MSG
 $fname $lname your are scheduled to give a Meeting Presentation on $date.
 Please check the web site at http://www.granbyrotary.org/meetings.php and
 fill in the 'Subject' and the name of the presenter if is no going to be you.
-Or you can reply to this email with the subject of your talk and I will fill in the information for you.
+Or you can reply to this email with the subject of your talk and I will fill
+in the information for you.
 Once the subject is filled in on the website I will not bother you until the week before your talk.
 
 Thank You

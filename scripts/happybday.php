@@ -21,7 +21,7 @@ if($n) {
     $bdate = date("F j, Y", strtotime($bday));
     $msg = <<<EOF
 Happy Birthday $name from the Granby Rotary Club.
-We wish you a very happy and prosperout birthday and the rest of the year.
+We wish you a very happy birthday and the rest of the year.
 
 Your birthdate of record is $bdate.
 

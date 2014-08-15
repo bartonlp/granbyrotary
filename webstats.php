@@ -747,6 +747,21 @@ button {
 #daycount tfoot tr th:first-child {
   text-align: center;
 }
+@media (max-width: 660px) {
+  .right {
+    float: none;
+    width: 306px;
+  }
+  .left {
+    float: none;
+    width: 306px;
+  }
+  .left td:first-child {
+    word-wrap: break-word;
+    word-break: break-all;
+    word-break: break-word;
+  }
+}
   </style>
 EOF;
 
@@ -1054,7 +1069,8 @@ $tbl = preg_replace("~(<tfoot>.*?<th class='memtotal'>)&nbsp;~sm", "\${1}$memtot
 
 echo <<<EOF
 $moTotal
-<h2>Day Counts</h2>
+<h2 class='table'>Day Counts</h2>
+<div class='table'>
 <p>Day Counts do NOT include webmaster visits. The counts do however include ROBOTS who seem to
 be much more interested in our web page than Rotarians.<br>
 Day Counts started $start. Only showing 7 days.</p>
@@ -1064,29 +1080,38 @@ $tbl
 <p>Visitors are unique IP Addresses, Count is the total number of accesses to all pages,
 RobotsCnt are the portion of Count that are Robots, MembersCnt are the portion of Count that are Members,
 Members are the number of unique IP Addresses that are Members, Visits are accesses seperated by 10 minutes.</p>
+</div>
+
 <hr/>
 <p>There are several interesting thing to notice in the tables on this page:
 <ul>
-   <li>The <i>ID</i> field is an internal database number that has no outside meaning. It is simply and index
-      into the MySql database that has member information.</li>
-   <li>If the <i>ID</i> field is zero of blank then the visitor is not a member of our club or has not yet
-      logged in. Be sure to login once.</li>
-   <li>Some of the agents are really &quot;Bots&quot;. For example, &quot;Slurp&quot; and &quot;Googlebot&quot;.
-      &quot;Bots&quot; are robots that are used to scan the web for interesting thing. In the two cases sited
-      here they are indexing the web for <i>Yahoo</i> and <i>Google</i> two of the biggest search providers.</li>
-   <li>Most of our members are using <i>Firefox</i> or <i>Safari</i> (Mac OS X). It is good to see that most
-      members are smart enough not to use <i>Internet Explorer</i>.</li>
-   <li>I, Barton Phillips (the Webmster), have used several different web browsers. I do this to try and make sure the site
-      looks OK no matter what a visitor is using as a browser, even a text only browser like <i>Links</i> or
-      <i>lynx</i>. I have not been able to test the site to see if special browsers for people with disabilities
-      work correctly. If anyone can help me here I would appreciate it.</li>
-   <li>Unfortunately, most member are using Microsoft Windows. Fortunately, no one is using old versions of Windows like
-      95, 98, or ME. There are a couple of Mac OS X members, and I seem to be the only Linux user (though I have
-      tested the site with Windows XP and Windows 7).</li>
-</ul>
-More information on <b>Bots</b> can be found <a href='http://www.jafsoft.com/searchengines/search_engines.html'>here</a>.<br/>
-As I see more interesting trends I will report them here.</p>
 
+<li>The <i>ID</i> field is an internal database number that has no outside meaning. It is simply an
+index into the MySql database that has member information.</li>
+
+<li>If the <i>ID</i> field is zero of blank then the visitor is not a member of our club or has not
+yet logged in. Be sure to login once.</li>
+
+<li>Some of the agents are really &quot;Bots&quot;. For example, &quot;Slurp&quot; and
+&quot;Googlebot&quot;.  &quot;Bots&quot; are robots that are used to scan the web for interesting
+thing. In the two cases sited here they are indexing the web for <i>Yahoo</i> and <i>Google</i> two
+of the biggest search providers.</li>
+
+<li>Most of our members are using <i>Firefox</i>, <i>Chrome</i> or <i>Safari</i> (Mac OS X). It is
+good to see that most members are smart enough not to use <i>Internet Explorer</i> though recent
+versions of IE (9, 10, 11) do seem to be pretty standard complient now.</li>
+
+<li>I, Barton Phillips (the Webmster), have used several different web browsers. I do this to try
+and make sure the site looks OK no matter what a visitor is using as a browser, even a text only
+browser like <i>Links</i> or <i>lynx</i>. I have not been able to test the site to see if special
+browsers for people with disabilities work correctly. If anyone can help me here I would appreciate
+it.</li>
+
+<li>Unfortunately, most member are using Microsoft Windows. Fortunately, no one is using old
+versions of Windows like 95, 98, or ME. There are a couple of Mac OS X members, and I seem to be the
+only Linux user (though I have tested the site with Windows XP, Windows 7 and Windows 8/8.1).</li>
+
+</ul>
 <hr/>
 $footer
 EOF;

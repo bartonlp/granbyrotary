@@ -1,4 +1,13 @@
 <?php
+// BLP 2014-07-25 -- add date so page is not cached
+// BLP 2014-07-17 -- Add 'Admin' to the banner
+$date = date("U"); // unix epoch
+
+if($this->isAdmin($this->id)) {
+  $adminText = "\n<li><a style='color: red; background-color: white; border: 1px solid black' ".
+               "href='admintext.php?key=41144blp&sender=$this->self&d=$date'>Admin</a></li>";
+}
+
 $pageBannerText = <<<EOF
 <div id="header-image-div">
 <div id="header-image">
@@ -9,31 +18,15 @@ $pageBannerText = <<<EOF
 
 <div id="navMap">
 <ul>
-<li><a href="/">Home</a></li>
-<li><a href="member_directory.php">Members</a></li>
-<li><a href="about.php">About&nbsp;Rotary</a></li>
-<li><a href="news.php">News</a></li>
-<li><a href="calendar.php">Club&nbsp;Calendar</a></li>
-<li><a href="meetings.php">Meetings</a></li>
-<li><a href="edituserinfo.php">User&nbsp;Profile</a></li>
-<li><a href="webstats.php">Web&nbsp;Stats</a></li>
+<li><a href="/?d=$date">Home</a></li>
+<li><a href="member_directory.php?d=$date">Members</a></li>
+<li><a href="about.php?d=$date">About&nbsp;Rotary</a></li>
+<li><a href="news.php?d=$date">News</a></li>
+<li><a href="calendar.php?d=$date">Club&nbsp;Calendar</a></li>
+<li><a href="meetings.php?d=$date">Meetings</a></li>
+<li><a href="edituserinfo.php?d=$date">User&nbsp;Profile</a></li>
+<li><a href="webstats.php?d=$date">Web&nbsp;Stats</a></li>$adminText
 </ul>
-<!--
-<table>
-<tbody>
-<tr>
-<th><a href="/">Home</a></th>
-<th><a href="member_directory.php">Members</a></th>
-<th><a href="about.php">About Rotary</a></th>
-<th><a href="news.php">News</a></th>
-<th><a href="calendar.php">Club Calendar</a></th>
-<th><a href="meetings.php">Meetings</a></th>
-<th><a href="edituserinfo.php">User Profile</a></th>
-<th><a href="webstats.php">Web Stats</a></th>
-</tr>
-</tbody>
-</table>
--->
 </div>
 </div>
 <header>

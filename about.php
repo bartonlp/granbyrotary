@@ -1,5 +1,6 @@
 <?php
 // About Rotary page
+// BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
 
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
@@ -237,11 +238,13 @@ There is a lot more to see if you <a href='login.php?return=$S->self'>Login</a>!
 EOF;
 }
 
+/* BLP 2014-07-17 -- 
 if($S->isAdmin($S->id)) {
   // Make the Administrator's greeting
   
   $top .= $S->adminText();
 }
+*/
   
 // Display the page
   

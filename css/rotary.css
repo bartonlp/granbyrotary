@@ -284,8 +284,10 @@ h3 {
         }
         #wheel {
                 top: 10px;
+                left: 5px;
         }
         #granbyrotarytext {
                 top: 50px;
+                left: 85px;
         }
 }

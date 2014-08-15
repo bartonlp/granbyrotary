@@ -12,7 +12,7 @@ $type = $_POST['type'];
 
 $expire = time() -(60*60*24*3);  // expire at once
 
-$ref = "www.granbyrotary.org";
+$ref = "granbyrotary.org";
 
 // Type is Blank on entry
 

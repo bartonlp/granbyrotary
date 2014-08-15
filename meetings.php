@@ -1,4 +1,7 @@
 <?php
+// BLP 2014-08-13 -- Any Admin can edit all of the entries. 
+// BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
+
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
   include(TOPFILE);
@@ -111,11 +114,6 @@ function Show($message) {
   $top = $S->getBanner("<h2>Program Assignments</h2>");
 
   if($S->id != 0) {
-    if($S->isAdmin($S->id)) {
-      // Make the Administrator's greeting
-  
-      $top .= $S->adminText();
-    }
     echo <<<EOF
 $top
 <h3 id='loginMsg'>Welcome {$S->getUser()}.</h3>
@@ -231,8 +229,8 @@ EOF;
 function Edit($date) {
   global $S;
 
-  $S->query("select m.*, r.FName, r.LName from meetings as m
-left join rotarymembers as r on m.id=r.id where m.date='$date'");
+  $S->query("select m.*, r.FName, r.LName from meetings as m ".
+            "left join rotarymembers as r on m.id=r.id where m.date='$date'");
 
   // $id is the member's id that is responsible for the presentation
 
@@ -266,17 +264,18 @@ for($i=0; $i < count($options); ++$i) {
 </select>
 </td></tr>
 <tr><th>Name</th><td><input type="text" name="name" value="$name" />
-<span style="color: gray; font-size: 8pt">this can be another person who is presenting for the  member</span></td></tr>
+<span style="font-size: 10pt">this can be another person who is presenting for the  member</span></td></tr>
 <tr><th>Subject</th><td><input type="text" style="width: 100%" name="subject" value="$subject" /></td></tr>
 
 EOF;
 
-  // Let me edit the additional fields
+  // Let Admins edit the additional fields
 
   if($S->isAdmin($S->id)) {
+    $S->query("select id as memberId, concat(FName, ' ', LName) as name from rotarymembers ".
+              "where status='active'");
 
-    $S->query("select id as memberId, concat(FName, ' ', LName) as name from rotarymembers where status='active'");
-
+    // BLP 2014-08-13 -- blp_id is missleading as any Admin can edit the additional fields
     echo <<<EOF
 <tr><th>ID</th>
 <td><select name="blp_id">
@@ -289,7 +288,8 @@ EOF;
     extract($row);
     // $id is the member who is responsible
 
-    echo "<option value='$memberId'" . ($memberId == $id ? " selected" : "") . ">$memberId : $name</option>\n";
+    echo "<option value='$memberId'" . ($memberId == $id ? " selected" : "") .
+         ">$memberId : $name</option>\n";
   }
   echo <<<EOF
 </select>
@@ -413,7 +413,7 @@ EOF;
 
   $subject = $S->escape($subject);
 
-  // If me update the type and id
+  // If Admins update the type and id
 
   if($S->isAdmin($S->id)) {
     //echo "<br>ID=$id<br>\n";

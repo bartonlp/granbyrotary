@@ -1,5 +1,7 @@
 #!/usr/bin/php -q
 <?php
+// BLP 2014-06-09 -- fix weekofyear logic again. We wan the week for this year not the year of the
+// birthday.
 // BLP 2014-04-14 -- fixed weekofyear logic
 
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
@@ -17,10 +19,13 @@ list($presname, $presemail) = $S->fetchrow('num');
 //$presemail = "bartonphillips@gmail.com";
 
 $weekofyear = date("W"); // weeks start on Monday
+$y = date('Y');
 echo "weekofyear: $weekofyear\n";
 
+// BLP 2014-06-09 -- We want this years week not the week of the birthday! So format is '$y-%c-%d'
+
 $n = $S->query("select concat(fname, ' ', lname), email, bday, week(bday) from rotarymembers ".
-          "where week(bday) = '$weekofyear' and status='active' and otherclub='granby' ");
+          "where week(date_format(bday,'$y-%c-%d'), 3) = '$weekofyear' and status='active' and otherclub='granby' ");
 
 $havehas = "has";
 
@@ -48,7 +53,7 @@ if($n) {
   mail($presemail, "Birthday{$plural} This Week",
        $msg,
        "From: info@granbyrotary.org\r\nCC: bartonphillips@gmail.com\r\n",
-       "-f bartonphillips@gmail.com");
+       "-f bartonphillips@gmail.com");       
 } else {
   echo "No birthdays this week.\n";
 }

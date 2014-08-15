@@ -1,6 +1,8 @@
 #!/usr/bin/php -q
 <?php
-// Email the SkyHiNews with info for their calendar section.   
+// Email the SkyHiNews with info for their calendar section.
+// BLP 2014-07-17 -- remove business meeting stuff
+
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
   include(TOPFILE);
@@ -26,36 +28,9 @@ if(strlen($subject) > 80) {
 
 $meetdate = date("l M d, Y", strtotime($date));
 
-if($name == "Business Meeting") {
-  $msg =<<<EOF
-Dear Amber Phillipps,
-
-The Rotary Club of Granby is having its Business Meeting on $meetdate.
-Business Meetings are held once each month. We discuss issues and upcoming events.
-
-All Rotarians, as well as the general public, are invited. Maverick's provides a wonderful
-lunch for \$12 but purchasing lunch is not required.
-
-Our meetings start at 12 noon every Wednesday and are held at
-Maverick's Grille
-15 E. Agate Avenue (US Highway 40)
-Granby, Colorado 80446
-Phone: (970) 887-9000
-
-Please put this information in your weekly calendar section.
-If you have any questions please email me at bartonphillips@gmail.com
-or phone me at 970-887-3646.
-
-Thank you
-
-Barton Phillips
-
-EOF;
-
-} else {
-  if(empty($subject)) $subject = "To be determined";
+if(empty($subject)) $subject = "To be determined";
   
-  $msg = <<<EOF
+$msg = <<<EOF
 Dear Amber Phillipps,
 
 The Rotary Club of Granby is having its weekly meeting on $meetdate.
@@ -79,7 +54,6 @@ Thank you
 
 Barton Phillips
 EOF;
-}
 
 //echo $msg;
 

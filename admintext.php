@@ -1,16 +1,18 @@
 <?php
-// The Administrators special page   
+// The Administrators special page
+// BLP 2014-07-17 -- Use $_REQUEST instead of $_POST so this will work with GET or POST calls
+
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
   include(TOPFILE);
 } else throw new Exception(TOPFILE . "not found");
 
-if($_POST['key'] != "41144blp") {
+if($_REQUEST['key'] != "41144blp") {
   echo "<h1>Sorry. Where did you come from?</h1>";
   exit();
 }
 
-$sender = $_POST['sender'];
+$sender = $_REQUEST['sender'];
 
 $S = new GranbyRotary;
 

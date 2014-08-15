@@ -89,7 +89,7 @@ $(document).ready(function() {
     $("#child").hide();
   });
 
-  $("form").append("<input style='position: fixed; top: 10px; left: 80%;' id='#sendemails' type='submit' value='Send Emails'>");
+  $("form").append("<input style='position: fixed; top: 10px; left: 80%;' id='#sendemails' type='submit' value='Compose Emails'>");
 });
   </script>  
   <style type='text/css'>
@@ -323,7 +323,7 @@ EOF;
 
 if(!empty($S->id)) {
    echo <<<EOF
-<br/><input type='submit' value='Send Emails'>
+<br/><input type='submit' value='Compose Emails'>
 </form>
 </p>
 

@@ -1,4 +1,6 @@
 <?php
+// BLP 2014-06-08 -- No longer have business meetings.
+// Also change split to explode as split is depreciated.
 // Update the list of speakers on the Meetings page
 // 2013/10/11 we now select the members at random and generate a list that contains all the
 // members.
@@ -66,6 +68,7 @@ for($i=$startWeek; $i < $startWeek + count($idName); ++$i) {
 }
 
 foreach($idName as $k=>$v) {
+  /* BLP 2014-06-08 -- NO LONGER HAVE Business Meetings.
   // Wed is day three starting with Sunday as 0
   // Second week, first week is 0
 
@@ -73,17 +76,19 @@ foreach($idName as $k=>$v) {
     $eout[] = "0:Business Meeting:$dates[$k]";
     continue;
   }
+  */
+  
   //echo "in % count=" . $in % count($idName) . "<br>";
   $item = $v;
   //echo "item=$item<br>";
-  list($id, $name) = split(":", $item);
+  list($id, $name) = explode(":", $item);
 
   $date = find_first_day_ofweek($k+$startWeek, $year, 'wednesday');
   $eout[] = "$id:$name:$date";
 }
 
 foreach($eout as $value) {
-  list($id, $name, $date) = split(":", $value);
+  list($id, $name, $date) = explode(":", $value);
   $date = date('Y-m-d', $date);
   $type = "speaker";
   if($id == 0) {
@@ -108,7 +113,7 @@ foreach($eout as $value) {
 // Returns true or false
 
 function isDay($date, $oday, $week) {
-  list($yr, $mo, $day) = split("-", date("Y-m-d",$date));
+  list($yr, $mo, $day) = explode("-", date("Y-m-d",$date));
   $ut = strtotime("$yr-$mo-01");
   $oned = date("w", $ut);
 

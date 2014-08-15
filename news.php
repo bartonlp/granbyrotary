@@ -1,4 +1,6 @@
 <?php
+// BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
+
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
   include(TOPFILE);
@@ -384,6 +386,7 @@ $h->banner = $greet;
 
 list($top, $footer) = $S->getPageTopBottom($h);
 
+/* BLP 2014-07-17 -- 
 // Check to see if this member is a web administrator
 
 if($S->isAdmin($S->id)) {
@@ -391,6 +394,7 @@ if($S->isAdmin($S->id)) {
   
   $top .= $S->adminText();
 }
+*/
 
 // Echo the UpdateSite message if one
 echo <<<EOF
