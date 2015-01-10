@@ -9,7 +9,35 @@ $S = new GranbyRotary;
 
 $h->title = "About This Web Site and Server";
 $h->banner = "<h2>About This Web Site and Server</h2>";
-$h->extra = "<style type='text/css'>img { border: 0; } #runWith { background-color: white;}</style>";
+$h->css = <<<EOF
+  <style>
+img { border: 0; }
+/* About this web site (aboutwebsite.php)  */
+#aboutWebSite {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2em;
+        display: block;
+        width: 100%;
+        text-align: center;
+}
+#aboutWebSite h1 {
+        margin-top: 0;
+        margin-bottom: .2em;  
+}
+#runWith {
+        background-color: white;
+        border: groove blue 10px;
+        margin: 2em;
+}
+@media (max-width: 800px) {
+        #runWith {
+          width: 94%;
+          margin: 0px;
+        }
+}
+  </style>
+EOF;
 
 list($top, $footer) = $S->getPageTopBottom($h);
 

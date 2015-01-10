@@ -1,7 +1,11 @@
 #!/usr/bin/php -q
 <?php
 // Email the SkyHiNews with info for their calendar section.
+// BLP 2014-12-02 -- update to change email for Cynthia
 // BLP 2014-07-17 -- remove business meeting stuff
+
+$calendarGirl = 'Cynthia Washburn';
+$calendarGirlEmail = "cwashburn@skyhidailynews.com";
 
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
@@ -15,11 +19,17 @@ list($week, $year) = explode(",", date("W,Y"));
 $date = find_first_day_ofweek($week, $year);
 $start = date("Y-m-d", $date);
 $end = date("Y-m-d", strtotime("+1 week", $date));
-$sql = "select name, date, id, subject from meetings where date between '$start' and '$end'";
+$sql = "select name, date, id, subject, type from meetings where date between '$start' and '$end'";
 
 $n = $S->query($sql);
 
-list($name, $date, $id, $subject) = $S->fetchrow('num');
+list($name, $date, $id, $subject, $type) = $S->fetchrow('num');
+
+if($type == 'none' || $type == 'open') {
+  echo "NO Meeting or OPEN\n";
+  exit();
+}
+
 $subject = preg_replace("/^\s*(.*?)[.\s]*$/", "$1", $subject);
 
 if(strlen($subject) > 80) {
@@ -31,7 +41,7 @@ $meetdate = date("l M d, Y", strtotime($date));
 if(empty($subject)) $subject = "To be determined";
   
 $msg = <<<EOF
-Dear Amber Phillipps,
+Dear $calendarGirl
 
 The Rotary Club of Granby is having its weekly meeting on $meetdate.
 Our guest speaker will be $name and the subject of the talk is:
@@ -57,7 +67,7 @@ EOF;
 
 //echo $msg;
 
-mail("aphillipps@skyhidailynews.com", "Rotary Item for the Calendar Section", $msg,
+mail($calendarGirlEmail, "Rotary Item for the Calendar Section", $msg,
      "From: info@granbyrotary.org\r\nCC: bartonphillips@gmail.com\r\n");
 
 /**

@@ -1,7 +1,7 @@
 <?php
 // BLP 2014-03-06 -- ajax for tracker.js
 
-ini_set("error_log", "/tmp/debugblp.txt");
+//ini_set("error_log", "/tmp/debugblp.txt");
 
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
@@ -45,7 +45,9 @@ if($_POST['page'] == 'load') {
 
 if($_POST['page'] == 'unload') {
   $id = $_POST['id'];
-  $S->query("update tracker set endtime=now(), difftime=timediff(now(),starttime) where id=$id");
+  $S->query("update tracker set endtime=now(), difftime=timediff(now(),starttime) ".
+            "where id=$id");
+  
   echo "Good By";
   exit();
 }

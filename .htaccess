@@ -1,9 +1,14 @@
-XBitHack on
 Options -Indexes +Includes +FollowSymLinks
+# Allow CORS
+Header set Access-Control-Allow-Origin "*"
 
 # BEGIN EXPIRES
 <IfModule mod_expires.c>
     ExpiresActive On
+<Files *.php>
+  ExpiresByType text/html A0
+</Files>
+
     ExpiresDefault "access plus 10 days"
     ExpiresByType text/css "access plus 1 week"
     ExpiresByType text/plain "access plus 1 month"
@@ -23,6 +28,7 @@ Options -Indexes +Includes +FollowSymLinks
 # Turn on rewrite
 RewriteEngine on
 #RewriteBase /
+RewriteRule ^$ index.php [L]
 RewriteRule ^rssfeed.xml    articles/createrss.php [L]
 # Rewrite for articles
 RewriteRule ^articles/article\.(\d+)  articles/article.php?article=$1 [L]

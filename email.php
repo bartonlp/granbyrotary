@@ -11,43 +11,6 @@ $referer = $_SERVER['HTTP_REFERER'];
 $h->title = "Send Email To Member";
 $h->banner = "<h1>Send an Email to a Member</h1>";
 
-$h->extra = <<<EOF
-   <meta name="robots" content="noindex, nofollow">
-
-   <script type='text/javascript'>
-jQuery(document).ready(function($) {
-  $("#another").click(function() {
-    $(this).before('<input name="userfile[]" type="file" /><br>');
-  });
-});
-   </script>
-
-   <!-- CSS for this page only -->
-   <style type='text/css'>
-#mailform table input {
-        width: 100%;
-        border: 0;
-        background-color: #FFC0CB; /* pink; */
-}
-#mailform textarea {
-        width: 100%;
-        border: 0;
-        background-color: #FFC0CB; /* pink; */
-}
-
-#mailform table {
-        width: 100%;
-}
-#mailform .left {
-        text-align: left;
-        width: 20%;
-}
-   </style>
-
-EOF;
-
-list($top, $footer) = $S->getPageTopBottom($h);
-
 // Don't let people come here from anywhere else than the members
 // page! We can change this later to make it only our sites
 
@@ -60,6 +23,8 @@ if(!preg_match("(^http://www.granbyrotary\.org|http://www\.google.com/reader/vie
     $msg = ", You came from: $referer";
   } 
 
+  list($top, $footer) = $S->getPageTopBottom($h);
+  
   if(!$_GET['id']) {
     echo <<<EOL
 $top
@@ -130,7 +95,8 @@ if($_REQUEST['mail'] == 1) {
     $h->banner = "<h2>$PageTitle</h2>";
   } 
 
-  echo $S->getPageTop($h);
+  list($top, $footer) = $S->getPageTopBottom($h);
+  echo $top;
 
   $uploads_dir = '/tmp';
 
@@ -235,7 +201,41 @@ list($email, $name) = $S->fetchrow('num');
 //echo "id=$id, email=$email, name=$name<br>";
 $h->banner = "<h2 id='head'>Send a message to $name</h2>";
 
-echo $S->getPageTop($h);
+$h->extra = <<<EOF
+   <meta name="robots" content="noindex, nofollow">
+
+   <script>
+jQuery(document).ready(function($) {
+  $("#another").click(function() {
+    $(this).before('<input name="userfile[]" type="file" /><br>');
+  });
+});
+   </script>
+
+   <!-- CSS for this page only -->
+   <style>
+#mailform table input {
+        width: 100%;
+        border: 0;
+        background-color: #FFC0CB; /* pink; */
+}
+#mailform textarea {
+        width: 100%;
+        border: 0;
+        background-color: #FFC0CB; /* pink; */
+}
+#mailform table {
+        width: 100%;
+}
+#mailform .left {
+        text-align: left;
+        width: 20%;
+}
+   </style>
+
+EOF;
+
+list($top, $footer) = $S->getPageTopBottom($h);
 
 $from = "";
 
@@ -246,20 +246,24 @@ if($S->id) {
 }
 
 echo <<<EOF
+$top
 <form id='mailform' name='Email' method='post'
  enctype="multipart/form-data" action="$S->self">
    <table id='mailformtable' border="1" cellpadding="1" cellspacing="0">
       <tr>
          <td class='left'>From (email address)</td>
-         <td><input class='inputtext' id='fromname' type='text' name='from' tabindex='1'$from></td>
+         <td><input autofocus required class='inputtext' id='fromname' type='text'
+             name='from' tabindex='1'$from></td>
       </tr>
       <tr>
         <td class='left'>Subject</td>
-        <td><input class='inputtext' id='inputsubject' type='text' name='subject' value="$subject" tabindex='2'></td>
+        <td><input required class='inputtext' id='inputsubject' type='text' name='subject'
+             value="$subject" tabindex='2'></td>
       </tr>
       <tr>
         <td class='left'>Message</td>
-        <td><textarea id='inputmessage' name="message" cols="140" rows="10" tabindex='3'></textarea></td>
+        <td><textarea required id='inputmessage' name="message" cols="140" rows="10"
+            tabindex='3'></textarea></td>
       </tr>
    </table>
    <input type='hidden' name='email' value="$email">
@@ -279,9 +283,11 @@ echo <<<EOF
    <input type='submit' name='submit' value='Send Mail' tabindex='4'>
 </form>
 
-<!-- script to focus on first element in form -->
-<script type="text/javascript">
-document.getElementById('fromname').focus();
+<script>
+  $("input[type='submit']").click(function() {
+    $("body").append("<img src='/images/loading.gif' "+
+      "style='width: 100px;position: fixed;top: 700px; left:600px;' />");
+  });
 </script>
 
 <hr/>

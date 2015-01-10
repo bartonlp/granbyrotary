@@ -1,13 +1,2 @@
-XBitHack on
 Options +Indexes +Includes
-
-Order Deny,Allow
-Deny from All
-
-AuthName "Granby Rotary Fonts"
-AuthType Basic
-AuthUserFile /home/bartonlp/granbyrotary.org/htdocs/fonts/.htpasswd
-require valid-user
-Satisfy Any
-
 

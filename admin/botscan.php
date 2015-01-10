@@ -26,8 +26,7 @@ $opentxt = array("/usr/local/apache/domlogs/bartonphillips.bartonphillips.org",
 
 $cnt = 0;
 $new = 0;
-$update = 0;
-$toupdate = 0;
+$dup = 0;
 
 foreach($opentxt as $t) {
   $contents = file($t);
@@ -39,18 +38,17 @@ foreach($opentxt as $t) {
     
     preg_match("/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?\"-\" \"(.*?)\"/", $v, $m);
 
+    // bots2 has only agents
     $S->query("insert ignore into bots2 values('$m[2]')");
     
     try {
-      $sql="insert into bots (ip, agent) values('$m[1]', '$m[2]')";
+      // bots has only ip addresses
+      $sql="insert into bots (ip) values('$m[1]')";
       $new += $S->query($sql);
     } catch(Exception $e) {
-      $sql="update bots set agent='$m[2]' where ip='$m[1]'";
-      //echo "$sql\n";
-      ++$toupdate;
-      $update += $S->query($sql);
+      ++$dup;
     }
   }
 }
-echo "Processed $cnt records\nnew: $new\ntoupdate: $toupdate\nupdated: $update\n";
+echo "Processed $cnt records\nnew: $new\ndup: $dup\n";
 ?>

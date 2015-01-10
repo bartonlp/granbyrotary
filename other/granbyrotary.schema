@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.36, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.40, for Linux (x86_64)
 --
 -- Host: localhost    Database: barton11_granbyrotarydotorg
 -- ------------------------------------------------------
--- Server version	5.5.36-cll
+-- Server version	5.5.40-cll
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -69,6 +69,22 @@ CREATE TABLE `articles` (
   `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `attendance`
+--
+
+DROP TABLE IF EXISTS `attendance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `attendance` (
+  `date` date NOT NULL,
+  `memberid` int(11) NOT NULL DEFAULT '0',
+  `present` enum('yes','no') DEFAULT 'no',
+  `extra` int(11) DEFAULT '0' COMMENT 'number of extra credit or makeup reported',
+  PRIMARY KEY (`date`,`memberid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +163,6 @@ DROP TABLE IF EXISTS `bots`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bots` (
   `ip` varchar(20) NOT NULL,
-  `agent` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -160,7 +175,8 @@ DROP TABLE IF EXISTS `bots2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bots2` (
-  `agent` varchar(255) DEFAULT NULL
+  `agent` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`agent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -181,7 +197,7 @@ CREATE TABLE `calendar` (
   `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `editorId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -286,7 +302,7 @@ CREATE TABLE `emails` (
   `attached` varchar(255) DEFAULT NULL,
   `item` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`item`)
-) ENGINE=MyISAM AUTO_INCREMENT=738 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=781 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,6 +318,24 @@ CREATE TABLE `feedcnt` (
   `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`agent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `foodlist`
+--
+
+DROP TABLE IF EXISTS `foodlist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `foodlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `food` varchar(255) NOT NULL,
+  `packageqty` int(11) DEFAULT '1',
+  `packageprice` decimal(10,2) DEFAULT NULL,
+  `provider` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `food` (`food`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -496,7 +530,7 @@ CREATE TABLE `rotarymembers` (
   `classif` varchar(50) DEFAULT NULL,
   `spouse` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -572,7 +606,7 @@ CREATE TABLE `site` (
   `lasttime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `creator` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=209 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=214 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -612,7 +646,7 @@ CREATE TABLE `tracker` (
   `difftime` time DEFAULT NULL,
   `referrer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2534 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5641 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -624,4 +658,4 @@ CREATE TABLE `tracker` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-08-11  1:00:11
+-- Dump completed on 2015-01-05  1:00:08

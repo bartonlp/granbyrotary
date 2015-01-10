@@ -1,4 +1,6 @@
 <?php
+// BLP 2014-11-23 -- work on responsive scaling. Modify css/rotary.css and move some
+// stuff to here that only applies to index.php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
 define('TOPFILE', "/home/barton11/includes/siteautoload.php");
 if(file_exists(TOPFILE)) {
@@ -100,43 +102,32 @@ if(isset($_GET['memberid'])) {
   $S->CheckId();  // sets all of the GXxxx publics
 }
   
-$NewBBmsg = $S->checkBBoard(); // Check if new BB posts
-
-// check if there is mail waiting in info@granbyrotary.org or webmaster
-/*
-$mbox = imap_open("{granbyrotary.org/imap/notls:143}INBOX", "info@granbyrotary.org", "7098653");
-if(!$mbox) {
-  echo "Error opening mail box<br>\n";
-} else {
-  $checkInfo = imap_mailboxmsginfo($mbox);
-
-  $mbox = imap_open("{granbyrotary.org/imap/notls:143}INBOX", "webmaster@granbyrotary.org", "7098653");
-  if(!$mbox) {
-    echo "Error opening mail box<br>\n";
-  } else {
-    $checkWebmaster = imap_mailboxmsginfo($mbox);
-  }
-}
-*/
+//$NewBBmsg = $S->checkBBoard(); // Check if new BB posts
 
 // set up the scripts and styles
 
 $h->extra = <<<EOF
-   <script async src="js/dropdown.js"></script>
+  <!-- local extra -->
+  <script async src="js/dropdown.js"></script>
+EOF;
 
+$h->script = <<<EOF
+   <!-- local script -->
    <script>
 var bannerImages = new Array, binx = 0;
+
+// Banner photos
+
+dobanner(new Array($banner_photos));
 
 function dobanner(photos) {
   for(var i=0, l=0; i < photos.length; ++i) {
     var image = new Image;
-    image.mpcInx = i;
+    image.inx = i;
     image.src = photos[i];
+
     $(image).load(function() {
-      bannerImages[this.mpcInx] = this;
-      if(++l == photos.length) {
-        return bannershow();
-      }
+      bannerImages[this.inx] = this;
     });
 
     $(image).error(function(err) {
@@ -161,12 +152,12 @@ function bannershow() {
   setTimeout(bannershow, 5000);
 }
 
+$(window).load(function() {
+  bannershow();
+});
+
 jQuery(document).ready(function($) {
   $("#child").hide();
-
-  // Banner photos
-  var bannerPhotos = new Array($banner_photos);
-  dobanner(bannerPhotos);
 
   $("#parent").click(function() {
     if(!this.flag)
@@ -176,9 +167,12 @@ jQuery(document).ready(function($) {
     this.flag = !this.flag;
   });
 });
-   </script>
+  </script>
+EOF;
 
-   <style>
+$h->css = <<<EOF
+  <!-- local css -->
+  <style>
 #loginMsg {
         text-align: center;
 }
@@ -186,20 +180,6 @@ jQuery(document).ready(function($) {
         font-variant: small-caps;
         font-size: x-large;
 }
-/* not used
-#wrapper {
-        float: right;
-        width: 50%;
-        border: 1px solid white;
-        margin-right: 10px;
-}
-#linkbuttons {
-        border: 0;
-        width: 30%;
-        margin-top: 30px;
-        margin-bottom: 30px;
-}
-*/
 /* class button is also in rotary.css so check there too if thing change */
 .button {
         border: 4px outset gray; 
@@ -207,10 +187,12 @@ jQuery(document).ready(function($) {
         background-color: red;
         color: white;
         cursor: pointer;
+        width: 280px;
 }
 .button a {
         color: white;
 }
+
 /* style for drop down */
 #rotarylinks  {
         border: 0;
@@ -219,6 +201,9 @@ jQuery(document).ready(function($) {
         margin-right: auto;
         margin-top: 30px;
         margin-bottom: 30px;
+}
+#button-group {
+        margin-bottom: 10px;
 }
 #parent {
         cursor: pointer;
@@ -232,29 +217,33 @@ jQuery(document).ready(function($) {
         display: block;
         padding: 2px 5px;
         background-color: white; /* #FFFFEE; */
+        line-height: 50px;
 }
-/* Whos Been Here */
-#todayGuests { 
+
+/* Who table */
+#who { /* who has birthday/been here */
+        width: 50%;
+        margin-bottom: 10px;
+        margin-right: 5px;
+}
+.who {
         background-color: white;
         width: 100%;
 }
-#todayGuests thead th:first-child {
+.who thead tr:nth-child(2) th:first-child {
         width: 60%;
 }
-#todayGuests td {
+.who
+ td {
         padding: 5px;
 }
-#moTotal {
-        background-color: white;
-        width: 100%;
+@media (max-width: 600px) {
+        .who {
+                width: 100%;
+                font-size: 80%;
+        }
 }
-#moTotal thead tr:nth-child(2) th:first-child {
-        width: 60%;
-}
-#moTotal td {
-        padding: 5px;
-}
-   </style>
+  </style>
 EOF;
 
 // Check if a member  
@@ -273,7 +262,7 @@ EOF;
 <a href='login.php?return=$S->self'>Login</a> at this time.<br/>
 There is a lot more to see if you <a href='login.php?return=$S->self'>Login</a>!
 </h3>
-<p style='text-align: center'>Not a Grand County Rotarian? You can <b>Register</b> as a visitor.
+<p class="center">Not a Grand County Rotarian? You can <b>Register</b> as a visitor.
 <a href="login.php?return=$S->self&amp;page=visitor">Register</a></p>
 EOF;
 }
@@ -310,7 +299,7 @@ $h->title ="Rotary Club of Granby CO.";
 // Set up the footer info
 $b = new stdClass;
 $b->msg2 = <<<EOF
-<p style='text-align: center;'><a href='aboutwebsite.php'>About This Site</a></p>
+<p class="center"><a href='aboutwebsite.php'>About This Site</a></p>
 EOF;
 
 // Get the page top and footer
@@ -341,10 +330,11 @@ while(list($bname, $bday, $bdayday) = $S->fetchrow('num')) {
         break;
     }
   }
-  $whoHasABirthdayThisMonth .= "<tr><td>$bname's birthday is on the $bdayday<sup>$ext</sup></td></tr>\n";
+  $whoHasABirthdayThisMonth .= "<tr><td>$bname's birthday is on the ".
+                               "$bdayday<sup>$ext</sup></td></tr>\n";
 }
 $whoHasABirthdayThisMonth = <<<EOF
-<table id="moTotal" border="1">
+<table class="who" border="1">
 <thead>
 <tr><th>Who Has A Birthday This Month</th></tr>
 </thead>
@@ -359,7 +349,8 @@ $whosBeenHereToday = $S->getWhosBeenHereToday();
 $mostart = date("Y-m-01");
 
 $n = $S->query("select concat(fname, ' ', lname) from daycounts as d ".
-               "left join rotarymembers as r on d.id=r.id where d.id!=0 and date >='$mostart' ".
+               "left join rotarymembers as r on d.id=r.id where d.id!=0 and ".
+               "date >='$mostart' ".
                "group by d.id, date");
 
 $namecnt = array();
@@ -377,7 +368,7 @@ EOF;
 $moTotal = count($namecnt);
 
 $whosBeenHereThisMonth = <<<EOF
-<table id="moTotal" border="1">
+<table class="who" border="1">
 <thead>
 <tr>
 <th colspan="2">Total Members or Vistors using the site this month: $moTotal</th>
@@ -398,7 +389,7 @@ EOF;
 // ************************
 
 // Has the member seen all the BB posts?
-
+/*
 if($NewBBmsg) {
   $bb = <<<EOF
 <p class='button' onclick='location.href="bboard.php";'>
@@ -414,7 +405,7 @@ EOF;
 
 EOF;
 }
-
+*/
 // Render page
   
 echo <<<EOF
@@ -442,35 +433,35 @@ $endpolio
 $otherstuff
 <!-- UpdateSite: Other Stuff End -->
 
-<div style="float: left">
+<div id="button-group">
 <img src="images/find_us_on_facebook_badge.gif" title="Find Us On Facebook" alt="find us on facebook" /><br>
 <a target="_blank" href="http://www.facebook.com/group.php?gid=105501794053">Rotary Club of Granby</a><br>
 <a target="_blank" href="http://www.facebook.com/home.php?ref=home#!/pages/MPHS-Interact-Club/123052577747543">
 Middle Park High School Interact Club on Facebook</a>
-$bb
+
 <!-- Rotary Links -->
-<p id='parent' class='button'>Links to Rotary Sites</p>
-<div id='child'>
-   <a target="_blank" href="http://www.clubrunner.ca/portal/Home.aspx?accountid=50085">District 5450 Web Site</a>
-   <a target="_blank" href="http://www.rotary.org/">Rotary International Web Site</a>
-   <a target="_blank" href="http://www.endpolio.com">District 5450 End Polio Campaign</a>
-   <a target="_blank" href='http://rmryla.org'>RYLA (Rotary Youth Leadership Award)</a>
-   <a target="_blank" href='http://WinterparkFraserRotary.org'>Winter Park Rotary Club</a>
-   <a target="_blank" href='http://www.grandlakerotary.org/'>Grand Lake Rotary Club</a>
-   <a target="_blank" href='http://www.kremmlingrotary.org'>Kremmling Rotary Club</a>
-   <a target="_blank" href='http://escuelaminga.org/Minga/Rotary.html'>The Equator Project</a>
-   <a target="_blank" href='http://www.rotaryeclubone.org/'>eClub One. On-line make ups</a>
-</div>
+<div id="rotary-links">
+  <label for="rotary-links-checkbox">Rotary Links</label>
+  <input type="checkbox" id="rotary-links-checkbox" role="button">
+  <ul id="rotary-links-menu">
+    <li><a target="_blank" href="http://www.clubrunner.ca/portal/Home.aspx?accountid=50085">District 5450 Web Site</a>
+    <li><a target="_blank" href="http://www.rotary.org/">Rotary International Web Site</a>
+    <li><a target="_blank" href="http://www.endpolio.com">District 5450 End Polio Campaign</a>
+    <li><a target="_blank" href='http://rmryla.org'>RYLA</a>
+    <li><a target="_blank" href='http://WinterparkFraserRotary.org'>Winter Park Rotary Club</a>
+    <li><a target="_blank" href='http://www.grandlakerotary.org/'>Grand Lake Rotary Club</a>
+    <li><a target="_blank" href='http://www.kremmlingrotary.org'>Kremmling Rotary Club</a>
+    <li><a target="_blank" href='http://escuelaminga.org/Minga/Rotary.html'>The Equator Project</a>
+  </ul>
 </div>
 
-<div style="float: right; width: 50%; margin-bottom: 10px; margin-right: 5px">
-$whoHasABirthdayThisMonth
+<div id="who">$whoHasABirthdayThisMonth
 <br>
 $whosBeenHereToday
 <br>
 $whosBeenHereThisMonth
 </div>
-<hr style="clear:both"/>
+<hr class="clearboth"/>
 $footer
 EOF;
 

@@ -366,7 +366,7 @@ class GranbyRotary extends SiteClass {
   public function getWhosBeenHereToday() {
 //    ob_start();
     $ret =<<<EOF
-<table id="todayGuests" border="1">
+<table class='who' border="1">
 <thead>
 <tr>
 <th>Who's visited our Website today?</th>

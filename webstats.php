@@ -1,5 +1,6 @@
 <?php
 // Display Web Statistics for Granby Rotary
+// BLP 2014-11-02 -- tracker average now works with the showing display.
 
 $referer = $_SERVER['HTTP_REFERER'];
 
@@ -26,7 +27,7 @@ if($_GET['page'] == 'updatebots') {
 
   $S->query("insert ignore into bots2 value('{$_GET['agent']}')");
   
-  $sql = "insert ignore into bots (ip, agent) values('{$_GET['ip']}', '{$_GET['agent']}')";
+  $sql = "insert ignore into bots (ip) values('{$_GET['ip']}')";
 
   $n = $S->query($sql);
   
@@ -62,24 +63,32 @@ if($_GET["table"]) {
       function ipagentcallback(&$row, &$desc) {
         global $S;
         
-        $agent = $S->escape($row['Agent']);
+        $ip = $S->escape($row['IP']);
 
         $tr = "<tr";
-
-        $n = $S->query("select agent from bots2 where agent='$agent'");
-        if($n) {
-          $tr .= " style='color: red'";
-        }
 
         // escape markup in agent
         $row['Agent'] = escapeltgt($row['Agent']);
 
-        if($row[id]) {
-          if($row[id] == '25') {
+        if($row['id']) {
+          if($row['id'] == '25') {
             $tr .= " class='blp'";
           } 
         } else {
           $tr .= " class='noId'";
+          $n = $S->query("select ip from bots where ip='$ip'");
+          if($n) {
+            $tr .= " style='color: red'";
+          } else {
+            // BLP 2014-11-16 -- Look for 'http://' in agent and if found add it to the
+            // bots table.
+            if(preg_match('~http://~', $row['Agent'])) {
+              $sql = "insert ignore into bots value('$ip')";
+              $S->query($sql);
+              $tr .= " style='color: red'";
+            }
+          }
+
         }
         $tr .= ">";
 
@@ -87,9 +96,12 @@ if($_GET["table"]) {
         return false;
       }
 
-      $query = "select l.ip as IP, l.agent as Agent, l.id, concat(r.FName, ' ', r.LName) as Name, " .
-               "l.lasttime as LastTime from logagent as l left join rotarymembers as r on l.id=r.id" .
-               " where l.lasttime > date_sub(now(), interval 7 day) order by l.lasttime desc";
+      $query = "select l.ip as IP, l.agent as Agent, l.id, ".
+               "concat(r.FName, ' ', r.LName) as Name, " .
+               "l.lasttime as LastTime from logagent as l ".
+               "left join rotarymembers as r on l.id=r.id" .
+               " where l.lasttime > date_sub(now(), interval 7 day) ".
+               "order by l.lasttime desc";
 
       list($table) = $t->maketable($query, array('callback'=>'ipagentcallback',
         'attr'=>array('id'=>"ipAgentHits", 'border'=>'1')));
@@ -98,126 +110,142 @@ if($_GET["table"]) {
       break;
 
     case "osoursite1":
-      $ar = array('OS'=>array('types'=>array(), 'table'=>""),
-                  'Browser'=>array('types'=>array(), 'table'=>""));
-      $types = array('Windows', 'Linux', 'Macintosh', 'Android', 'iPhone');
-      $ar[OS][types] = $types;
-      $types = array('Opera', 'Chrome', 'Safari', 'Firefox', 'MSIE');
-      $ar['Browser']['types'] = $types;
+      // BLP 2014-12-09 -- redone
+      // Don't show webmaster
 
-      $table = <<<EOF
-<table id="osoursite1" style="width: 100%" border="1">
+      $records = $S->query("select m.id, ip, page, agent, count, m.lasttime ".
+                           "from memberpagecnt as m left join rotarymembers as r ".
+                           "on m.id=r.id where m.id !='25' and r.otherclub='granby' and ".
+                           "r.status='active'");
+      $rows = array();
+      
+      while($row = $S->fetchrow('assoc')) {
+        $rows[] = $row;
+      }
+
+      $total = 0;
+      $members = array();
+      $counts = array();
+      $pat = "~Safari|Opera|Chrome|MSIE|Firefox|Konqueror|Window|Linux|Mac OS X|".
+             "Macintosh|Android|iPhone~i";
+
+      $browsers = array("safari", "opera", "chrome", "msie", "firefox", "fonqueror");
+      $os = array("mac os x", "window", "linux", "android", "iphone");
+      
+      foreach($rows as $v) {
+        $agent = $v['agent'];
+  
+        if(preg_match_all($pat, $agent, $m)) {
+          //echo "<p>Agent: $agent, count: {$v['count']}";
+          $dup = array();
+          //$what = '';
+
+/*          
+          if(!in_array($os, array_map('strtolower', $m[0]))) {
+            echo "<p>Agent: $agent, count: {$v['count']} " .
+            print_r(array_map('strtolower', $m[0]), true) . "<br>";
+            $counts['other'] += $v['count'];
+          }
+*/
+          // Make the array lower case.
+          
+          $mm = array_map(strtolower, $m[0]);
+
+          foreach($mm as $x) {
+            switch($x) {
+              case 'chrome':
+                $dup['safari'] = true;
+                $counts['browser'][$x] += $v['count'];
+                //$what .= "$x,";
+                break;
+              case 'macintosh':
+                $dup['mac os x'] = true;
+                $counts['os']['mac os x'] += $v['count'];
+                //$what .= "mac os x,";
+                break;
+              default:
+                if(!$dup[$x]) {
+                  $type = in_array($x, $os) ? "os" : "browser";
+                  $counts[$type][$x] += $v['count'];
+                  //$what .= "$x,";
+                }
+                break;
+            }
+            $dup[$x] = true;
+          }
+          if(count(array_intersect($mm, $browsers)) == 0) {
+            $counts['browser']['other'] += $v['count'];
+          }
+          //echo "<br>WHAT: " .rtrim($what, ',') ."<br>****</p>";
+        } else {
+          //echo "Agent: $agent<br>Not found.<br>****<br>";
+          $counts['os']['other'] += $v['count'];
+        }
+
+        $total += $v['count'];
+        $members[$v['id']]++;
+      }
+      $totalmembers = count($members);
+
+      //vardump("counts", $counts);
+      //echo "total: $total<br>totalmembers: $totalmembers<br>";
+      /*
+      foreach($counts as $k=>$v) {
+        foreach($v as $kk=>$vv) {
+          echo "$k => $kk: $vv<br>";
+        }
+      }
+      */
+
+      foreach(array('os'=>"osoursite1", 'browser'=>'osoursite2') as $k=>$v) {
+        $ar[$k] = <<<EOF
+<table id="$v" border="1">
 <thead>
-<tr><th>OS</th><th>Visits</th><th>%</th><th>Records</th><th>%</th><th>Visitors</th><th>%</th></tr>
+<tr><th style="text-transform: uppercase;">$k</th><th>Visits</th><th>%</th></tr>
 </thead>
 <tbody>
 
 EOF;
-
-      $ar['OS']['table'] = $table;
-
-      $table = <<<EOF
-<table id="osoursite2" style="width: 100%" border="1">
-<thead>
-<tr><th>Browser</th><th>Visits</th><th>%</th><th>Records</th><th>%</th><th>Visitors</th><th>%</th></tr>
-</thead><tbody>
-
-EOF;
-
-      $ar['Browser']['table'] = $table;
-
-      // Don't show webmaster
-
-      $S->query("select sum(count) as count from memberpagecnt where id!='25'");
-      list($total) = $S->fetchrow();
-      $S->query("select count(*) as count from memberpagecnt where id!='25'");
-      list($records) = $S->fetchrow();
-      $totalmembers = $S->query("select id from memberpagecnt where id!='25' group by id");
-
-      foreach($ar as $k=>$t) {
-        $cnt = 0;
-        foreach($t['types'] as $type) {
-          switch($type) {
-            case "Chrome":
-              $stype = "Chrome%Safari";
-              break;
-            case "Safari":
-              $stype = "Safari%') and agent not like('%Chrome";
-              break;
-            default:
-              $stype = $type;
-              break;
-          }
-          // dont count webmaster
-          $n = $S->query("select sum(count) as count from memberpagecnt where id !='25' and agent like('%$stype%')");
-          $count = 0;
-          if($n) {
-            $row = $S->fetchrow();
-            $count = $row['count'];
-            $cnt += $count; 
-            $percent = number_format($count / $total * 100, 2, ".", ",");
-            $count = number_format($count, 0, "", ",");
-            $S->query("select count(*) from memberpagecnt where id !='25' and agent like('%$stype%')");
-            list($un) = $S->fetchrow();
-            $perun = number_format($un / $records * 100, 2, ".", ",");
-            $un = number_format($un, 0, "", ",");
-            $mem = $S->query("select id from memberpagecnt where id !='25' and agent like('%$stype%') group by id");
-            $permem = number_format($mem / $totalmembers * 100, 2, ".", ",");
-            $mem = number_format($mem, 0, "", ",");
-          }
-          $ar[$k]['table'] .= <<<EOF
-<tr><th style='text-align: left'>$type</th><td style='text-align: right'>$count</td>
-<td style='text-align: right'>$percent</td><td style='text-align: right'>$un</td>
-<td style='text-align: right'>$perun</td>
-<td style='text-align: right'>$mem</td>
-<td style='text-align: right'>$permem</td></tr>
+      }
+      
+      foreach($counts as $k=>$v) {
+        foreach($v as $kk=>$vv) {
+          $per = number_format($vv / $total * 100, 2);
+          $vv = number_format($vv);
+          $ar[$k] .= <<<EOF
+<tr>
+<th>$kk</th>
+<td style='text-align: right'>$vv</td>
+<td style='text-align: right'>$per</td>
+</tr>
 
 EOF;
         }
-        $cnt = $total - $cnt;
-        $percent = number_format($cnt / $total * 100, 2, ".", ",");
-        $cnt = number_format($cnt, 0, "", ",");
-        $ar[$k]['table'] .= <<<EOF
-</tbody>
-</table>
-
-EOF;
       }
-
-      $ftotal = number_format($total, 0, "", ",");
-      $records = number_format($records, 0, "", ",");
-
+$srecords = number_format($records);
+$stotal = number_format($total);
+$stotalmembers = number_format($totalmembers);
       $tbl = <<<EOF
 <table border="1">
 <tbody>
-<tr><td>Total Records</td><td style="text-align: right; padding: 5px">$records</td></tr>
-<tr><td>Total Visits</td><td style="text-align: right; padding: 5px">$ftotal</td></tr>
-<tr><td>Total Visitors</td><td style="text-align: right; padding: 5px">$totalmembers</td</tr>
+<tr><td>Total Records</td><td style="text-align: right; padding: 5px">$srecords</td></tr>
+<tr><td>Total Visits</td><td style="text-align: right; padding: 5px">$stotal</td></tr>
+<tr><td>Total Visitors</td><td style="text-align: right; padding: 5px">$stotalmembers</td</tr>
 </tbody>
 </table>
-
 <div id='osBrowserCntDiv' class='wrapper' style='width: 100%'>
 <br>
 <div id='OScnt' style="margin-bottom: 20px">
-{$ar[OS]['table']}
+{$ar['os']}
+</tbody>
+</table>
 </div>
-<div id='browserCnt'>
-{$ar['Browser']['table']}
+<div id='Browsercnt' style="margin-bottom: 20px">
+{$ar['browser']}
+</tbody>
+</table>
 </div>
 </div>
-<p style="clear: both">Note that in some cases a &quot;Visitor&quot; (that is an IP Address) has used two or more different browsers which makes the
-total visitor and percent visitors more than the number of IP Addresses. For example a couple of our members use both Firefox (good)
-and Microsoft Internet Explorer (bad) on the same computer (IP Adddress).</p>
-<p>Also note that some of our visitors use several different computers (work, home, laptop etc). And finally most visitors have
-dynamic rather than static IP Addresses supplied by there Internet Service Provider (ISP). That means that from time to time
-their ISP changes their IP Address. All very complicated.</p>
-<ul style="clear: both; padding-top: 20px">
-<li>The <i>Visits</i> columns show the total number of times a member with the <b>OS</b> or <b>Browser</b> visited our site.</li>
-<li>The <i>Records</i> columns shows the total number of times the <b>IP/AGENT</b> was used to access our site (the
-&quot;User Agent String&quot; has information about the OS and Browser.)</li>
-<li>The <i>Visitors</i> columns show the number of members using the <b>OS</b> or <b>Browser</b>.</li>
-</ul>
-<p>This table does <b>not</b> include the accesses by the Webmaster as that would skew the results toward Linux and Firefox.</p>
 
 EOF;
       echo $tbl;
@@ -236,17 +264,21 @@ $t = new dbTables($S);
 $sql = "select id, concat(FName, ' ', LName) from rotarymembers";
 $S->query($sql);
 $members = array();
+
 while(list($id, $name) = $S->fetchrow('num')) {
   $members[$id] = $name;
 }
 
 $sql = "select ip, id from memberpagecnt";
+
 $S->query($sql);
+$memberbyip = array();
+
 while(list($ip, $id) = $S->fetchrow('num')) {
-  $memberbyip[$ip] = $members[$id];
+  $memberbyip[$ip] = $id;
 }
 
-$members = json_encode($members);
+$jmembers = json_encode($members);
 
 $h->extra = <<<EOF
   <link rel="stylesheet"  href="css/tablesorter.css" type="text/css" />
@@ -256,9 +288,7 @@ $h->extra = <<<EOF
   <script>
 jQuery(document).ready(function($) {
   var tablename="{$_GET['table']}";
-  var idName=$members;
-  //var memberByIp=$memberbyip;
-
+  var idName=$jmembers;
   var flags = {webmaster: false, robots: false, ip: false , page: false};
 
   $("#tracker").tablesorter().addClass('tablesorter');
@@ -321,6 +351,7 @@ jQuery(document).ready(function($) {
           break;
       }
       $("#"+ flag).text(msg + flag);
+      calcAv();
       return;
     }   
 
@@ -359,15 +390,56 @@ jQuery(document).ready(function($) {
         $("#"+ f).text(msg + f);
       }   
     }
+    calcAv();
+  }
+
+  function calcAv() {
+    // Calculate the average time spend using the NOT hidden elements
+    var av = 0, cnt = 0;
+    $("#tracker tbody :not(:hidden) td:nth-child(7)").each(function(i, v) {
+      var t = $(this).text();
+      if(!t) return true; // Continue
+
+      var ar = t.match(/^(\d{2}):(\d{2}):(\d{2})$/);
+      t = parseInt(ar[1], 10) * 3600 + parseInt(ar[2],10) * 60 + parseInt(ar[3],10);
+      if(t > 7200) return true; // Continue if over two hours 
+ 
+      //console.log("t: %d", t);
+      av += t;
+      ++cnt;      
+    });
+
+    av = av/cnt; // Average
+   
+    var hours = Math.floor(av / (3600)); 
+   
+    var divisor_for_minutes = av % (3600);
+    var minutes = Math.floor(divisor_for_minutes / 60);
+ 
+    var divisor_for_seconds = divisor_for_minutes % 60;
+    var seconds = Math.ceil(divisor_for_seconds);
+
+    var tm = hours.pad()+":"+minutes.pad()+":"+seconds.pad();
+
+    console.log("av time: ", tm);
+    $("#average").html(tm);
+  }
+
+  Number.prototype.pad = function(size) {
+    var s = String(this);
+    while (s.length < (size || 2)) {s = "0" + s;}
+    return s;
   }
 
   // To start Webmaster is hidden
 
-  $("#tracker td:nth-child(2)").each(function(i, v) {
+  $("#tracker td:nth-child(2) span.co-ip").each(function(i, v) {
     if($(v).text() == myIp) {
-      $(v).addClass("webmaster").css("color", "green").parent().hide();
+      $(v).parent().addClass("webmaster").css("color", "green").parent().hide();
     }
   });
+
+  calcAv();
 
   // To start Robots are hidden
 
@@ -381,31 +453,6 @@ jQuery(document).ready(function($) {
                        "<button id='page'>Only page</button>"+
                        "<button id='ip'>Only ip</button>"+
                        "</div>");
-
-  $("#tracker td:nth-child(2)").hover(function(e) {
-    var ip = $(this).text();
-    var pos = $(this).offset();
-    var id = new Array;
-    var i;
-    for(i in memberByIp) {
-      if(i == ip) {
-        id.push(memberByIp[i]);
-      }
-    }
-    if(id.length == 0) {
-      return false;
-    }
-
-    var name = '';
-
-    for(var i in id) {
-      name += idName[id[i]] + "<br>";
-    }
-    $("#popup").html(name).css({display: 'block', top: pos.top, left: pos.left+50});
-  },
-  function(e) {
-    $("#popup").hide();
-  });
 
   // ShwoHide Webmaster clicked
 
@@ -709,6 +756,11 @@ button {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
+.country {
+  border: 1px solid black;
+  padding: 3px;
+  background-color: #8dbdd8;
+}
 #tracker {
   width: 100%;
 }
@@ -765,7 +817,7 @@ button {
   </style>
 EOF;
 
-$h->banner = "<h2>Web Site Statistics</h2>";
+$h->banner = "<h2>Web Site Statistics</h2><p>All times are New York time.</p>";
 $h->title = "Web Site Statistics";
 
 list($top, $footer) = $S->getPageTopBottom($h);
@@ -940,14 +992,26 @@ echo <<<EOF
 </div>
 EOF;
 
+$sql = "select ip from tracker where starttime > date_sub(now(), interval 3 day)";
+
+$S->query($sql);
+$tkipar = array();
+
+while(list($tkip) = $S->fetchrow('num')) {
+  $tkipar[] = $tkip;
+}
+$list = json_encode($tkipar);
+$ipcountry = file_get_contents("http://www.bartonlp.com/webstats-new.php?list=$list");
+$ipcountry = (array)json_decode($ipcountry);
+
 function tcallback(&$row, &$desc) {
-  global $memberbyip, $S;
+  global $memberbyip, $members, $S, $ipcountry;
 
-  $agent = $S->escape($row['agent']);
+  $ip = $S->escape($row['ip']);
 
-  if($S->query("select agent from bots2 where agent='$agent'")) {
-    $desc = preg_replace("~<tr>~", "<tr class='bot'>", $desc);
-  }
+  $co = $ipcountry[$ip];
+
+  $row['ip'] = "<span class='co-ip'>$ip</span><br><div class='country'>$co</div>";
   
   $ref = urldecode($row['referrer']);
   // if google then remove the rest because google doesn't have an info in q= any more.
@@ -955,16 +1019,17 @@ function tcallback(&$row, &$desc) {
     $ref = preg_replace("~\?.*$~", '', $ref);
   }
   $row['referrer'] = $ref;
-  if($memberbyip[$row['ip']]) {
-    $row['Member'] = "{$memberbyip[$row['ip']]}";
+
+  if($memberbyip["$ip"]) {
+    $row['Member'] = $members[$memberbyip["$ip"]];
   } else {
     $row['Member'] = '';
+    
+    if($S->query("select ip from bots where ip='$ip'")) {
+      $desc = preg_replace("~<tr>~", "<tr class='bot'>", $desc);
+    }
   }
 }
-
-$sql = "select sec_to_time(sum(difftime)/count(*)) from tracker where endtime!='' && hour(difftime)=0";
-$S->query($sql);
-list($av) = $S->fetchrow('num');
 
 $sql = "select page, ip, 'Member', agent, starttime, endtime, difftime as time, referrer ".
        "from tracker where starttime > date_sub(now(), interval 3 day) order by starttime desc";
@@ -980,7 +1045,7 @@ echo <<<EOF
 <h2 class='table'>Page Tracker</h2>
 <div class='table' name="tracker">
 <p>From the <i>tracker</i> table for last 3 days.</p>
-<p>Average stay time: $av (times over an hour are discarded.)</p>
+<p>Average stay time: <span id='average'></span> (times over an hour are discarded.)</p>
 
 <a name='tracker'></a>
 $trackertable
@@ -1003,19 +1068,12 @@ $trackertable
 <!-- Side by Side -->
 <h2 class="table">OS and Browsers for Our Site</h2>
 <div class="table" name="osoursite1">
-<p>From <i>memberpagecnt</i> table. This shows <b>Only Members</b> ie. people who have <i>Logged In</i>.</p>
+<p>From <i>memberpagecnt</i> table.
+This shows <b>Only Active Granby Members and NOT the Webmaster</b>.<br>
+<b>Total Records</b> and <b>Total Vists</b> includes every page on the site.<br>
+Total Visitors should equal the <b>Members Who Visited
+Our Site</b> at the top of the page less the Webmaster.</p>
 </div>
-<!-- Side by Side -->
-<!--
-<hr/>
-<h2 class="table">OS and Browsers for Lamphost.net</h2>
-<div class="table" name="oslamphost">
-<p>Note the <i>Other</i> catigory. This is made up of <b>Robots</b>, <b>Cell Phones</b> and miscellaneous other odd agents.
-We are relying on the <i>User Agent String</i> provided by browsers for both OS and Browser identification. Some Robots do not have
-anything we can use to identify the OS or the Browser. For example, &quot;Baiduspider+(+http://www.baidu.com/search/spider.htm)&quot;
-has no OS  or Browser information.</p>
-</div>
--->
 </div>
 <hr/>
 

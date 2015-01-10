@@ -45,7 +45,8 @@ while(<>) {
 print "</urlset>\n";
 __END__
 
-=head1 SYNOPSIS
+
+   =head1 SYNOPSIS
 
 updatesitemap.pl [options] <file with the names of files to include in site map>
 

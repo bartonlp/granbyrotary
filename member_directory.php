@@ -7,7 +7,7 @@ if(file_exists(TOPFILE)) {
 $S = new GranbyRotary;
 
 $h->extra = <<<EOF
-  <script type='text/javascript'>
+  <script>
 $(document).ready(function() {
   // put select boxes in
 
@@ -89,10 +89,10 @@ $(document).ready(function() {
     $("#child").hide();
   });
 
-  $("form").append("<input style='position: fixed; top: 10px; left: 80%;' id='#sendemails' type='submit' value='Compose Emails'>");
+  $("form").append("<input style='position: fixed; top: 10px; right: 20px;' id='#sendemails' type='submit' value='Compose Emails'>");
 });
   </script>  
-  <style type='text/css'>
+  <style>
 #loginMsg {
         text-align: center;
 }
@@ -100,35 +100,15 @@ $(document).ready(function() {
         font-variant: small-caps;
         font-size: x-large;
 }
-#parent {
-        border: 4px outset gray;
-        color: white;
-        position: relative;
-        top: -10px;
-        padding-right: 1em;
-        padding-left: 1em;
-        background-color: red;
-}
-#child {
-        display: inline;
-}
-#child a {
-        border: 1px solid black;
-        display: block;
-        padding: 2px 5px;
-        background-color: white; /* #FFFFEE; */
-}        
-
-#todayGuests, #todayGuests * {
-        background-color: white;
-        border: 1px solid black;
-}
-#todayGuests * {
-        padding: 5px;
-}
-
 table {
         width: 100%;
+}
+@media (max-width: 820px) {
+        form > table td, form > table th { display: none; }
+        table td:first-child, td table td:nth-child(2),
+        table th:first-child {
+          display: table-cell;
+        }
 }
   </style>
 EOF;
@@ -142,28 +122,23 @@ list($top, $footer) = $S->getPageTopBottom($h);
 // contact information.
 
 if($S->id != 0) {
-  $whos = $S->getWhosBeenHereToday();
-
   $greet = <<<EOF
 <div id='welcomemember' style='width: 400px; margin-left: auto; margin-right: auto; text-align: center;'>
 <p>Welcome {$S->getUser()}</p>
 </div>
 <hr/>
-
-<div style="width: 50%; margin: auto auto 20px">
-$whos
-</div>
-
 EOF;
 } else {
   // NO ID YET
 
   $greet = <<<EOF
 <h3 id='loginMsg'>To use this feature you must login.<br>
-If you are a Grand County Rotarian please <a href='login.php?return=$S->self'>Login</a> at this time.<br/>
+If you are a Grand County Rotarian please
+<a href='login.php?return=$S->self'>Login</a> at this time.<br/>
 There is a lot more to see if you <a href='login.php?return=$S->self'>Login</a>!
 </h3>
-<p style='text-align: center'>Not a Grand County Rotarian? You can <b>Register</b> as a visitor.
+<p style='text-align: center'>Not a Grand County Rotarian?
+You can <b>Register</b> as a visitor.
 <a href="login.php?return=$S->self&page=visitor">Register</a></p>
 <hr/>
 EOF;
@@ -178,8 +153,8 @@ EOF;
 
 if(!empty($S->id) && $S->isMember()) {
   $member = <<<EOF
-<br/>Or to send multiple emails check the names and use
-the button at the bottom to submit the list.<br/>
+<br>Or to send multiple emails check the names and use
+the button at the bottom to submit the list.<br>
 
 EOF;
 }
@@ -333,11 +308,6 @@ EOF;
 }
 
 echo <<<EOF
-<!--
-clubofficersemail.php is in the Archive directory. The database table 'clubofficers' is probably very
-out of data by now.
-<h3><a href="clubofficersemail.php">District 5450 Club Presidents Email</a></h3>
--->
 <hr/>
 $footer
 EOF;

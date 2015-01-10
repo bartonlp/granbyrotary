@@ -139,7 +139,7 @@ will not be able to log into the site.</p>
 <p>If you have questions please email <a href='mailto:webmaster@granbyrotary.org?subject=Questions'>webmaster@granbyrotary.org</a></p>
 
 <form action='$S->self' method='post'>
-   Enter Email Address: <input type='text' name='newemail'>
+   Enter Email Address: <input type='text' autofocus name='newemail'>
    <input type='hidden' name='return' value='$return'>
    <input type='hidden' name='page' value='memberstep2'>
    <input type='submit' name='submit'>
@@ -221,7 +221,7 @@ EOF;
 
   // Almost done, now check to see if the cookie took.
   
-  header("Location: $S->self?page=testcookie&id=$id&return=$return\n\n");
+  header("Location: $S->self?page=testcookie&id=$id&return=$return\r\n");
   exit();
   
 }
@@ -246,7 +246,7 @@ function checkpassword($S) {
   if($password == $rowpassword) {
     $S->setIdCookie($id);
 
-    header("Location: $S->self?page=testcookie&id=$id&return=$return\n\n");
+    header("Location: $S->self?page=testcookie&id=$id&return=$return\r\n");
   } else {
     $banner = $S->getBanner("<h1>Password does not match</h1>");
 
@@ -318,7 +318,7 @@ EOF;
     exit();
   }
 
-  header("Location: $return\n\n");
+  header("Location: $return\r\n");
 }
 
 // ********************************************************************************
@@ -537,7 +537,7 @@ EOF;
   
   $S->setIdCookie($id);
   
-  header("Location: $S->self?page=testcookie&id=$id&return=/index.php\n\n");
+  header("Location: $S->self?page=testcookie&id=$id&return=/index.php\r\n");
 }
 
 ?>

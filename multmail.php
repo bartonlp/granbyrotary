@@ -69,7 +69,7 @@ require_once('Mail/mime.php');
 
   $attachedFiles = "";
   
-  foreach ($_FILES["userfile"]["error"] as $k => $error) {
+  foreach($_FILES["userfile"]["error"] as $k => $error) {
     if ($error == UPLOAD_ERR_OK) {
       $tmp_name = $_FILES["userfile"]["tmp_name"][$k];
       $filename = $_FILES["userfile"]["name"][$k];

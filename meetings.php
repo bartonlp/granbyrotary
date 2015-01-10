@@ -8,6 +8,7 @@ if(file_exists(TOPFILE)) {
 } else throw new Exception(TOPFILE . "not found");
 
 $S = new GranbyRotary;
+$S->d = date("U");
 
 $s->siteclass = $S;
 $s->site = "granbyrotary.org";
@@ -33,29 +34,77 @@ if($item !== false) {
 EOF;
 }
 
+$h->link = <<<EOF
+  <!-- force lanscape -->
+  <link rel="manifest" href="manifest.json">
+EOF;
+
 if($_GET['print']) {
-  $extra = <<<EOF
-   <link id="printcss" rel="stylesheet" href="css/print.css"
-       type="text/css" title="print" media="print" />
+  $h->link .= <<<EOF
+  <!-- Print css -->
+  <link id="printcss" rel="stylesheet" href="css/print.css"
+        title="print" media="print" />
 EOF;
 }
 
-$extra .= <<<EOF
-   <script type="text/javascript">
+$h->script = <<<EOF
+  <!-- local script -->
+  <script>
 jQuery(document).ready(function($) {
-  $("#print").html("<input type='image' id='printbtn' src='images/print.gif' style='width: 100px'/>");
+  $("#print").html("<input type='image' id='printbtn' src='images/print.gif' " +
+                   "style='width: 100px'/>");
+
   $("#printbtn").click(function() {
-    var w = window.open("/meetings.php?print=1", "Print", "width=800, height=600, menubar=yes,\
-      scrollbars=yes, resizable=yes");
+    var w = window.open("/meetings.php?print=1", "_blank",
+                        "width=2400, height=2000, menubar=yes, scrollbars=yes, "+
+                        "fullscreen=yes, resizable=yes");
   });
 });
-   </script>
-   <style>
+  </script>
+EOF;
+
+$h->css = <<<EOF
+  <!-- local css -->
+  <style>
+#use-landscape {
+  position: fixed;
+  top: 200px;
+  left: 0px;
+  width: 100%;
+  display: none;
+}
+#use-landscape p {
+  text-align: center;
+  font-size: 1.15em;
+  margin-top: 20%;
+}
+@media (max-width: 800px) and (orientation: portrait) {
+  main {
+    opacity: .1;
+  }
+  header {
+    opacity: .1;
+  }
+  h3 {
+    opacity: .1;
+  }
+  #bottom {
+    opacity: .1;
+  }
+  #use-landscape {
+    display: block;
+  }
+}
+.special {
+  color: red;
+  background-color: white;
+  padding: 5px;
+}
 #assignments {
         border: 1px solid black;
         background-color: white;
 }
-#assignments table {
+#assignments {
         width: 100%;
 }
 #assignments * {
@@ -63,7 +112,7 @@ jQuery(document).ready(function($) {
         font-size: 90%;        
 }
 #assignments td {
-        padding: 5px 10px;
+        padding: 5px;
 }
 .bis {
         font-style: italic;
@@ -72,16 +121,19 @@ jQuery(document).ready(function($) {
 .date {
         color: red;
 }
-   </style>
-
+  </style>
 EOF;
 
-echo $S->getPageHead("Meeting Programs", null,  $extra);
+$h->title = "Meetings";
+$h->banner = "<h1>Program Assignments</h1>";
 
+$S->top = $S->getPageHead($h);
 $footer = $S->getFooter();
 
+// The top and body of the page
+
 if($date = $_GET['date']) {
-  Edit( $date);
+  Edit($date);
 } elseif($_GET['print']) {
   PrintIt($S);
 } elseif($date = $_POST['post']) {
@@ -90,17 +142,19 @@ if($date = $_GET['date']) {
   Show($message);
 }
 
-// The bottom of the page
+// Bottom of page
 
 echo <<<EOF
+<div id="use-landscape"><p>Rotate Your Device to Landscape</p></div>
+<div id="bottom">
 <hr/>
 
 <p>If you have conflicts with the schedule, please arrange a change of date with
   another member.</p>
 <hr/>
+</div>
 $footer
 EOF;
-
 
 // END OF MAIN
 // ---------------------------------------
@@ -110,13 +164,15 @@ EOF;
 
 function Show($message) {
   global $S;
-  
-  $top = $S->getBanner("<h2>Program Assignments</h2>");
+
+  $banner = $S->getBanner("<h2>Program Assignments</h2>");
+
 
   if($S->id != 0) {
     echo <<<EOF
-$top
-<h3 id='loginMsg'>Welcome {$S->getUser()}.</h3>
+$S->top
+$banner
+<h3 class="center">Welcome {$S->getUser()}.</h3>
 <hr/>
 <!-- Start UpdateSite: Message -->
 $message
@@ -124,8 +180,9 @@ $message
 EOF;
   } else {
     echo <<<EOF
-$top
-<h3 id='loginMsg'>If you are a Grand County Rotarian please <a href='login.php?return=$S->self'>Login</a> at this time.<br/>
+$S->top
+$banner
+<h3 class="center">If you are a Grand County Rotarian please <a href='login.php?return=$S->self'>Login</a> at this time.<br/>
 There is a lot more to see if you <a href='login.php?return=$S->self'>Login</a>!
 </h3>
 <p style='text-align: center'>Not a Grand County Rotarian? You can <b>Register</b> as a visitor.
@@ -142,7 +199,7 @@ EOF;
     global $S;
     
     $row[Status] = preg_replace("/-/", " ", $row['Status']);
-    switch($row['Editable']) {
+    switch($row['Edit']) {
       case 'business':
         $row['Presenter'] = "<span class='bis' style='border: 0'>Business Meeting</span>";
         if($row['Subject'] == "") {
@@ -168,9 +225,9 @@ EOF;
     }
 
     if(($row['id'] == $S->id && $S->id != 0) || ($S->isAdmin($S->id))) {
-      $row['Editable'] = "<a href='$S->self?date=$row[Date]'>EDIT</a>";
+      $row['Edit'] = "<a href='$S->self?date=$row[Date]&d=$S->d'>EDIT</a>";
     } else {
-      $row['Editable'] = "";
+      $row['Edit'] = "";
     }
     
     return false;
@@ -181,11 +238,11 @@ EOF;
   // test of the logic.
 
   $query = "select r.id, date as Date, concat(FName, ' ', LName) as Owner, yes as Status, name as Presenter, subject as Subject, " .
-           "type as Editable from meetings as m ".
+           "type as Edit from meetings as m ".
            "left join rotarymembers as r on r.id=m.id where date_add(date, interval 1 day) > now() order by date";
 
   $rowdesc = "<tr><td class='date'>%Date%</td><td>%Owner%</td><td>%Status%</td><td>%Presenter%</td><td>%Subject%</td>".
-             "<td>%Editable%</td></tr>";
+             "<td>%Edit%</td></tr>";
 
   $header = "<thead><tr>%<th>*</th>%</tr></thead>";
   $t = new dbTables($S);
@@ -197,8 +254,9 @@ EOF;
   $hdr = preg_replace("/<th>id<\/th>/", '', $hdr);
   
   echo <<<EOF
+<main>
 <div>
-<p>You can edit the assignments that belong to you. If there is an <b>EDIT</b> link in the <i>Editable</i> field
+<p>You can edit the assignments that belong to you. If there is an <b>EDIT</b> link
 you can click on it and change the fields. Here is what you can do:
 <ul>
 <li>Change you <b>Status</b> to &quot;confirmed&quot;. Once you do this, even if you do not have a subject yet,
@@ -207,6 +265,13 @@ the email &quot;Heckling&quot; will stop!</li>
 you can change the name in the <b>Presenter</b> field to that persion's name. <b>The assignment still belongs to you however</b></li>
 <li>You can update the <b>Subject</b> field</li>
 </ul>
+<p class="special">An automated email is sent to the SkyHiNews early on the Thursday
+before your talk. The SkyHiNews posts the information in the paper for a week starting
+the Friday before our meeting. If you don't have your information updated by the
+Thursday before your talk the email goes out with your name and &quot;TBD&quot; which
+looks dumb and usually does not get into the paper. Please try to get your talk
+information updated before the Wednesday meeting prior to your talk.</p>
+
 <div id="print">
 <a href="$S->self?print=1"><img src="images/print.gif" width="100" alt="print logo"/></a>
 </div>
@@ -217,10 +282,8 @@ $hdr
 $table
 </tbody>
 </table>
-
-
+</main>
 EOF;
-
 }
 
 //--------------------
@@ -237,11 +300,13 @@ function Edit($date) {
   $row = $S->fetchrow();
   extract($row);
 
-  echo $S->getBanner("<h2>Edit Your Program Assignment</h2>");
+  $banner = $S->getBanner("<h1>Edit Your Program Assignment</h1>");
 
   $options = array('not confirmed', 'confirmed', 'can-not');
   
   echo <<<EOF
+$S->top
+$banner
 <h3>Responsible Member: $FName $LName</h3>
 <p>$FName if you know your subject and who will be doing the presentation please fill in those items.
 If you do not yet have a subject etc. but you <b>will</b> be doing the presentation, please select <b>confirmed</b>
@@ -340,7 +405,13 @@ function Post($date) {
   
   // $id here is the member who is responsible
 
-  echo $S->getBanner("<h2>Post Updated to Program Assignment</h2>");
+  $banner = $S->getBanner("<h1>Post Updated to Program Assignment</h1>");
+
+  echo <<<EOF
+$S->top
+$banner
+
+EOF;
 
   switch($id) {
     case 0:
@@ -428,13 +499,13 @@ EOF;
 // PRINT
 
 function PrintIt($S) {
-  $dbtables = new dbTables($S);
+  $T = new dbTables($S);
   
   function callback2(&$row, &$desc) {
-     if($row[type] == "business") {
-      $row[name] = "<span class='bis' style='border: 0'>Business Meeting</span>";
-      if($row[subject] == "") {
-        $row[subject] = "various";
+     if($row['type'] == "business") {
+      $row['name'] = "<span class='bis' style='border: 0'>Business Meeting</span>";
+      if($row['subject'] == "") {
+        $row['subject'] = "various";
       }
      }
      return false;
@@ -442,12 +513,11 @@ function PrintIt($S) {
     
   $query = "select * from meetings where date_add(date, interval 1 day) > now() order by date";
   $rowdesc = "<tr><td>date</td><td>name</td><td>subject</td></tr>";
-//  $table = $dbtables->maketbodyrows($query, $rowdesc, callback2);
-    $table = $dbtables->makeresultrows($query, $rowdesc, array('callback'=>'callback2'));
+  $table = $T->makeresultrows($query, $rowdesc, array('callback'=>'callback2'));
   
   echo <<<EOF
-<body>
-<table id='assignments' style="width: 100%">
+$S->top
+<table id='assignments'>
 <thead>
 <tr><th>Date</th><th>Name</th><th>Subject</th></tr>
 </thead>
@@ -458,7 +528,7 @@ $table
 </body>
 </html>
 EOF;
-exit();
+  exit();
 }
 
 ?>

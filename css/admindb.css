@@ -1,0 +1,31 @@
+#tbldiv {
+  overflow-x:scroll;  
+  margin-left: 255px;
+  overflow-y:visible;
+}
+#bigdiv {
+  border: 1px solid black;
+  border-top: 5px solid #333;
+}
+#datatable {
+        font-size: 18px;
+}
+#datatable th:nth-child(1), #datatable td:nth-child(1) {
+  position: absolute;
+  width: 50px;
+  left: 11px;
+  top: auto;
+}
+#datatable th:nth-child(2), #datatable td:nth-child(2)
+{
+  position: absolute;
+  width: 95px;
+  left: 66px;
+  top: auto;
+}
+#datatable th:nth-child(3), #datatable td:nth-child(3) {
+  position: absolute;
+  width: 95px;
+  left: 166px;
+  top: auto;
+}
