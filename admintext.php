@@ -45,7 +45,7 @@ $top
 <p>Most pages have <i>Special Section</i> that can be updated ON-Line.</p>
 <ul>
 <li><a target="_blank" href="updatesite.php?d=$date">Update the Special Sections in Pages</a></li>
-<li><a target="_blank" href="updatesiteadmin.php?d=$date">Administer Update Site Table</a></li>
+<li><a target="_blank" href="updatesiteadmin.php">Administer Update Site Table</a></li>
 <li><a target="_blank" href="showupdateareas.php?page=$sender&d=$date">Show Update Areas</a>.<br>
 Update areas are shown with a <span style="background-color: #CCFFCC;">Light Green</span>
 background and 

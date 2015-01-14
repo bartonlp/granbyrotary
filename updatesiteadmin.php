@@ -1,13 +1,10 @@
 <?php
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . "not found");
+require_once("/home/barton11/includes/siteautoload.php");
 
 $S = new GranbyRotary;
 
 $errorhdr = <<<EOF
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <meta name="robots" content="noindex">
@@ -32,7 +29,7 @@ $s->site = "granbyrotary.org";
 if(!$_GET && !$_POST) {
   $_GET['page'] = "admin"; // Force us to the admin page if not get or post
 }
-                       
+
 $updatepage = UpdateSite::secondHalf($S, $h, $s);
 
 echo <<<EOF

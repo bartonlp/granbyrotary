@@ -6,10 +6,7 @@
 // members.
 // We no longer ask for the number of weeks because we always use all of the members.
 
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . " not found");
+require_once("/home/barton11/includes/siteautoload.php");
 
 $S = new GranbyRotary;
 define(BUSINESS_MEETING_WEEK, 0); // first week of the month!

@@ -39,7 +39,8 @@ foreach($opentxt as $t) {
     preg_match("/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*?\"-\" \"(.*?)\"/", $v, $m);
 
     // bots2 has only agents
-    $S->query("insert ignore into bots2 values('$m[2]')");
+    $agent = $S->escape($m[2]);
+    $S->query("insert ignore into bots2 values('$agent')");
     
     try {
       // bots has only ip addresses
