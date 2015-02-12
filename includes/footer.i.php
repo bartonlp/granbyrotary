@@ -31,4 +31,3 @@ alt="site stats"></a></div></noscript>
 </body>
 </html>
 EOF;
-?>

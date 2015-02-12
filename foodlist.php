@@ -1,10 +1,7 @@
 <?php
 // BLP 2014-08-25 -- remove qty etc.
 // BLP 2014-08-21 -- Food list for fund raisers
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . "not found");
+require_once("/var/www/includes/siteautoload.class.php");;
 
 $S = new GranbyRotary;
 $S->t = new dbTables($S);

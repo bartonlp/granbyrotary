@@ -1,5 +1,5 @@
 <?php
-require_once("/home/barton11/includes/granbyrotary.conf");
+require_once("/var/www/includes/siteautoload.class.php");
 $S = new GranbyRotary;
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

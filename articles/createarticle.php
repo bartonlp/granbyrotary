@@ -4,10 +4,7 @@
 // Create an article or edit an article
 // To create an article either NO 'query' or ?page=
 // To edit an article ?page=edit
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . " not found");
+require_once("/var/www/includes/siteautoload.class.php");
 
 $S = new GranbyRotary;  // not header etc.
 
@@ -565,4 +562,3 @@ $top
 $footer
 EOF;
 }
-?>

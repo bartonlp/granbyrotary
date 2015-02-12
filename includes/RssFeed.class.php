@@ -63,5 +63,3 @@ class RssFeed {
     return $this->rawdata;
   }
 }
-    
-?>

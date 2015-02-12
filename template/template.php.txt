@@ -1,6 +1,6 @@
 <?php
 // <start> Standard Start Stuff 
-require_once("/home/barton11/includes/granbyrotary.conf");
+require_once("/var/www/includes/siteautoload.class.php");
 $S = new GranbyRotary;
 
 require_once("$DocRootPath/tbs_class.php");

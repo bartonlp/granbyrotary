@@ -1,1 +1,1 @@
-../includes/siteautoload.php
+../includes/siteautoload.class.php

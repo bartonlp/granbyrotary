@@ -3,10 +3,7 @@
 // BLP 2014-08-03 -- empty columns should be posted as they my be removing something. Also added
 // new logic for ctrls input selection. Add PRINT function.
 
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . "not found");
+require_once("/var/www/includes/siteautoload.class.php");
 
 $S = new GranbyRotary;
 

@@ -14,7 +14,7 @@ my $DEBUG = 0;     #debug some
 
 my $DBH;
 
-$DBH = DBI->connect('dbi:mysql:barton11_granbyrotarydotorg', 'barton11_barton', '7098653') or die "Can't connect";
+$DBH = DBI->connect('dbi:mysql:granbyrotarydotorg', 'barton', '7098653') or die "Can't connect";
 
 my $query = "select r.FName, r.LName, r.Email, m.yes, m.name, m.date, m.subject from rotarymembers as r " .
             "left join meetings as m on r.id = m.id ".

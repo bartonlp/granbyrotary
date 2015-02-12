@@ -6,7 +6,7 @@
 // members.
 // We no longer ask for the number of weeks because we always use all of the members.
 
-require_once("/home/barton11/includes/siteautoload.php");
+require_once("/var/www/includes/siteautoload.class.php");
 
 $S = new GranbyRotary;
 define(BUSINESS_MEETING_WEEK, 0); // first week of the month!
@@ -197,4 +197,3 @@ function find_first_day_ofweek($week, $year, $start_of_week='sunday') {
 
    return $first_day;
 }
-?>

@@ -13,10 +13,7 @@
 // Item 4 is not manditory and can either be ignored or replaced by your own function updatesite_preview(...).
 // I have a simpler version of the preview 'updatesite-simple-preview.php' that can be used instead.
 
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . "not found");
+require_once("/var/www/includes/siteautoload.class.php");;
 
 $S = new GranbyRotary; // This sites Class
 
@@ -58,4 +55,3 @@ $page
 <a href="updatesiteadmin.php">Administer Update Site Table</a><br/>
 $footer
 EOF;
-?>

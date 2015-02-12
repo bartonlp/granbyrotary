@@ -1,6 +1,6 @@
 #!/bin/bash
 # backup the Sitemap.xml and then create a new one
-cd /home/barton11/granbyrotarydotorg/
+cd /var/www/granbyrotarydotorg/
 dir=other
 bkupdate=`date +%B-%d-%y`
 filename="Sitemap.$bkupdate.xml"

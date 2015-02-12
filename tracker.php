@@ -3,10 +3,7 @@
 
 //ini_set("error_log", "/tmp/debugblp.txt");
 
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . " not found");
+require_once("/var/www/includes/siteautoload.class.php");
 
 Error::setNoEmailErrs(true); // For debugging
 Error::setDevelopment(true); // during development
@@ -62,4 +59,3 @@ echo <<<EOF
 </body>
 </html>
 EOF;
-?>

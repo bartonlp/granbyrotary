@@ -4,6 +4,7 @@
 
 $referer = $_SERVER['HTTP_REFERER'];
 
+/*
 if(!preg_match("/granbyrotary\.org/", $referer)) {
   echo <<<EOL
 <h1>Access Forbiden</h1>
@@ -12,11 +13,9 @@ if(!preg_match("/granbyrotary\.org/", $referer)) {
 EOL;
   exit();
 }
+*/
 
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . " not found");
+require_once("/var/www/includes/siteautoload.class.php");
 
 $myIp = gethostbyname($siteinfo['myUri']); // get my home ip address
 
@@ -1173,5 +1172,3 @@ only Linux user (though I have tested the site with Windows XP, Windows 7 and Wi
 <hr/>
 $footer
 EOF;
-
-?>

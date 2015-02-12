@@ -13,7 +13,7 @@ $pageHeadText = <<<EOF
   <!-- Google verification tag -->
   <meta name="google-site-verification" content="FtWTx_Hn0ie5lTF42jPm5zjVtsDtBFC1MC7kyDJ99AU" />
   <meta name="verify-v1" content="dgAIXuJJft+YWGYjqA2g/NbkCkbfkMdqtAjtx3E4nkc="/>
-  <base href="http://www.granbyrotary.org">
+  <!--<base href="http://www.granbyrotary.org">-->
   <!-- FAVICON.ICO -->
   <link rel="shortcut icon" href="http://www.granbyrotary.org/favicon.ico" type="image/x-icon" />
   <!-- RSS FEED -->
@@ -35,4 +35,3 @@ $pageHeadText = <<<EOF
 {$arg['css']}
 </head>
 EOF;
-?>

@@ -18,14 +18,14 @@
    // and one for the site information ($siteinfo). These are used by the Database class and the
    // SiteClass.
    
-define('TOP', '/home/barton11'); // on lamphost.net this would be '/home/bartonlp'
+define('TOP', '/var/www'); // on lamphost.net this would be '/home/bartonlp'
 define('INCLUDES', TOP."/includes");
 define('DATABASE_ENGINES', INCLUDES."/database-engines");
 define('SITE_INCLUDES', SITE_ROOT."/includes"); // SITE_ROOT is defined in siteautoload.php!
 
 // Email info and logfile location
 
-define('LOGFILE', "/home/barton11/includesdatabase.log");
+define('LOGFILE', "/tmp/database.log");
 
 define('EMAILADDRESS', "bartonphillips@gmail.com");
 define('EMAILRETURN', "bartonphillips@gmail.com");
@@ -36,9 +36,9 @@ define('EMAILFROM', "webmaster@bartonphillips.com");
 // later
 
 $dbinfo = array('host' => 'localhost',
-                'user' => 'barton11_barton',
+                'user' => 'barton',
                 'password' => '7098653',
-                'database' => 'barton11_granbyrotarydotorg',
+                'database' => 'granbyrotarydotorg',
                 'engine' => 'mysqli'
                );
 
@@ -55,5 +55,3 @@ $siteinfo = array('siteDomain' => "granbyrotary.org",
                   'countMe' => true, // Count BLP
                   'myUri' => "bartonphillips.dyndns.org" // if we are at home then 'localhost'
                  );
-
-?>

@@ -9,7 +9,7 @@
       referrer = document.referrer;
 
     $.ajax({
-      url: '/tracker.php',
+      url: 'tracker.php',
       data: {page: 'load', self: self, referrer: referrer },
       type: 'post',
       success: function(data) {
@@ -24,7 +24,7 @@
 
   $(window).unload(function(e) {
     $.ajax({
-      url: '/tracker.php',
+      url: 'tracker.php',
       data: {page: 'unload', id: id },
       type: 'post',
       async: false,

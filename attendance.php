@@ -1,10 +1,7 @@
 <?php
 // BLP 2014-09-01 -- Attendance Report
 
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . "not found");
+require_once("/var/www/includes/siteautoload.class.php");;
 
 $S = new GranbyRotary;
 $S->title = "Granby Rotary Attendance";

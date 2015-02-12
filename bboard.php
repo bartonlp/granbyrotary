@@ -51,10 +51,7 @@
 // still be in the database (until their date comes). However, the rest of the thread is never displayed
 // once the head is removed!
 
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . "not found");
+require_once("/var/www/includes/siteautoload.class.php");;
 
 $S = new GranbyRotary;
 

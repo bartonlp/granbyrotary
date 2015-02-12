@@ -60,4 +60,3 @@ JavaScripts conditionally if your browser supports that. Sorry for the inconvien
 </header>
 <hr/>
 EOF;
-?>

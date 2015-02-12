@@ -1,9 +1,6 @@
 <?php
 // Add the information from the article template to the database
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
-if(file_exists(TOPFILE)) {
-  include(TOPFILE);
-} else throw new Exception(TOPFILE . " not found");
+require_once("/var/www/includes/siteautoload.class.php");
 
 $s = new stdClass;
 $s->count = false;
@@ -97,5 +94,3 @@ function htmlencode($text) {
    $t = preg_replace("/<(.*?)>/sm", "&lt;$1&gt;", $t);
    return $t;
 }
-   
-?>
