@@ -62,7 +62,9 @@ require_once('Mail/mime.php');
   $arrParams['sendmail_path'] = '/usr/sbin/sendmail'; // this is actually a path to postfix. The sendmail is alias for a postfix program on many servers
   $arrParams['sendmail_args'] = "-i -f bartonphillips@gmail.com"; 
 
-  $mail =& Mail::factory('sendmail', $arrParams);
+  $Mail = new Mail;
+  //$mail =& Mail::factory('sendmail', $arrParams);
+  $mail =& $Mail->factory('sendmail', $arrParams);
 
   $attachedFiles = "";
   

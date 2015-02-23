@@ -1,10 +1,12 @@
 <?php
+
 $pageHeadText = <<<EOF
 <head>
   <title>{$arg['title']}</title>
   <!-- METAs -->
   <meta name=viewport content="width=device-width, initial-scale=1">
   <meta charset="utf-8"/>
+  <meta name="copyright" content="$this->copyright">  
   <meta name="Author" content="Barton L. Phillips, mailto:barton@granbyrotary.org" />
   <meta name="description" content="{$arg['desc']}" />
   <meta name="keywords" content="Rotary, Granby, Grand County, Colorado, Grand County All-Club Email" />

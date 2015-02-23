@@ -112,7 +112,7 @@ class GranbyRotary extends SiteClass {
       // virtual access log for the ISP but they stopped letting me look at those logs.
       // It still has good information however.
       
-      $n = $this->query("select ip from bots where ip='$this->ip'");
+      $n = $this->query("select ip from barton.bots where ip='$this->ip'");
 
       if($n) {
         // BOT
@@ -198,7 +198,8 @@ class GranbyRotary extends SiteClass {
       $id = $_COOKIE['SiteId']; // New logic in site.class.php uses SiteId
     }
     
-    $n = $this->query("select FName, LName, Email, districtId, status, otherclub from rotarymembers where id='$id'");
+    $n = $this->query("select FName, LName, Email, districtId, status, otherclub ".
+                      "from rotarymembers where id='$id'");
 
     if(!$n) {
       // OPS DIDN'T FIND THE ID IN THE DATABASE?

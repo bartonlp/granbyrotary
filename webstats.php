@@ -1,5 +1,6 @@
 <?php
 // Display Web Statistics for Granby Rotary
+// BLP 2015-02-12 -- use barton.bots and bots2
 // BLP 2014-11-02 -- tracker average now works with the showing display.
 
 $referer = $_SERVER['HTTP_REFERER'];
@@ -23,10 +24,10 @@ $myIp = gethostbyname($siteinfo['myUri']); // get my home ip address
 
 if($_GET['page'] == 'updatebots') {
   $S = new Database($dbinfo);
-
-  $S->query("insert ignore into bots2 value('{$_GET['agent']}')");
+  // BLP 2015-02-12 -- 
+  $S->query("insert ignore into barton.bots2 (agent) value('{$_GET['agent']}')");
   
-  $sql = "insert ignore into bots (ip) values('{$_GET['ip']}')";
+  $sql = "insert ignore into barton.bots (ip) values('{$_GET['ip']}')";
 
   $n = $S->query($sql);
   
@@ -75,14 +76,14 @@ if($_GET["table"]) {
           } 
         } else {
           $tr .= " class='noId'";
-          $n = $S->query("select ip from bots where ip='$ip'");
+          $n = $S->query("select ip from barton.bots where ip='$ip'");
           if($n) {
             $tr .= " style='color: red'";
           } else {
             // BLP 2014-11-16 -- Look for 'http://' in agent and if found add it to the
             // bots table.
             if(preg_match('~http://~', $row['Agent'])) {
-              $sql = "insert ignore into bots value('$ip')";
+              $sql = "insert ignore into barton.bots value('$ip')";
               $S->query($sql);
               $tr .= " style='color: red'";
             }
@@ -1024,7 +1025,7 @@ function tcallback(&$row, &$desc) {
   } else {
     $row['Member'] = '';
     
-    if($S->query("select ip from bots where ip='$ip'")) {
+    if($S->query("select ip from barton.bots where ip='$ip'")) {
       $desc = preg_replace("~<tr>~", "<tr class='bot'>", $desc);
     }
   }

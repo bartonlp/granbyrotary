@@ -24,11 +24,11 @@ foreach($opentxt as $t) {
 
     // bots2 has only agents
     $agent = $S->escape($m[2]);
-    $S->query("insert ignore into bots2 values('$agent')");
+    $S->query("insert ignore into barton.bots2 values('$agent')");
     
     try {
       // bots has only ip addresses
-      $sql="insert into bots (ip) values('$m[1]')";
+      $sql="insert ignore into barton.bots (ip) values('$m[1]')";
       $new += $S->query($sql);
     } catch(Exception $e) {
       ++$dup;

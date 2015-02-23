@@ -155,32 +155,6 @@ CREATE TABLE `blptest` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `bots`
---
-
-DROP TABLE IF EXISTS `bots`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bots` (
-  `ip` varchar(20) NOT NULL,
-  PRIMARY KEY (`ip`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `bots2`
---
-
-DROP TABLE IF EXISTS `bots2`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bots2` (
-  `agent` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`agent`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `calendar`
 --
 
@@ -302,7 +276,7 @@ CREATE TABLE `emails` (
   `attached` varchar(255) DEFAULT NULL,
   `item` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`item`)
-) ENGINE=MyISAM AUTO_INCREMENT=786 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=807 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,7 +403,7 @@ CREATE TABLE `meetings` (
   `yes` enum('not confirmed','confirmed','can-not') DEFAULT 'not confirmed',
   `id` int(11) NOT NULL,
   `type` enum('speaker','business','none','open') DEFAULT 'speaker',
-  `subject` varchar(255) DEFAULT NULL,
+  `subject` text,
   `link` varchar(255) DEFAULT NULL,
   `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`date`)
@@ -646,7 +620,7 @@ CREATE TABLE `tracker` (
   `difftime` time DEFAULT NULL,
   `referrer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6294 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6694 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -658,4 +632,4 @@ CREATE TABLE `tracker` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-12  1:00:01
+-- Dump completed on 2015-02-23  1:00:01

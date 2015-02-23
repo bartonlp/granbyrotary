@@ -133,8 +133,8 @@ echo <<<EOF
 
 EOF;
 
-$l = split(",", "January,February,March,April,May,June,July,August,September,October,November,December");
-list($y, $m, $d) = split("-", $row['bday']);
+$l = implode(",", "January,February,March,April,May,June,July,August,September,October,November,December");
+list($y, $m, $d) = implode("-", $row['bday']);
 
 foreach ($l as $k=>$mo) {
   $i=$k+1;
