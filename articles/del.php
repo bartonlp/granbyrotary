@@ -11,4 +11,4 @@ if(preg_match("/^\s*$/", $file)) {
 }
 
 echo unlink($file);
-?>
+

@@ -9,7 +9,7 @@
 // Item 2 is not manditory and can either be ignored or replaced by your own function updatesite_preview(...)
 // I have a simpler version of the preview 'updatesite-simple-preview.i.php' that can be used instead
 
-define('TOPFILE', "/home/barton11/includes/siteautoload.php");
+define('TOPFILE', "/var/www/includes/siteautoload.class.php");
 if(file_exists(TOPFILE)) {
   include(TOPFILE);
 } else throw new Exception(TOPFILE . " not found");
@@ -101,4 +101,3 @@ echo <<<EOF
 <a href='howtowritehtml.php'>How to write HTML</a>
 $S->footer
 EOF;
-?>

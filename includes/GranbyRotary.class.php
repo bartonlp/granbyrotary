@@ -57,47 +57,7 @@ class GranbyRotary extends SiteClass {
     }
   }
 
-  /**
-   * getBanner()
-   * Get the banner
-   * Extends base class. Provides the rotary wheel image, a <h1>heading, and $pageTitle.
-   * @param string $pageTitle Default blank
-   * @param bool $nonav don't show navbar
-   * @param string $bodytag
-   * @return string
-   */
   
-  public function getBanner($pageTitle = "", $nonav=null, $bodytag=null)
-  {
-    /*
-    $mainTitle = "<img src='/images/wheel.gif' ".
-                 "title='Granby Rotary Club' alt='Rotary Wheel'/>\n<h1>The Rotary Club of Granby</h1>\n";
-    */
-    $ret = parent::getBanner("$mainTitle\n$pageTitle", $nonav, $bodytag);
-    return $ret;
-  }
-
-  /**
-   * getFooter()
-   * Get Page Footer
-   * Extends base class. No google analitics, and DNT message if isDNT() set.
-   * @param variable number of args.
-   *  arguments can be strings (defaults: $msg1='', $msg2='', $ctrmsg=''),
-   *  an assoc array, or an object.
-   *  for array and object the elements are 'msg1', 'msg2', 'ctrmsg''
-   * @return string
-   */
-
-  public function getFooter($b=null) {
-    if(is_string($b)) {
-      $x->msg1 = $b;
-    } else {
-      $x = (object)$b; // Force $b to an object
-    }
-    
-    return parent::getFooter($x);
-  }
-
   /**
    * daycount()
    * Day Counts
@@ -445,7 +405,3 @@ if(!function_exists(ErrorGetId)) {
     return $id;
   }
 }
-
-// WARNING THERE MUST BE NOTHING AFTER THE CLOSING PHP TAG.
-// Really nothing not even a space!!!!
-?>

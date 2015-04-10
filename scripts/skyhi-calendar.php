@@ -16,7 +16,8 @@ list($week, $year) = explode(",", date("W,Y"));
 $date = find_first_day_ofweek($week, $year);
 $start = date("Y-m-d", $date);
 $end = date("Y-m-d", strtotime("+1 week", $date));
-$sql = "select name, date, id, subject, type from meetings where date between '$start' and '$end'";
+$sql = "select name, date, id, subject, type ".
+       "from meetings where date between '$start' and '$end'";
 
 $n = $S->query($sql);
 
@@ -62,10 +63,38 @@ Thank you
 Barton Phillips
 EOF;
 
-//echo $msg;
+echo $msg;
 
 mail($calendarGirlEmail, "Rotary Item for the Calendar Section", $msg,
      "From: info@granbyrotary.org\r\nCC: bartonphillips@gmail.com\r\n");
+
+// BLP 2015-03-14 -- 
+// Now send a message to the presenter and to the president
+
+$sql = "select concat(FName, ' ', LName), Email ".
+       "from rotarymembers where id=$id";
+$S->query($sql);
+list($member, $email) = $S->fetchrow('num');
+
+$sql = "select concat(FName, ' ', LName), Email ".
+       "from rotarymembers where office='President'";
+$S->query($sql);
+list($pres, $pemail) = $S->fetchrow('num');
+
+$msg2 =<<<EOF
+FYI: $member (CC: $pres).
+This was sent to the SkyHiNews publisizing your upcoming talk.
+=============================================================>
+
+$msg
+EOF;
+
+//echo "\n$msg2";
+
+mail($email, "FYI SkyHiNews Notification of Talk", $msg2,
+     "From: info@granbyrotary.org\r\nCC: bartonphillips@gmail.com,$pemail\r\n");
+
+exit();
 
 /**
  * Function to find the day of a week in a year

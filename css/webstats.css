@@ -1,0 +1,97 @@
+/* webstats.css */
+
+.wrapper table {
+        background-color: white;
+}
+.agentId {
+        display: none;
+}
+/* for the side by side tables for member hits */
+.wrapper {
+        width:100%;
+}
+.left {
+        float:left;
+        width:48%;
+}
+.right {
+        float:right;
+        width:48%;
+}
+#todayGuests, #todayGuests th, #todayGuests td {
+        background-color: white;
+        border: 1px solid black;
+}
+th, td {
+        padding: 5px;
+}
+
+input[type=submit] {
+        cursor: pointer;
+}
+button {
+        cursor: pointer;        
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        border-radius: 7px;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+}
+.country {
+        border: 1px solid black;
+        padding: 3px;
+        background-color: #8dbdd8;
+}
+#tracker {
+        width: 100%;
+}
+/* page */
+#tracker td:first-child:hover {
+        cursor: pointer;
+}
+/* ip */
+#tracker td:nth-child(2):hover {
+        cursor: pointer;
+}
+/* Member */
+#tracker td:nth-child(3) {
+        width: 100px;
+}
+/* agent, starttime, endtime */
+#tracker td:nth-child(5), #tracker td:nth-child(6) {
+        width: 5em;
+}
+/* time */
+#tracker td:nth-child(7) {
+        width: 3em;
+}
+/* referrer */
+#tracker td:last-child {
+        word-break: break-all;
+        word-break: break-word; /* for chrome */
+        width: 100px;
+}
+#daycount tbody tr td { /*visitors*/
+text-align: right;
+}
+#daycount tfoot tr th {
+        text-align: right;
+}
+#daycount tfoot tr th:first-child {
+        text-align: center;
+}
+@media (max-width: 660px) {
+        .right {
+                float: none;
+                width: 306px;
+        }
+        .left {
+                float: none;
+                width: 306px;
+        }
+        .left td:first-child {
+                word-wrap: break-word;
+                word-break: break-all;
+                word-break: break-word;
+        }
+}

@@ -527,5 +527,3 @@ $table
 EOF;
   exit();
 }
-
-?>

@@ -81,6 +81,8 @@ EOF;
             "values('$articleName', '$articleHeading', '$articleBody', '$articleExpired')");
 
   $h->extra = <<<EOF
+  <base href="http://www.granbyrotary.org">
+
   <script>
 jQuery(document).ready(function($) {
   // Discard Preview Button
@@ -294,6 +296,8 @@ function make($S) {
 
 function edit($S) {
   $h->extra = <<<EOF
+  <base href="http://www.granbyrotary.org">
+
   <script>
 jQuery(document).ready(function($) {
   // create the control div and put button in it for all or current
@@ -375,7 +379,9 @@ function editedit($S) {
   $id = $_GET['id'];
 
   $h->extra = <<<EOF
-<style type='text/css'>
+  <base href="http://www.granbyrotary.org">
+
+  <style>
 div {
    width: 100%;
 }
@@ -407,6 +413,8 @@ EOF;
 
 function startpage($S, $id=null, $title=null, $banner=null) {
   $h->extra = <<<EOF
+  <base href="http://www.granbyrotary.org">
+
   <script src="/js/date_input/jquery.date_input.js"></script>
   <link rel="stylesheet" href="/js/date_input/date_input.css" type="text/css">
 
@@ -450,6 +458,8 @@ div {
 EOF;
 
 $h->extra .= <<<EOF
+  <base href="http://www.granbyrotary.org">
+
   <script>
 jQuery(document).ready(function() {
   var auto = 1;

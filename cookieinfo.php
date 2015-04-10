@@ -78,4 +78,3 @@ be your user name.</p>
 <hr>
 $footer
 EOF;
-?>

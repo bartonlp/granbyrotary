@@ -90,4 +90,3 @@ based on the <i>Package Quantity * Package Price * Number of Packages</i> as wel
 <hr>
 $footer
 EOF;
-?>

@@ -1,4 +1,5 @@
 <?php
+// BLP 2015-03-15 -- Add "Current Granby Weather"
 // BLP 2014-11-23 -- work on responsive scaling. Modify css/rotary.css and move some
 // stuff to here that only applies to index.php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
@@ -16,8 +17,6 @@ $banner_photos = rtrim($banner_photos, ",");
 // For a fair description of how the updatesite class works look at the class file.
 // I have updated the comments quite a lot.
 // Check out the admintext.php file and the updatesite.php and updatesite2.php files.
-
-//require_once("includes/updatesite.class.php");
 
 $s->siteclass = $S;
 $s->page = "index.php"; // the name of this page
@@ -100,8 +99,6 @@ if(isset($_GET['memberid'])) {
   $S->CheckId();  // sets all of the GXxxx publics
 }
   
-//$NewBBmsg = $S->checkBBoard(); // Check if new BB posts
-
 // set up the scripts and styles
 
 $h->extra = <<<EOF
@@ -265,17 +262,6 @@ There is a lot more to see if you <a href='login.php?return=$S->self'>Login</a>!
 EOF;
 }
 
-
-/* BLP 2014-07-17 -- Remove. Added to includes/banner.i.php
-// Check to see if this member is a web administrator
-
-if($S->isAdmin($S->id)) {
-  // Make the Administrator's greeting
-  
-  $AdminText = $S->adminText();
-}
-*/
-  
 $h->banner = <<<EOF
       <p>PO Box 1430<br/>
       Granby, CO 80446<br/>
@@ -288,6 +274,8 @@ $h->banner = <<<EOF
       Granby, Colorado 80446<br>
       Phone: (970) 887-9000<br>
       <a target="_blank" href="http://maps.google.com/maps?hl=en&amp;q=Maverick's%20Grille%2015%20E.%20Agate%20Ave.%20Granby%20CO%2080446">Map</a>
+      <h2><a target="_blank" href="http://www.bartonphillips.com/weewx">
+        Current Granby Weather (LIVE)</a></h2>
       </p>
 $memberOrLogin$AdminText
 EOF;
@@ -382,30 +370,10 @@ $memlist
 </table>
 EOF;
 
-// ************************
-// Start to Render the page
-// ************************
+// ***************
+// Render the page
+// ***************
 
-// Has the member seen all the BB posts?
-/*
-if($NewBBmsg) {
-  $bb = <<<EOF
-<p class='button' onclick='location.href="bboard.php";'>
-<a href='bboard.php'>Bulletin Board $NewBBmsg</a>
-</p>
-
-EOF;
-} else {
-  $bb = <<<EOF
-<p class='button' onclick='location.href="bboard.php";'>
-<a href='bboard.php'>Bulletin Board</a>
-</p>
-
-EOF;
-}
-*/
-// Render page
-  
 echo <<<EOF
 $top
 <!-- START UpdateSite: PresidentMsg -->
@@ -422,7 +390,6 @@ See the <a href="about.php#officerstbl">About Page</a> for a full list of office
 The 2014-2015 Rotary District Governor
 is <a target="_blank" href="http://www.clubrunner.ca/portal/Home.aspx?accountid=50085">Peter Ewing</a>.</p>
 <p>The 2014-2015 President of Rotary International is Gary C.K. Huang.</p>
-
 <hr/>
 <!-- Start UpdateSite: Polio Info -->
 $endpolio
@@ -430,13 +397,11 @@ $endpolio
 <!-- Start UpdateSite: Other Stuff -->
 $otherstuff
 <!-- UpdateSite: Other Stuff End -->
-
 <div id="button-group">
 <img src="images/find_us_on_facebook_badge.gif" title="Find Us On Facebook" alt="find us on facebook" /><br>
 <a target="_blank" href="http://www.facebook.com/group.php?gid=105501794053">Rotary Club of Granby</a><br>
 <a target="_blank" href="http://www.facebook.com/home.php?ref=home#!/pages/MPHS-Interact-Club/123052577747543">
 Middle Park High School Interact Club on Facebook</a>
-
 <!-- Rotary Links -->
 <div id="rotary-links">
   <label for="rotary-links-checkbox">Rotary Links</label>
@@ -452,7 +417,6 @@ Middle Park High School Interact Club on Facebook</a>
     <li><a target="_blank" href='http://escuelaminga.org/Minga/Rotary.html'>The Equator Project</a>
   </ul>
 </div>
-
 <div id="who">$whoHasABirthdayThisMonth
 <br>
 $whosBeenHereToday

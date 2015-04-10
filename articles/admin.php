@@ -11,6 +11,8 @@ if(!$S->isAdmin($S->id)) {
 
 $footer = $S->getFooter();
 
+$h->link = "<base href='http://www.granbyrotary.org'>";
+
 $self = $_SERVER['PHP_SELF'];
 
 if($_POST['id']) {
@@ -41,7 +43,6 @@ if($_POST['id']) {
 
   $h->title = "Admin Articles";
   $h->banner = "<h3>Articles Table Updated</h3>";
-
   $top = $S->getPageTop($h);
 
   $query = "update articles set $set where id='$id'";
@@ -185,8 +186,7 @@ EOF;
 
   $h->title = "Admin Articles";
   $h->banner = "<h1>Article Admin</h1>";
-  
-  $top = $S->getPageTop(array($h));
+  $top = $S->getPageTop($h);
 
   echo <<<EOF
 $top
@@ -240,6 +240,3 @@ echo <<<EOF
 </div>
 $footer
 EOF;
-  
-?>
-

@@ -75,5 +75,5 @@ $cookies
 EOF;
 }
 echo $footer;
-?>
+
 

@@ -235,14 +235,7 @@ There is a lot more to see if you <a href='login.php?return=$S->self'>Login</a>!
 EOF;
 }
 
-/* BLP 2014-07-17 -- 
-if($S->isAdmin($S->id)) {
-  // Make the Administrator's greeting
-  
-  $top .= $S->adminText();
-}
-*/
-  
+// ****************  
 // Display the page
   
 echo <<<EOF
@@ -399,5 +392,3 @@ href="http://www.facebook.com/group.php?gid=105501794053">Facebook</a></p>
 <hr/>
 $footer
 EOF;
-
-?>

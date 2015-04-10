@@ -13,7 +13,7 @@
       data: {page: 'load', self: self, referrer: referrer },
       type: 'post',
       success: function(data) {
-             console.log(data);
+             console.log("Load insert id: ", data);
              id = data;
            },
            error: function(err) {
@@ -29,7 +29,7 @@
       type: 'post',
       async: false,
       success: function(data) {
-             console.log(data);
+             console.log("Unload done: ",data);
            },
            error: function(err) {
              console.log(err);

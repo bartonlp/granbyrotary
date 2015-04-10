@@ -387,7 +387,7 @@ is click on the link provided in the email (or cut and past the link into your b
 We will set a <b>COOKIE</b> on you browser and you should not have to log in again. Your name will appear on the <b>Members</b>
 page under <i>Visitors</i>. Once you have logged in you can edit your profile further if you like.</p>
 <p>If for some reason you do not get an email please send the
-<a href="mailto:bartonphillips@gmail.com?subject=Visitor did not get email">webmaster</a> an email with you information.
+<a href="mailto:bartonphillips@gmail.com?subject=Visitor did not get email">webmaster</a> an email with your information.
 <p>Thank You</p>
 <hr/>
 <a href="index.php">Return to our Home Page</a>
@@ -407,8 +407,7 @@ EOF;
     $message = <<<MSG
 Thank you for registering at http://www.granbyrotary.org. If you did not register please disregard this email.
 To complete your registration follow this link:
-
-login.php?page=visitoremail&fname=$fname&lname=$lname&email=$email&club=$club&phone=$phone&code=Ab77J95Bc
+http://www.granbyrotary.org/login.php?page=visitoremail&fname=$fname&lname=$lname&email=$email&club=$club&phone=$phone&code=Ab77J95Bc
 
 or cut and past the above link into your browser.
 Thank You again for registering
@@ -536,6 +535,4 @@ EOF;
   
   header("Location: $S->self?page=testcookie&id=$id&return=/index.php\r\n");
 }
-
-?>
 

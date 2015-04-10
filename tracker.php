@@ -34,6 +34,7 @@ if($_POST['page'] == 'load') {
 
   $S->query("insert into tracker (page, ip, agent, starttime, referrer) ".
             "values('$self', '$ip','$agent', now(), '$referrer')");
+
   $id = $S->getLastInsertId();
   
   echo "$id";

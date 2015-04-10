@@ -6,4 +6,3 @@ foreach($_GET as $k=>$v) {
 }
 header('Content-Type: application/xml');
 echo file_get_contents($feed);
-?>

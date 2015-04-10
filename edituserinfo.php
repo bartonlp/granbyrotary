@@ -176,4 +176,3 @@ the email address and the password will be requested during log-in.<br/>
 $footer
 EOF;
 
-?>

@@ -258,4 +258,3 @@ function removeCrDeep($value) {
   return $value;
 }
 
-?>

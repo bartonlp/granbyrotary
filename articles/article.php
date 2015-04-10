@@ -49,4 +49,3 @@ $body
 <hr/>
 $footer
 EOF;
-?>

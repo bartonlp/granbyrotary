@@ -53,6 +53,6 @@ $siteinfo = array('siteDomain' => "granbyrotary.org",
                   'bannerFile' => SITE_INCLUDES."/banner.i.php",
                   'footerFile' => SITE_INCLUDES."/footer.i.php",
                   'count' => true,
-                  'countMe' => false, // Count BLP
+                  'countMe' => true, // BLP 2015-03-21 -- turn on
                   'myUri' => "bartonphillips.dyndns.org"
                  );

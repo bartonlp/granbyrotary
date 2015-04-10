@@ -6,7 +6,7 @@ Deny from All
 
 AuthName "Granby Rotary Scripts"
 AuthType Basic
-AuthUserFile /home/barton11/granbyrotarydotorg/scripts/.htpasswd
+AuthUserFile /var/www/granbyrotarydotorg/scripts/.htpasswd
 require valid-user
 Satisfy Any
 

@@ -23,9 +23,25 @@ $test = $_GET['test'];
 
 if(empty($startWeek) || empty($year)) {
   // Show first page and get the arguments
+  $h->title = "Meetings Updater";
   $h->banner = <<<EOF
 <h1>Enter Arguments</h1>
 EOF;
+  // BLP 2015-03-16 -- because we are running from www.granbyrotary.org/admin and the images
+  // in banner.i.php are relative we need to set the base.
+  $h->extra = <<<EOF
+  <base href='http://www.granbyrotary.org'>
+  <style>
+tbody th {
+  text-align: right;
+}
+input[type="submit"] {
+  border-radius: 1em;
+  padding: .5em;
+}
+  </style>
+EOF;
+
   list($top, $footer) = $S->getPageTopBottom($h);
 
   echo <<<EOF
@@ -39,11 +55,27 @@ To test only and NOT update the Meetings table enter a 1 in 'Test Only' otherwis
 enter a zero.</p>
 
 <form method="GET">
-Start Week of Year: <input type="text" name="start"/><br>
-Year: <input type="text" name="year"/><br>
-Test Only: <input type="text" name="test"/><br>
-<input type="submit" />
+<table>
+<tbody>
+<tr>
+<th>Start Week of Year:</th>
+<td><input type="text" name="start"/></td>
+</tr>
+<tr>
+<th>Year:</th>
+<td><input type="text" name="year"/></td>
+</tr>
+<tr>
+<th>Test Only:</th>
+<td><input type="text" name="test"/></td>
+</tr>
+</tbody>
+<tfoot>
+<tr><th colspan="2"><input type="submit" /></th></tr>
+</tfoot>
+</table>
 </form>
+<hr>
 $footer
 EOF;
   exit();
@@ -84,6 +116,20 @@ foreach($idName as $k=>$v) {
   $eout[] = "$id:$name:$date";
 }
 
+/*
+CREATE TABLE `meetings` (
+  `name` varchar(255) NOT NULL,
+  `date` date NOT NULL,
+  `yes` enum('not confirmed','confirmed','can-not') DEFAULT 'not confirmed',
+  `id` int(11) NOT NULL,
+  `type` enum('speaker','business','none','open') DEFAULT 'speaker',
+  `subject` text,
+  `link` varchar(255) DEFAULT NULL,
+  `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+*/
+
 foreach($eout as $value) {
   list($id, $name, $date) = explode(":", $value);
   $date = date('Y-m-d', $date);
@@ -91,7 +137,8 @@ foreach($eout as $value) {
   if($id == 0) {
     $type = "business";
   }
-  $query = "insert into meetings (name, date, id, type, subject) values('$name', '$date', '$id', '$type', NULL) ".
+  $query = "insert into meetings (name, date, id, type, subject) ".
+           "values('$name', '$date', '$id', '$type', NULL) ".
            "on duplicate key update name='$name', id='$id', type='$type'";
 
   if(!$test)  {

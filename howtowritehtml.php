@@ -12,5 +12,5 @@ echo $top;
 // it uses Blp.
 include(TOP ."/www/howtowritehtml.php");
 echo $footer;
-?>
+
    

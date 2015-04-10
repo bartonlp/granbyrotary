@@ -36,4 +36,3 @@ foreach($opentxt as $t) {
   }
 }
 echo "Processed $cnt records\nnew: $new\ndup: $dup\n";
-?>

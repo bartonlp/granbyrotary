@@ -144,5 +144,5 @@ EOF;
 echo <<<EOF
 $footer
 EOF;
-?>
+
 

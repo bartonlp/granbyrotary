@@ -16,6 +16,4 @@ $data = preg_replace("~<!-- Start UpdateSite: (.*?) -->(.*?)<!-- UpdateSite:.*?E
                      "<span style='color: white;background-color: black;'>$1</span><br/>$2</div>",
                      $data);
 
-// This will evaluate all of the php in $data
-echo eval("?>" . $data . "<?");
-?>
+echo eval("?>".$data);

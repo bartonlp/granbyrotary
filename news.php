@@ -432,5 +432,3 @@ $skyhinewsitem
 <hr/>
 $footer
 EOF;
-
-?>

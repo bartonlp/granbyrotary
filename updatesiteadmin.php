@@ -1,5 +1,5 @@
 <?php
-require_once("/home/barton11/includes/siteautoload.php");
+require_once("/var/www/includes/siteautoload.class.php");
 
 $S = new GranbyRotary;
 
@@ -35,4 +35,3 @@ $updatepage = UpdateSite::secondHalf($S, $h, $s);
 echo <<<EOF
 $updatepage
 EOF;
-?>
