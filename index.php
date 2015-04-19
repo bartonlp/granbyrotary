@@ -150,18 +150,6 @@ function bannershow() {
 $(window).load(function() {
   bannershow();
 });
-
-jQuery(document).ready(function($) {
-  $("#child").hide();
-
-  $("#parent").click(function() {
-    if(!this.flag)
-      $("#child").show();
-    else
-      $("#child").hide();
-    this.flag = !this.flag;
-  });
-});
   </script>
 EOF;
 
@@ -197,27 +185,22 @@ $h->css = <<<EOF
         margin-top: 30px;
         margin-bottom: 30px;
 }
+#rotary-links-menu {
+        width: 280px;
+        margin: auto;
+        margin-top: 15px;
+        text-align: left;
+}
+#bottominfo {
+        width: 50%;
+        margin: auto;
+}
 #button-group {
         margin-bottom: 10px;
 }
-#parent {
-        cursor: pointer;
-        margin: 0;
-}
-#child {
-        display: inline;
-}
-#child a {
-        border: 1px solid black;
-        display: block;
-        padding: 2px 5px;
-        background-color: white; /* #FFFFEE; */
-        line-height: 50px;
-}
-
 /* Who table */
 #who { /* who has birthday/been here */
-        width: 50%;
+        width: 100%;
         margin-bottom: 10px;
         margin-right: 5px;
 }
@@ -232,10 +215,17 @@ $h->css = <<<EOF
  td {
         padding: 5px;
 }
-@media (max-width: 600px) {
+#bday {
+        color: red;
+        font-size: 2em;
+}
+@media (max-width: 700px) {
         .who {
                 width: 100%;
                 font-size: 80%;
+        }
+        #bottominfo {
+                width: 85%;
         }
 }
   </style>
@@ -246,8 +236,14 @@ EOF;
 if($S->id != 0) {
   // MEMBER
 
+  $S->query("select bday from rotarymembers where id=$S->id");
+  list($bday) = $S->fetchrow('num');
+
+  if(substr($bday,5) == date("m-d")) {
+    $bdaymsg = "<br><span id='bday'>Happy Birthday</span>";
+  }
   $memberOrLogin = <<<EOF
-<h3 id='loginMsg'>Welcome {$S->getUser()}.</h3>
+<h3 id='loginMsg'>Welcome {$S->getUser()}$bdaymsg.</h3>
 EOF;
 } else {
   // NOT A MEMBER OF NOT LOGGED IN
@@ -394,6 +390,7 @@ is <a target="_blank" href="http://www.clubrunner.ca/portal/Home.aspx?accountid=
 <!-- Start UpdateSite: Polio Info -->
 $endpolio
 <!-- UpdateSite: Polio Info End -->
+<div class="center">
 <!-- Start UpdateSite: Other Stuff -->
 $otherstuff
 <!-- UpdateSite: Other Stuff End -->
@@ -417,11 +414,14 @@ Middle Park High School Interact Club on Facebook</a>
     <li><a target="_blank" href='http://escuelaminga.org/Minga/Rotary.html'>The Equator Project</a>
   </ul>
 </div>
+</div>
+<div id="bottominfo">
 <div id="who">$whoHasABirthdayThisMonth
 <br>
 $whosBeenHereToday
 <br>
 $whosBeenHereThisMonth
+</div>
 </div>
 <hr class="clearboth"/>
 $footer
