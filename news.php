@@ -1,6 +1,6 @@
 <?php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
-
+//$AutoLoadDEBUG = true;
 require_once("/var/www/includes/siteautoload.class.php");;
 
 session_cache_limiter('private');
@@ -101,7 +101,7 @@ EOF;
     $skyhinews = <<<EOF
 <p>Click on Headline to expand article.</p>
 $markasread
-<table id="skyhinewstbl" border="1" style="width: 100%">
+<table id="skyhinewstbl" border="1" style="width: 100%; line-height: 3em">
 <thead>
 <tr><th>Headline</th><th>Date</th></tr>
 </thead>
@@ -176,7 +176,8 @@ if($_GET['page'] == 'ajaxinx') {
   $pubDate = $f['pubDate']; //preg_replace("/T\d.*/", '', $f['pubDate']);
 
   echo <<<EOF
-<div id="skyhinewsajaxitem" style="border: 10px groove white; padding: 5px; margin-bottom: 20px;">
+<div id="skyhinewsajaxitem" style="border: 10px groove white; padding: 5px;
+ margin-bottom: 20px; line-height: 1.2em;">
 <p><a target="_blank" href="{$f['link']}">{$f['title']}</a></p>
 {$f['description']}
 </div>
@@ -292,7 +293,8 @@ $h->script = <<<EOF
 jQuery(document).ready(function($) {
   // Please wait for news feed
   $("#skyhinews").html("<p style='color: red'>Please Wait While SkyHiNews Features are Loaded</p>"+
-                       "<div style='text-align: center;'><img src='images/loading.gif'></div>");
+                       "<div style='text-align: center;'>"+
+                       "<img src='http://bartonlp.com/html/images/loading.gif'></div>");
 
   // Get the news feed
 

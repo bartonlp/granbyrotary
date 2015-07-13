@@ -376,6 +376,7 @@ function startpage($S) {
 }
 #datatable th, #datatable td {
   padding: 0 2px 0 2px;
+  border: 1px solid black;
 }
 #datatable th {
   background: yellow;
@@ -569,7 +570,7 @@ EOF;
   $S->query("select * from rotarymembers order by LName");
 
   $head = true;
-  $tbl = "<table id='datatable' border='1' class='tbl tablesorter'>\n<thead>\n";
+  $tbl = "<table id='datatable' class='tbl tablesorter'>\n<thead>\n";
 
   while($row = $S->fetchrow('assoc')) {
     $tbl .= "<tr>\n";

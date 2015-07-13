@@ -1,4 +1,4 @@
- // JavaScript for news.php
+// JavaScript for news.php
 
 // First section uses jQuery
 // USE jQuery but let prototype keep on using $

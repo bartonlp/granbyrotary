@@ -14,9 +14,9 @@ $pageBannerText = <<<EOF
 <header>
 <div id="header-image-div">
 <div id="header-image">
-<img src="banner-photos/CIMG0001n.JPG"/>
-<img id='wheel' src='images/wheel.gif'/>
-<img id='granbyrotarytext' src='images/text-granbyrotary.png'/>
+<img src="http://bartonlp.com/html/images/banner-photos/CIMG0001n.JPG"/>
+<img id='wheel' src='http://bartonlp.com/html/images/wheel.gif'/>
+<img id='granbyrotarytext' src='http://bartonlp.com/html/images/text-granbyrotary.png'/>
 </div>
 <!-- Nav bar for big screens -->
 <div id="navMap">

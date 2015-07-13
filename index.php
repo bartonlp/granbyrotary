@@ -1,16 +1,19 @@
 <?php
+// BLP 2015-06-13 -- remove current granby weather  
 // BLP 2015-03-15 -- Add "Current Granby Weather"
 // BLP 2014-11-23 -- work on responsive scaling. Modify css/rotary.css and move some
 // stuff to here that only applies to index.php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
+//$AutoLoadDEBUG = true;
 
 require_once("/var/www/includes/siteautoload.class.php");
 
 $S = new GranbyRotary;
 
-$x = glob("banner-photos/*");
+$x = glob("../html/images/banner-photos/*");
 foreach($x as $v) {
-  $banner_photos .= "\"$v\",";
+  $v = basename($v);
+  $banner_photos .= "\"http://bartonlp.com/html/images/banner-photos/$v\",";
 }
 $banner_photos = rtrim($banner_photos, ",");
 
@@ -141,8 +144,10 @@ function bannershow() {
 
   $("#header-image").html(image);
   $("#wheel, #granbyrotarytext").remove();
-  $("#header-image").append("<img id='wheel' src='images/wheel.gif'/>"+
-                  "<img id='granbyrotarytext' src='images/text-granbyrotary.png'/>");
+  $("#header-image").append("<img id='wheel' "+
+                            "src='http://bartonlp.com/html/images/wheel.gif'/>"+
+                            "<img id='granbyrotarytext' "+
+                            "src='http://bartonlp.com/html/images/text-granbyrotary.png'/>");
 
   setTimeout(bannershow, 5000);
 }
@@ -270,8 +275,6 @@ $h->banner = <<<EOF
       Granby, Colorado 80446<br>
       Phone: (970) 887-9000<br>
       <a target="_blank" href="http://maps.google.com/maps?hl=en&amp;q=Maverick's%20Grille%2015%20E.%20Agate%20Ave.%20Granby%20CO%2080446">Map</a>
-      <h2><a target="_blank" href="http://www.bartonphillips.com/weewx">
-        Current Granby Weather (LIVE)</a></h2>
       </p>
 $memberOrLogin$AdminText
 EOF;
@@ -379,13 +382,13 @@ $presidentmsg
 <p>The Rotary Club of Granby was chartered in 1987, and its membership includes men and women representing a wide cross-section of
 local businesses and professions. The club meets each Wednesday for fellowship, lunch, and interesting and informative programs
 dealing with topics of local and global importance.</p>
-<p>The 2014-2015 Club President is
-<a href="email.php?id=189">Sean Richardson</a>.
+<p>The 2015-2016 Club President is
+<a href="email.php?id=173">Lesley Janusz</a>.
 See the <a href="about.php#officerstbl">About Page</a> for a full list of officers and chair persons.</p>
 <p>The club is part of Rotary District 5450, comprised of 51 clubs and over 3,000 members.
-The 2014-2015 Rotary District Governor
-is <a target="_blank" href="http://www.clubrunner.ca/portal/Home.aspx?accountid=50085">Peter Ewing</a>.</p>
-<p>The 2014-2015 President of Rotary International is Gary C.K. Huang.</p>
+The 2015-2016 Rotary District Governor
+is Mary Kay Hasz</a>.</p>
+<!--<p>The 2015-2016 President of Rotary International is Gary C.K. Huang.</p>-->
 <hr/>
 <!-- Start UpdateSite: Polio Info -->
 $endpolio
@@ -395,7 +398,8 @@ $endpolio
 $otherstuff
 <!-- UpdateSite: Other Stuff End -->
 <div id="button-group">
-<img src="images/find_us_on_facebook_badge.gif" title="Find Us On Facebook" alt="find us on facebook" /><br>
+<img src="http://bartonlp.com/html/images/find_us_on_facebook_badge.gif"
+title="Find Us On Facebook" alt="find us on facebook" /><br>
 <a target="_blank" href="http://www.facebook.com/group.php?gid=105501794053">Rotary Club of Granby</a><br>
 <a target="_blank" href="http://www.facebook.com/home.php?ref=home#!/pages/MPHS-Interact-Club/123052577747543">
 Middle Park High School Interact Club on Facebook</a>
