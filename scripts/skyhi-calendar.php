@@ -7,9 +7,9 @@
 $calendarGirl = 'Cynthia Washburn';
 $calendarGirlEmail = "cwashburn@skyhidailynews.com";
 
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("HOME")."/www/includes/siteautoload.class.php");
 
-$S = new Database($dbinfo);
+$S = new Database($_site['dbinfo']);
 
 list($week, $year) = explode(",", date("W,Y"));
 
@@ -66,7 +66,7 @@ EOF;
 echo $msg;
 
 mail($calendarGirlEmail, "Rotary Item for the Calendar Section", $msg,
-     "From: info@granbyrotary.org\r\nCC: bartonphillips@gmail.com\r\n");
+     "From: info@granbyrotary.org");
 
 // BLP 2015-03-14 -- 
 // Now send a message to the presenter and to the president
@@ -92,7 +92,7 @@ EOF;
 //echo "\n$msg2";
 
 mail($email, "FYI SkyHiNews Notification of Talk", $msg2,
-     "From: info@granbyrotary.org\r\nCC: bartonphillips@gmail.com,$pemail\r\n");
+     "From: info@granbyrotary.org\r\nCC: $pemail\r\n");
 
 exit();
 

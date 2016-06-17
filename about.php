@@ -2,9 +2,9 @@
 // About Rotary page
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
 
-require_once("/var/www/includes/siteautoload.php");
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 $s->siteclass = $S;
 $s->site = "granbyrotary.org";
@@ -380,15 +380,9 @@ Phone: (970) 887-9000<br>
 Fax: (970) 887-3221<br>
 E-mail: sean@mavericksgrille.com
 </p>
-
 <a name="MapToMeetingPlace" ></a>
-
-<p>Join us on <a
-href="http://www.facebook.com/group.php?gid=105501794053">Facebook</a></p>
-
 <hr/>
 <h2><a href="cookieinfo.php">Our Use of Browser <i>COOKIES</i></a></h2>
-
 <hr/>
 $footer
 EOF;

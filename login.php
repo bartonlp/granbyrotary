@@ -1,50 +1,12 @@
 <?php
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 $h->title = "Login fo Granby Rotary";
 $h->extra = <<<EOF
-  <script type="text/javascript" src="http://www.tinapurwininsurance.com/js/jquery-validate/jquery.validate.min.js"></script>
-  <script type="text/javascript">
-
-jQuery(document).ready(function($) {
-  $("#visitorform").validate({
-    rules: {
-      required: {
-        required: true
-      },
-      email: {
-        required: true,
-        email: true
-      },
-    },
-    invalidHandler: function(form, validator) {
-      var errors = validator.numberOfInvalids();
-      if (errors) {
-        var message = errors == 1
-        ? 'You missed 1 field. It has been highlighted'
-        : 'You missed ' + errors + ' fields. They have been highlighted';
-        $("#errors").html(message);
-        $("#errors").show();
-        //$("span.requiredfield").remove();
-        $("input.required").css("border", "1px solid black");
-        $("select.required").css("border", "1px solid black");
-      } else {
-        $("#errors").hide();
-      }
-    },
-    errorPlacement: function(error, element) {
-      element.css("border", "3px solid red");
-      //$("<span class='requiredfield'>&nbsp;*</span>").insertAfter(element);
-    }
-  });
-});
-
-  </script>
-
-  <style type="text/css">
-.requiredfld {
+  <style>
+.required {
   color: red;
 }
 #errors {
@@ -68,7 +30,7 @@ jQuery(document).ready(function($) {
 EOF;
 
 $S->pageHead = $S->getPageHead($h);
-$S->footer = $S->getFooter();
+$S->footer = $S->getPageFooter();
 
 // Get the POST variables and GET variables
 
@@ -123,7 +85,7 @@ function memberstart($S) {
   if($S->id == 0) {
     // No Id Yet. Show the 'get email address dialog
 
-    $banner = $S->getBanner("<h1>Login to Set Up Cookie</h1>");
+    $banner = $S->getPageBanner("<h1>Login to Set Up Cookie</h1>");
 
     echo <<<EOF
 $S->pageHead
@@ -147,7 +109,7 @@ EOF;
   } else {
     // User already has a cookie set so he is already logged in.
 
-   $banner = $S->getBanner("<h1>You are already logged in. Thanks</h1>");
+   $banner = $S->getPageBanner("<h1>You are already logged in. Thanks</h1>");
     
    echo <<<EOF
 $S->pageHead
@@ -172,7 +134,8 @@ function memberstep2($S) {
   if(!$n) {
     // Email Address not found in database.
 
-    $banner = $S->getBanner("<h1>Email address not found in database</h1>");
+    $banner = $S->getPageBanner("<h1>Email address not found in database</h1>");
+
     echo <<<EOF
 $S->pageHead
 $banner
@@ -198,14 +161,14 @@ EOF;
     echo <<<EOF
 $S->pageHead
 $banner
-   <p>Enter the password you selected:</p>
-      <form action='$S->self' method='post'>
-         Enter Password: <input type='text' name='password'><br/>
-         <input type='hidden' name='emailcheck' value='$newemail'>
-         <input type='hidden' name='return' value='$return'>
-         <input type='hidden' name='page' value='checkpassword'>
-         <input type='submit' name='submit'>
-      </form>
+<p>Enter the password you selected:</p>
+<form action='$S->self' method='post'>
+Enter Password: <input type='text' name='password'><br/>
+<input type='hidden' name='emailcheck' value='$newemail'>
+<input type='hidden' name='return' value='$return'>
+<input type='hidden' name='page' value='checkpassword'>
+<input type='submit' name='submit'>
+</form>
 <hr/>
 $S->footer
 EOF;
@@ -220,7 +183,6 @@ EOF;
   
   header("Location: $S->self?page=testcookie&id=$id&return=$return\r\n");
   exit();
-  
 }
 
 // ********************************************************************************
@@ -245,7 +207,7 @@ function checkpassword($S) {
 
     header("Location: $S->self?page=testcookie&id=$id&return=$return\r\n");
   } else {
-    $banner = $S->getBanner("<h1>Password does not match</h1>");
+    $banner = $S->getPageBanner("<h1>Password does not match</h1>");
 
     // password does not match
     echo <<<EOF
@@ -274,17 +236,16 @@ function testcookie($S) {
   // not go back to the home page until later so get him counted now.
 
   if(isset($id) && $id != 0) {
-    //echo "setting logs $id<br>";
     $S->setId($id);
-    //$S->loginInfo(); // Only after member loged in, and even if cookie does not work.
   } else {
-    mail("bartonphillips@gmail.com", "login.php testcookie() id is zero", "id is zero. Line #=" . __LINE__, "From: info@granbyrotary.org");
+    mail("bartonphillips@gmail.com", "login.php testcookie() id is zero", "id is zero. Line #=" . __LINE__,
+         "From: info@granbyrotary.org");
   }
   
   $testId = $_COOKIE['SiteId'];
 
   if(!isset($testId)) {
-    $banner = $S->getBanner("<h1>Unable To Set COOKIE</h1>");
+    $banner = $S->getPageBanner("<h1>Unable To Set COOKIE</h1>");
 
     echo <<<EOF
 $S->pageHead
@@ -327,7 +288,7 @@ function visitor($S) {
   
   // Not a Grand County Rotary member but would like to become a
   // visitor
-  $banner = $S->getBanner("<h1>Visitor Registration</h1>"); 
+  $banner = $S->getPageBanner("<h1>Visitor Registration</h1>"); 
 
   echo <<<EOF
 $S->pageHead
@@ -340,9 +301,9 @@ follow the link in the email.</p>
 <div id="formdiv">
 <form id="visitorform" action="$S->self" method="post">
 <table id="visitortbl"border="1">
-<tr><th class="requiredfld">First Name</th><td><input  class="required" type="text" name="fname"/></td></tr>
-<tr><th class="requiredfld">Last Name</th><td><input class="required" type="text" name="lname"/></td></tr>
-<tr><th class="requiredfld">Email Address</th><td><input class="required email" type="text" name="email"/></td></tr>
+<tr><th class="requiredfld">First Name</th><td><input required class="required" type="text" name="fname"/></td></tr>
+<tr><th class="requiredfld">Last Name</th><td><input required class="required" type="text" name="lname"/></td></tr>
+<tr><th class="requiredfld">Email Address</th><td><input required class="required email" type="text" name="email"/></td></tr>
 <tr><th>Rotary Club (if none leave blank)</th><td><input type="text" name="club"/></td></tr>
 <tr><th>Address</th><td><input type="text" name="address"/></td></tr>
 <tr><th>Phone</th><td><input type="text" name="phone"/></td></tr>
@@ -377,7 +338,7 @@ function visitor2($S) {
     echo "<h1>Must have both First and Last Name</h1>\n";
     exit();
   }
-  $banner = $S->getBanner("<h1>Check Your Email</h1>");
+  $banner = $S->getPageBanner("<h1>Check Your Email</h1>");
 
   echo <<<EOF
 $S->pageHead
@@ -415,29 +376,9 @@ Thank You again for registering
 --
 Rotary Club of Granby Colorado
 http://www.granbyrotary.org
-
 MSG;
     mail($email, "Granbyrotary.org Registration", $message, "From: Granby Rotary Registration <info@granbyrotary.org>");
   }
-  
-  $ip = $_SERVER['REMOTE_ADDR'];
-  $agent = $_SERVER['HTTP_USER_AGENT'];
-
-    $blpnotify = <<<EOF
-New Registration:
-Name: $fname $lname
-Email: $email
-Club: $club
-Phone: $phone
-IP: $ip
-AGENT: $agent
-err: $err
-
-Email sent to provided email address.
-
-EOF;
-
-  mail("bartonphillips@gmail.com", "Notification: Granbyrotary.org Registration", $blpnotify, "From: info@granbyrotary.org");
 }
 
 // ********************************************************************************
@@ -447,7 +388,7 @@ function visitoremail($S) {
   extract($_GET);
   
   if($code != "Ab77J95Bc") {
-    $banner = $S->getBanner("<h1>Registration Error</h1>");
+    $banner = $S->getPageBanner("<h1>Registration Error</h1>");
 
     echo <<<EOF
 $S->pageHead
@@ -517,7 +458,7 @@ EOF;
     }
   }
     
-  $id = $S->getInsertId(); // Get the new id number
+  $id = $S->getLastInsertId(); // Get the new id number
   
   $blpnotify = <<<EOF
 Registration Activated.
@@ -529,7 +470,7 @@ Id: $id
 
 EOF;
 
-  mail("bartonphillips@gmail", "Notification: Granbyrotary.org Registration Activated", $blpnotify, "From: info@granbyrotary.org");
+  mail("bartonphillips@gmail.com", "Notification: Granbyrotary.org Registration Activated", $blpnotify, "From: info@granbyrotary.org");
   
   $S->setIdCookie($id);
   

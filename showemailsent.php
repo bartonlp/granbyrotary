@@ -1,8 +1,8 @@
 <?php
 
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 $h->extra = <<<EOF
   <meta name="robots" content="noindex, nofollow">

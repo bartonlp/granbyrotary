@@ -1,7 +1,7 @@
 <?php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
 //$AutoLoadDEBUG = true;
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
 session_cache_limiter('private');
 session_start();
@@ -9,13 +9,12 @@ session_start();
 $d = date("U"); // date to force uncached GETs
 
 // ********************************************************************************
-// News Feed Logic. This is an Ajax call. This lets the rest of the page load quickly
+// News Feed Logic. This is an ajax $.get() call. This lets the rest of the page load quickly
 // and the only thing that waits is the div with the feed.
 // We put a message there saying that the feed is loading.
 
 if($_GET['page'] == 'rssinit') {
-  $h->count = false;
-  $S = new GranbyRotary($h);
+  $S = new $_site['className']($_site); // to use $S->id we need to instantiate the 'className' not Database().
 
   if($S->id) {
     // For members keep track of read news and don't show it again.
@@ -56,6 +55,7 @@ EOF;
   }
 
   try {
+    // The class is in the granbyrotary/includes directory
     $feed = new RssFeed("http://www.skyhidailynews.com/csp/mediapool/sites/SwiftShared/assets/csp/rssCategoryFeed.csp?pub=SkyHiDaily&sectionId=817&sectionLabel=News");
   } catch(Exception $e) {
     if($e->getCode() == 5001) {
@@ -64,6 +64,8 @@ EOF;
     }
     throw($e);
   }
+
+  // Get the parsed feed data structure
   
   $rssFeed = $feed->getDb();
 
@@ -147,8 +149,7 @@ EOF;
 // loaded via the above Ajax call. 
 
 if($_GET['page'] == 'ajaxinx') {
-  $h->count = false;
-  $S = new GranbyRotary($h);
+  $S = new Database($_site['dbinfo']);
 
   //cout("date: {$_GET['date']}");
   
@@ -189,7 +190,7 @@ EOF;
 // ********************************************************************************
 // Page Logic. Above is Ajax logic this is the main flow of the page
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 // Mark All Feeds Read or Unread
 // NOTE: the two forms are method="get" not POST
@@ -229,6 +230,11 @@ $s->itemname ="Message";
 
 $u = new UpdateSite($s); // Should do this outside of the START comments
 
+// Now getItem gets the info for the $s->itemname sections
+// The special comments around each getItem() are MANDATORY and are used by the UpdateSite class
+// to maintain the information in the 'site' table in the bartonphillipsdotorg database at
+// bartonphillips.com
+
 // START UpdateSite Message "Important Message"
 $item = $u->getItem();
 // END UpdateSite Message
@@ -252,8 +258,8 @@ $hdr = "";
 // Read news from database
   
 $S->query("select article, rssfeed, articleInclude, created, expired, header, " .
-                     "left(created, 10) as creat, left(expired, 10) as exp " .
-                     "from articles where expired > now() order by pageorder, created desc");
+          "left(created, 10) as creat, left(expired, 10) as exp " .
+          "from articles where expired > now() order by pageorder, created desc");
 
 while($row = $S->fetchrow("assoc")) {
   extract($row);
@@ -294,7 +300,7 @@ jQuery(document).ready(function($) {
   // Please wait for news feed
   $("#skyhinews").html("<p style='color: red'>Please Wait While SkyHiNews Features are Loaded</p>"+
                        "<div style='text-align: center;'>"+
-                       "<img src='http://bartonlp.com/html/images/loading.gif'></div>");
+                       "<img src='/blp/images/loading.gif'></div>");
 
   // Get the news feed
 

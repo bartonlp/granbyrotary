@@ -1,7 +1,8 @@
 <?php
 // <start> Standard Start Stuff 
-require_once("/var/www/includes/siteautoload.class.php");
-$S = new GranbyRotary;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
+
+$S = new $_site['className']($_site);
 
 require_once("$DocRootPath/tbs_class.php");
 $TBS = new clsTinyButStrong ;

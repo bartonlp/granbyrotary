@@ -4,9 +4,9 @@
 // Create an article or edit an article
 // To create an article either NO 'query' or ?page=
 // To edit an article ?page=edit
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;  // not header etc.
+$S = new $_site['className']($_site);
 
 if(!$S->isAdmin($S->id)) {
   echo "<h1>Sorry This Is Just For Designated Admin Members</h1>";

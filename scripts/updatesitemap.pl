@@ -18,10 +18,7 @@ pod2usage(-exitval => 0, -verbose => 2) if $man;
 
 print <<'EOF';
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-                      http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 EOF
               
 while(<>) {
@@ -29,6 +26,8 @@ while(<>) {
   chomp;
 
   my $file = basename($_);
+
+  next if not -e $file;
 
   print "\t<url>\n\t\t<loc>$_</loc>\n";
 

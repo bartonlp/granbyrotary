@@ -1,13 +1,13 @@
 <?php
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once(getenv("HOME"). "/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 if($mid = $_GET['memberid']) {
   // The member is responding to an email with the query ?memberid=id
   // Set the member cookie
   $S->SetIdCookie($mid);
-  $S->CheckId($mid);  // sets all of the GXxxx publics
+  $S->checkId($mid);  // sets all of the GXxxx publics
 }
 
 $h->extra = <<<EOF
@@ -73,20 +73,21 @@ EOF;
 $h->title = "Edit Member Profile";
 $h->banner = "<h2>Edit Contact Information</h2>";
 
-echo $S->getPageTop($h);
-$footer = $S->getFooter();
+list($top, $footer) = $S->getPageTopBottom($h);
 
 // Form submitted for update of database
 
 if($_POST['submit'] == 'Submit') {
   extract($_POST);
 
-  //echo "b_day=$b_day, $b_mo, $b_yr<br>";
-  $bday = "$b_yr-$b_mo-$b_day";
-  //echo "$bday<br>";
-  $S->query("update rotarymembers set Email='$email', address='$address', hphone='$hphone', bphone='$bhome', cphone='$cphone', bday='$bday', password='$password' where id=$S->id");
+  $bday = sprintf("%04d-%02d-%02d", $b_yr, $b_mo, $b_day);
+
+  echo "$bday<br>";
+  $S->query("update rotarymembers set Email='$email', address='$address', hphone='$hphone', bphone='$bhome', ".
+            "cphone='$cphone', bday='$bday', password='$password' where id=$S->id");
 
   echo <<<EOF
+$top
 <h3>Database Updated</h3>
 $footer
 EOF;
@@ -95,14 +96,16 @@ EOF;
 
 // Not update so get info and display it for the user
 
-$cnt = $S->query("select * from rotarymembers where id=$S->id");
+if($S->id) $cnt = $S->query("select * from rotarymembers where id=$S->id");
 
 if($cnt != 1) {
+  echo $top;
   if($S->id == 0) {
     echo "<p>You have not logged in yet. Please <a href='login.php'>Login</a></p>";
   } else {
     echo "<p>Internal Error: id=$S->id, but count is $cnt not 1</p>";
   }
+  echo $footer;
   exit;
 }
 
@@ -110,6 +113,7 @@ $row = $S->fetchrow('assoc');
 extract($row);
 
 echo <<<EOF
+$top
 <div id='formDiv'>
 <h3>Contact Information for {$S->getUser()}</h3>
 <form action='edituserinfo.php' method='post'>
@@ -130,31 +134,33 @@ echo <<<EOF
 <th>Birthday:</th><td>
 <table id='bdayTable'>
    <tr><th>Month:</th><td><select name='b_mo'>
-
 EOF;
 
-$l = implode(",", "January,February,March,April,May,June,July,August,September,October,November,December");
-list($y, $m, $d) = implode("-", $row['bday']);
+$l = explode(",", "January,February,March,April,May,June,July,August,September,October,November,December");
 
-foreach ($l as $k=>$mo) {
+list($y, $m, $d) = explode("-", $bday);
+
+foreach($l as $k=>$mo) {
   $i=$k+1;
-  print("<option value='$i'" . (($m == $i) ? " selected" : "") . ">$mo</option>\n");
+  echo "<option value='$i'" . (($m == $i) ? " selected" : "") . ">$mo</option>\n";
 }
 
-print("</select></td>
+echo <<<EOF
+</select></td>
 </tr><tr><th>Day:</th><td><select name='b_day'>
-");
+EOF;
 
 for($i=1; $i < 32; ++$i) {
-  print("<option value='$i'" . (($d == $i) ? " selected" : "") . ">$i</option>\n");
+  echo "<option value='$i'" . (($d == $i) ? " selected" : "") . ">$i</option>\n";
 }
 
-print("</select></td>
+echo <<<EOF
+</select></td>
 </tr><tr><th>Year:</th><td><select name='b_yr'>
-");
+EOF;
 
 for($i=1910; $i < 2001; ++$i) {
-  print("<option value='$i'" . (($y == $i) ? " selected" : "") . ">$i</option>\n");
+  echo "<option value='$i'" . (($y == $i) ? " selected" : "") . ">$i</option>\n";
 };
 
 echo <<<EOF

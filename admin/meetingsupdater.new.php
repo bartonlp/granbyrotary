@@ -1,4 +1,5 @@
 <?php
+// BLP 2015-10-01 -- Per request make the list alphabetical
 // BLP 2014-06-08 -- No longer have business meetings.
 // Also change split to explode as split is depreciated.
 // Update the list of speakers on the Meetings page
@@ -6,9 +7,9 @@
 // members.
 // We no longer ask for the number of weeks because we always use all of the members.
 
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 define(BUSINESS_MEETING_WEEK, 0); // first week of the month!
 
 // Generate a list of meeting dates from today for six months.
@@ -82,8 +83,10 @@ EOF;
 }
 --$startWeek;
 
+// BLP 2015-10-01 -- alph order by desc.
+
 $query = "select id, concat(FName, ' ', LName) as name ".
-         "from rotarymembers where status='active' order by rand()";
+         "from rotarymembers where status='active' order by LName";
 
 $S->query($query);
 

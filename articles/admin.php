@@ -1,8 +1,8 @@
 <?php
 // Administer the articles and rssfeeds tables
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 if(!$S->isAdmin($S->id)) {
   echo "<h1>Sorry This Is Just For Designated Admin Members</h1>";

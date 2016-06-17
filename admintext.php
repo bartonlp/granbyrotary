@@ -3,7 +3,9 @@
 // BLP 2014-08-31 -- add foodlist and eventplanner
 // BLP 2014-07-17 -- Use $_REQUEST instead of $_POST so this will work with GET or POST calls
 
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
+
+$S = new $_site['className']($_site);
 
 if($_REQUEST['key'] != "41144blp") {
   echo "<h1>Sorry. Where did you come from?</h1>";
@@ -12,14 +14,10 @@ if($_REQUEST['key'] != "41144blp") {
 
 $sender = $_REQUEST['sender'];
 
-$S = new GranbyRotary;
-
 if(!$S->isAdmin($S->id)) {
   echo "<h1>You are not an admin!</h1>";
   exit();
 }
-
-$date = date("U");
 
 $h->title = "Administrator Features";
 $h->banner = "<h1>Administrator Features</h1>";
@@ -41,9 +39,9 @@ $top
 <h2>Secial Sections</h2>
 <p>Most pages have <i>Special Section</i> that can be updated ON-Line.</p>
 <ul>
-<li><a target="_blank" href="updatesite.php?d=$date">Update the Special Sections in Pages</a></li>
+<li><a target="_blank" href="updatesite.php">Update the Special Sections in Pages</a></li>
 <li><a target="_blank" href="updatesiteadmin.php">Administer Update Site Table</a></li>
-<li><a target="_blank" href="showupdateareas.php?page=$sender&d=$date">Show Update Areas</a>.<br>
+<li><a target="_blank" href="showupdateareas.php?page=$sender">Show Update Areas</a>.<br>
 Update areas are shown with a <span style="background-color: #CCFFCC;">Light Green</span>
 background and 
 a white on black <span style="color: white; background-color: black;">title</span>.<br>
@@ -56,15 +54,15 @@ This frature shows you where the <i>Special Sections</i> are in the page you wer
 members we know about in the four Grand County Rotary Clubs. New members can be added, and existing
 member's information can be edited and updated.</p>
 <ul>
-<li><a target="_blank" href="admindb.php?d=$date">Administer the Members Table</a></li>
+<li><a target="_blank" href="admindb.php">Administer the Members Table</a></li>
 </ul>
 <h2>News Articles</h2>
 <p><i>News Articles</i> can be added or edited. These are articles that appear on the <b>News</b>
 page.</p>
 <ul>
-<li><a target="_blank" href="articles/createarticle.php?d=$date">Create News Articles</a></li>
-<li><a target="_blank" href="articles/createarticle.php?page=edit&d=$date">Edit Existing News Articles</a></li>
-<li><a target="_blank" href="articles/admin.php?d=$date">Administer the News Articles Table</a></li>
+<li><a target="_blank" href="articles/createarticle.php">Create News Articles</a></li>
+<li><a target="_blank" href="articles/createarticle.php?page=edit">Edit Existing News Articles</a></li>
+<li><a target="_blank" href="articles/admin.php">Administer the News Articles Table</a></li>
 </ul>
 <h2>Items Below are Expermental</h2>
 <p>The <i>Fool List</i> lets you add/edit items that can be ordered for an event.
@@ -78,14 +76,14 @@ you want for the event (for example, 100 Hamburger Patties). The program calcula
 based on the <i>Package Quantity * Package Price * Number of Packages</i> as well as the
 <i>Unit Qty</>. The final form can be printed out.</p>
 <ul>
-<li><a target="_blank" href="foodlist.php?d=$date">Add/Edit Event Food List</a></li>
-<li><a target="_blank" href="eventplanner.php?d=$date">Plan an Event. Using the Food List</a></li>
+<li><a target="_blank" href="foodlist.php">Add/Edit Event Food List</a></li>
+<li><a target="_blank" href="eventplanner.php">Plan an Event. Using the Food List</a></li>
 </ul>
 <p>Attendance</p>
 <ul>
-<li><a target="_blank" href="attendance.php?d=$date">Add/Edit Attendance Records</a></li>
+<li><a target="_blank" href="attendance.php">Add/Edit Attendance Records</a></li>
 </ul>
-<p>You can also edit all of the entries on the <a target="_blank" href="meetings.php?d=$date">Meetings Page</a></p>
+<p>You can also edit all of the entries on the <a target="_blank" href="meetings.php">Meetings Page</a></p>
 </div>
 <hr>
 $footer

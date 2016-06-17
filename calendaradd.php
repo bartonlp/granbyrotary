@@ -1,7 +1,7 @@
 <?php
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 $errorhdr = <<<EOF
 <!DOCTYPE HTML>
 <html lang="en">

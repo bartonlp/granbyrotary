@@ -1,8 +1,8 @@
 <?php
 // BLP 2015-02-20 -- added 'copywrite' to siteinfo.  
 // Site map
-// This is included by the /siteautoload.php which is called from each page file.
-// This file should only be loaded via the siteautoload.php file.
+// This is included by the /siteautoload.class.php which is called from each page file.
+// This file should only be loaded via the siteautoload.class.php file.
 // This file has the sitemap which defines the various location where things can be found.
 // DOC_ROOT and SITE_ROOT are defined by the siteautoload.class.php
 // TOP is the path to the very top of the website. For example on digitalocean.com that is
@@ -22,12 +22,11 @@ define('INCLUDES', TOP."/includes");
 define('DATABASE_ENGINES', INCLUDES."/database-engines");
 define('SITE_INCLUDES', SITE_ROOT."/includes"); // SITE_ROOT is defined in siteautoload.class.php!
 
-// Email info and logfile location
+// Email info
 
 define('EMAILADDRESS', "bartonphillips@gmail.com");
 define('EMAILRETURN', "bartonphillips@gmail.com");
 define('EMAILFROM', "webmaster@bartonphillips.com");
-define('LOGFILE', "/tmp/database.log");
 
 // Database connection information
 // 'engine' is the type of database engine to use. Options are 'mysqli', 'sqlite' and 'mysql'.
@@ -45,14 +44,22 @@ $dbinfo = array('host' => 'localhost',
 // See the SiteClass constructor for other possible values like 'count', 'emailDomain' etc.
 
 $siteinfo = array('siteDomain' => "granbyrotary.org",
-                  'siteName' => "The Rotary Club of Granby",
-                  'copyright' => "2015 Granby Rotary", // BLP 2015-02-20 -- new used by aboutwebsite.
+                  'siteName' => "GranbyRotary",
+                  //'emailDomain' => null,
+                  'path' => "/var/www/granbyrotary", // BLP 2016-01-24 -- 
                   'className' => "GranbyRotary", // BLP 2015-02-20 -- used in $S = new ...
+                  'copyright' => "2016 Granby Rotary Club", // BLP 2015-02-20 -- new used by aboutwebsite.
+                  'author' => "Barton Phillips (bartonphillips@gmail.com)",
                   'memberTable' => "rotarymembers",
+                  'masterdb' => 'barton', 
+                  'dbinfo' => $dbinfo,
                   'headFile' => SITE_INCLUDES."/head.i.php",
                   'bannerFile' => SITE_INCLUDES."/banner.i.php",
                   'footerFile' => SITE_INCLUDES."/footer.i.php",
                   'count' => true,
-                  'countMe' => true, // BLP 2015-03-21 -- turn on
+                  'countMe' => true, 
+                  'analysis' => true,
+                  'trackerImg1' => '/images/blank.png', // the script image
+                  'trackerImg2' => '/images/blank.png', // the normal image
                   'myUri' => "bartonphillips.dyndns.org"
                  );

@@ -2,9 +2,9 @@
 // BLP 2014-08-13 -- Any Admin can edit all of the entries. 
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
 
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 $S->d = date("U");
 
 $s->siteclass = $S;
@@ -49,7 +49,7 @@ $h->script = <<<EOF
   <script>
 jQuery(document).ready(function($) {
   $("#print").html("<input type='image' id='printbtn' "+
-                     src='http://bartonlp.com/html/images/print.gif' " +
+                     src='/blp/images/print.gif' " +
                    "style='width: 100px'/>");
 
   $("#printbtn").click(function() {
@@ -126,7 +126,7 @@ $h->title = "Meetings";
 $h->banner = "<h1>Program Assignments</h1>";
 
 $S->top = $S->getPageHead($h);
-$footer = $S->getFooter();
+$footer = $S->getPageFooter();
 
 // The top and body of the page
 
@@ -163,7 +163,7 @@ EOF;
 function Show($message) {
   global $S;
 
-  $banner = $S->getBanner("<h2>Program Assignments</h2>");
+  $banner = $S->getPageBanner("<h2>Program Assignments</h2>");
 
 
   if($S->id != 0) {
@@ -272,7 +272,7 @@ information updated before the Wednesday meeting prior to your talk.</p>
 
 <div id="print">
 <a href="$S->self?print=1"><img
-src="http://bartonlp.com/html/images/print.gif" width="100" alt="print logo"/></a>
+src="/blp/images/print.gif" width="100" alt="print logo"/></a>
 </div>
 
 <table id='assignments'>
@@ -299,7 +299,7 @@ function Edit($date) {
   $row = $S->fetchrow();
   extract($row);
 
-  $banner = $S->getBanner("<h1>Edit Your Program Assignment</h1>");
+  $banner = $S->getPageBanner("<h1>Edit Your Program Assignment</h1>");
 
   $options = array('not confirmed', 'confirmed', 'can-not');
   
@@ -404,7 +404,7 @@ function Post($date) {
   
   // $id here is the member who is responsible
 
-  $banner = $S->getBanner("<h1>Post Updated to Program Assignment</h1>");
+  $banner = $S->getPageBanner("<h1>Post Updated to Program Assignment</h1>");
 
   echo <<<EOF
 $S->top

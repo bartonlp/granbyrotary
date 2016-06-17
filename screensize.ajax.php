@@ -1,8 +1,7 @@
 <?php
-require_once("/var/www/includes/siteautoload.class.php");;
-
-$s['count'] = false;
-$S = new GranbyRotary($s); // dont count this
+$_site = require_once("/var/www/includes/siteautoload.class.php");
+$_site['count'] = false;
+$S = new $_site['className']($_site);
 
 $size = $_GET['size'];
 

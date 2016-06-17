@@ -4,16 +4,17 @@
 // BLP 2014-11-23 -- work on responsive scaling. Modify css/rotary.css and move some
 // stuff to here that only applies to index.php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
+
 //$AutoLoadDEBUG = true;
 
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 $x = glob("../html/images/banner-photos/*");
 foreach($x as $v) {
   $v = basename($v);
-  $banner_photos .= "\"http://bartonlp.com/html/images/banner-photos/$v\",";
+  $banner_photos .= "\"/blp/images/banner-photos/$v\",";
 }
 $banner_photos = rtrim($banner_photos, ",");
 
@@ -52,23 +53,6 @@ EOF;
 // To get subsequent sections just set the itemname and call getItem with the $s with the new
 // itemname set.
 
-$s->itemname ="Polio";
-
-// START UpdateSite Polio
-$item = $u->getItem($s);
-// END UpdateSite Polio
-
-if($item !== false) {
-  $endpolio = <<<EOF
-<div>
-<h2>{$item['title']}</h2>
-<div>{$item['bodytext']}</div>
-<p class="itemdate">Created: {$item['date']}</p>
-</div>
-<hr/>
-EOF;
-}
-
 $s->itemname ="OtherStuff";
 
 // START UpdateSite OtherStuff
@@ -101,7 +85,7 @@ if(isset($_GET['memberid'])) {
   $_COOKIE['SiteId'] = $mid;  // force $_COOKIE[GrId] to be $mid so we can set everything with CheckId!!!
   $S->CheckId();  // sets all of the GXxxx publics
 }
-  
+
 // set up the scripts and styles
 
 $h->extra = <<<EOF
@@ -135,20 +119,13 @@ function dobanner(photos) {
 };
 
 function bannershow() {
-  if(binx > bannerImages.length) {
+  if(binx > bannerImages.length-1) {
     binx = 0;
   }
 
   var image = bannerImages[binx++];
-  //$(image).css({width: '100%', height: '100%', 'z-index': '100'});
 
-  $("#header-image").html(image);
-  $("#wheel, #granbyrotarytext").remove();
-  $("#header-image").append("<img id='wheel' "+
-                            "src='http://bartonlp.com/html/images/wheel.gif'/>"+
-                            "<img id='granbyrotarytext' "+
-                            "src='http://bartonlp.com/html/images/text-granbyrotary.png'/>");
-
+  $("#slideshow").attr('src', image.src);
   setTimeout(bannershow, 5000);
 }
 
@@ -191,10 +168,9 @@ $h->css = <<<EOF
         margin-bottom: 30px;
 }
 #rotary-links-menu {
-        width: 280px;
+        width: 30rem;
         margin: auto;
         margin-top: 15px;
-        text-align: left;
 }
 #bottominfo {
         width: 50%;
@@ -333,10 +309,9 @@ $whosBeenHereToday = $S->getWhosBeenHereToday();
 
 $mostart = date("Y-m-01");
 
-$n = $S->query("select concat(fname, ' ', lname) from daycounts as d ".
-               "left join rotarymembers as r on d.id=r.id where d.id!=0 and ".
-               "date >='$mostart' ".
-               "group by d.id, date");
+$n = $S->query("select concat(fname, ' ', lname) from rotarymembers ".
+               "where id!=0 and last >='$mostart' ".
+               "group by id, last");
 
 $namecnt = array();
 
@@ -390,19 +365,12 @@ The 2015-2016 Rotary District Governor
 is Mary Kay Hasz</a>.</p>
 <!--<p>The 2015-2016 President of Rotary International is Gary C.K. Huang.</p>-->
 <hr/>
-<!-- Start UpdateSite: Polio Info -->
-$endpolio
 <!-- UpdateSite: Polio Info End -->
 <div class="center">
 <!-- Start UpdateSite: Other Stuff -->
 $otherstuff
 <!-- UpdateSite: Other Stuff End -->
 <div id="button-group">
-<img src="http://bartonlp.com/html/images/find_us_on_facebook_badge.gif"
-title="Find Us On Facebook" alt="find us on facebook" /><br>
-<a target="_blank" href="http://www.facebook.com/group.php?gid=105501794053">Rotary Club of Granby</a><br>
-<a target="_blank" href="http://www.facebook.com/home.php?ref=home#!/pages/MPHS-Interact-Club/123052577747543">
-Middle Park High School Interact Club on Facebook</a>
 <!-- Rotary Links -->
 <div id="rotary-links">
   <label for="rotary-links-checkbox">Rotary Links</label>
@@ -410,11 +378,9 @@ Middle Park High School Interact Club on Facebook</a>
   <ul id="rotary-links-menu">
     <li><a target="_blank" href="http://www.clubrunner.ca/portal/Home.aspx?accountid=50085">District 5450 Web Site</a>
     <li><a target="_blank" href="http://www.rotary.org/">Rotary International Web Site</a>
-    <li><a target="_blank" href="http://www.endpolio.com">District 5450 End Polio Campaign</a>
     <li><a target="_blank" href='http://rmryla.org'>RYLA</a>
     <li><a target="_blank" href='http://WinterparkFraserRotary.org'>Winter Park Rotary Club</a>
     <li><a target="_blank" href='http://www.grandlakerotary.org/'>Grand Lake Rotary Club</a>
-    <li><a target="_blank" href='http://www.kremmlingrotary.org'>Kremmling Rotary Club</a>
     <li><a target="_blank" href='http://escuelaminga.org/Minga/Rotary.html'>The Equator Project</a>
   </ul>
 </div>

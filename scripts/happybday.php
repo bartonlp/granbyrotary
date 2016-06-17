@@ -1,8 +1,8 @@
 #!/usr/bin/php -q
 <?php
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("HOME")."/www/includes/siteautoload.class.php");
 
-$S = new Database($dbinfo);
+$S = new Database($_site['dbinfo']);
 // Get todays DAY
 
 $day = date("d");
@@ -30,7 +30,4 @@ EOF;
          "From: info@granbyrotary.org\r\n",
          "-f bartonphillips@gmail.com");
   }
-} else {
-  echo "No birthdays Today.\n";
 }
-?>

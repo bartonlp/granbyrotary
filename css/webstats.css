@@ -65,11 +65,9 @@ button {
 #tracker td:nth-child(7) {
         width: 3em;
 }
-/* referrer */
+/* isJavaScript */
 #tracker td:last-child {
-        word-break: break-all;
-        word-break: break-word; /* for chrome */
-        width: 100px;
+        width: 1px;
 }
 #daycount tbody tr td { /*visitors*/
 text-align: right;

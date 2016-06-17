@@ -3,9 +3,9 @@
 // BLP 2014-08-03 -- empty columns should be posted as they my be removing something. Also added
 // new logic for ctrls input selection. Add PRINT function.
 
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 $errorhdr = <<<EOF
 <!DOCTYPE HTML>
@@ -72,8 +72,7 @@ function expunge($S) {
   $h->title = "View Items to Expunge";
   $h->banner = "<h2>Database Administration</h2>";
 
-  $top = $S->getPageTop($h);
-  $footer = $S->getFooter("<a href='$S->self'>Return to Admin Database</a><hr/>");
+  list($top, $footer) = $S->getPageTopBottom($h, "<a href='$S->self'>Return to Admin Database</a><hr/>");
 
   $query = "select id, concat(LName, ' ', FName) as Name, Email, otherclub from rotarymembers where status='delete'";
 
@@ -87,7 +86,8 @@ function expunge($S) {
 <td>Name</td><td>Email</td><td>otherclub</td>
 </tr>
 EOF;
-  $tblrows = $S->makeresultrows($query, $rowdesc);
+  $T = new dbTables($S);
+  $tblrows = $T->makeresultrows($query, $rowdesc);
 
   if($tblrows === false) {
     echo <<<EOF
@@ -125,8 +125,7 @@ function expunge2($S) {
   $h->title = "Expunge";
   $h->banner = "<h2>Database Administration</h2>";
 
-  $top = $S->getPageTop($h);
-  $footer = $S->getFooter("<a href='$S->self'>Return to Admin Database</a><hr/>");
+  list($top, $footer) = $S->getPageTopBottom($h, "<a href='$S->self'>Return to Admin Database</a><hr/>");
 
   extract($_POST);
 
@@ -162,8 +161,7 @@ function post($S) {
   $h->title = "Database Admin -- POST";
   $h->banner = "<h2>Database Administration</h2>";
 
-  $top = $S->getPageTop($h);
-  $footer = $S->getFooter("<a href='$S->self'>Return to Admin Database</a><hr/>");
+  list($top, $footer) = $S->getPageTopBottom($h, "<a href='$S->self'>Return to Admin Database</a><hr/>");
 
   // Update database
   $id = $_POST['id'];
@@ -211,8 +209,7 @@ function insert($S) {
   $h->title = "Database Admin -- Insert New Record";
   $h->banner = "<h2>Database Administration</h2>";
 
-  $top = $S->getPageTop($h);
-  $footer = $S->getFooter("<a href='$S->self'>Return to Admin Database</a><hr/>");
+  list($top, $footer) = $S->getPageTopBottom($h, "<a href='$S->self'>Return to Admin Database</a><hr/>");
 
   // The fields are i_xxx
   $fields = "";
@@ -229,7 +226,6 @@ function insert($S) {
   $query = "insert into rotarymembers ($fields) values ($values)";
   //echo "$query<br>";
   $S->query($query);
-  
   echo <<<EOF
 $top
 <h2>New Member Added</h2>
@@ -243,8 +239,7 @@ function edit($S) {
   $h->title = "Database Admin -- EDIT";
   $h->banner = "<h2>Database Administration</h2>";
 
-  $top = $S->getPageTop($h);
-  $footer = $S->getFooter("<a href='$S->self'>Return to Admin Database</a><hr/>");
+  list($top, $footer) = $S->getPageTopBottom($h, "<a href='$S->self'>Return to Admin Database</a><hr/>");
 
   $dateitems = "/^(bday)|(rotanniv)|(anniv)/";
   $skip = "/^(id)|(last)|(visittime)|(created)|(visits)$/"; // Skip these columns
@@ -305,8 +300,7 @@ function add($S) {
   $h->title = "Database Admin -- Add New Member";
   $h->banner = "<h2>Database Administration</h2>";
 
-  $top = $S->getPageTop($h);
-  $footer = $S->getFooter("<a href='$S->self'>Return to Admin Database</a><hr/>");
+  list($top, $footer) = $S->getPageTopBottom($h, "<a href='$S->self'>Return to Admin Database</a><hr/>");
 
   $dateitems = "/^(bday)|(rotanniv)|(anniv)/";
   $skip = "/^(id)|(last)|(visittime)|(created)|(visits)$/"; // Skip these columns
@@ -369,7 +363,7 @@ function startpage($S) {
   $h->link =<<<EOF
 <style>
 #datatable {
-  font-size: 12px;
+font-size: .75rem;
   border-collapse: collapse;
   background: white;
   width: 4000px;
@@ -407,13 +401,10 @@ EOF;
   <script>
 jQuery(document).ready(function($) {
   var admindbspecialcss = '$admindbspecialcss';
-  var maxWidth = 30; // this is percent
-  var clx = '';
-  var hdr = '';
 
   // table sort
 
-  $("#datatable").tablesorter({handlertype: "click"}); 
+  $("#datatable").tablesorter(); 
 
   // BLP 2014-08-03 -- PRINT
 
@@ -472,11 +463,8 @@ jQuery(document).ready(function($) {
       success: function(d) {
         console.log("success: ", d);
         // Pop up print window
-        var dd = new Date().getTime();
-//        location = "adminprint.php?t="+dd;
-        var w = window.open("adminprint.php?t="+dd);
+        var w = window.open("adminprint.php");
         w.print();
-//        w.close();
         return false;
       },
       error: function(e) {
@@ -564,8 +552,7 @@ EOF;
   $h->title = "Database Admin";
   $h->banner = "<h2>Database Administration</h2>";
 
-  $top = $S->getPageTop($h);
-  $footer = $S->getFooter("<hr/>");
+  list($top, $footer) = $S->getPageTopBottom($h, "<hr/>");
 
   $S->query("select * from rotarymembers order by LName");
 

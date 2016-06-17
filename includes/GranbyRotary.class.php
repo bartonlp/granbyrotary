@@ -25,7 +25,7 @@ class GranbyRotary extends SiteClass {
   private $admins = array(); // array of admins  
   private $grUser;  // "$FName $LName" as one unit from database, or empty
   private $grOtherclub;
-  
+
   /**
    * Constructor
    * new GranbyRotary()
@@ -34,94 +34,21 @@ class GranbyRotary extends SiteClass {
    */
   
   public function __construct($x=array()) {
-    global $dbinfo, $siteinfo; // from .sitemap.php
+    //ErrorClass::setNoEmailErrs(true); // For debugging
+    //ErrorClass::setDevelopment(true); // during development
 
-    $s = $siteinfo;
-    $s['databaseClass'] = new Database($dbinfo);
-
-    // If $x has values then add/modify the $s array
-
-    if(!is_null($x)) foreach($x as $k=>$v) {
-      $s[$k] = $v;
-    }
-
-    parent::__construct($s); // NOTE: parent constructor calls checkId() which uses this classes method not the parents!
+    parent::__construct($x); // NOTE: parent constructor calls checkId() which uses this classes method not the parents!
 
     // Check to see who can administer our site.
     
     $n = $this->query("select id from rotarymembers where webadmin='yes'");
     if($n) {
-      while($row = $this->fetchrow()) {
-        $this->admins[] = $row[0];
+      while(list($id) = $this->fetchrow('num')) {
+        $this->admins[] = $id;
       }
     }
   }
-
   
-  /**
-   * daycount()
-   * Day Counts
-   * Override base class
-   */
-  
-  protected function daycount() {
-    $blpIp = $this->myIp;
-
-    if($this->ip != $blpIp && $this->id != ID_BARTON) {
-      // The bots table is updated from our sites only (2013-11-13). It use to be updated from the
-      // virtual access log for the ISP but they stopped letting me look at those logs.
-      // It still has good information however.
-      
-      $n = $this->query("select ip from barton.bots where ip='$this->ip'");
-
-      if($n) {
-        // BOT
-        $this->query("insert into daycounts (date, count, robotcnt, visits, ip, id) " .
-                     "values(now(), 1, 1, 0, '$this->ip', '$this->id') " .
-                     "on duplicate key update count=count+1, robotcnt=robotcnt+1");
-      } else {
-        // NOT BOT
-        $this->query("insert into daycounts (date, count, visits, ip, id) " .
-                     "values(now(), 1, 0, '$this->ip', '$this->id') " .
-                     "on duplicate key update count=count+1, id='$this->id'");
-      }
-
-      if($this->id) {
-        $this->query("update daycounts set members=members+1, id='$this->id' ".
-                     "where ip='$this->ip' and date=now()");
-      }
-        
-      if(!($cookietime = $_COOKIE['blptime'])) {
-        $cookietime = time();
-        // set cookie to expire in 10 minutes
-        setcookie("blptime", $cookietime, $cookietime + (60*10), "/", "granbyrotary.org", false, true);
-        $this->query("update daycounts set visits=visits+1, id='$this->id' ".
-                     "where ip='$this->ip' and date=now()");
-      }
-
-      // BLP Nov 10, 2013 add counter2
-      // CREATE TABLE `counter2` (
-      //   `date` date NOT NULL DEFAULT '0000-00-00',
-      //   `filename` varchar(255) NOT NULL DEFAULT '',
-      //   `count` int(11) DEFAULT NULL,
-      //   `members` int(11) Default null,
-      //   `bots` int(11) default null,
-      //   `lasttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      //   PRIMARY KEY (`date`,`filename`)
-      // ) ENGINE=MyISAM DEFAULT CHARSET=utf8
-
-      $member = $this->id ? ", members=members+1" : "";
-      $bot = $n ? ", bots=bots+1" : "";
-    
-      $sql = "insert into counter2 (date, filename, count, members, bots) ".
-             "values(date(now()), '$this->self', 1, " . ($this->id ? 1 : 0) .
-             ", " . $n .
-             ") on duplicate key update count=count+1{$member}{$bot}";
-
-      $this->query($sql);
-    }
-  }
-    
   /**
    * getUser()
    * Get the user name
@@ -146,15 +73,16 @@ class GranbyRotary extends SiteClass {
    * Override base class!
    * This is called by the base class constructor.
    * As a side effect sets the $this->grUser, grDistrictId by reading rotarymembers table.
+   * @param optional $mid. Member id.
    * @return user's id
    */
   
-  public function checkId() {
+  public function checkId($mid=null) {
     // For historic reasons we check GrId which was used before I made the site.class.php
-    
-    $id = $_COOKIE['GrId'];
-    
-    if(!isset($id)) {
+
+    if(isset($mid)) {
+      $id = $mid;
+    } else {
       $id = $_COOKIE['SiteId']; // New logic in site.class.php uses SiteId
     }
     
@@ -195,48 +123,6 @@ class GranbyRotary extends SiteClass {
   }
   
   /**
-   * checkBBoard()
-   * Check BBoard
-   * @return blank or number of new bulletin board entries ("<br/>$cnt New Post" . ($cnt == 1 ? "" : "s")
-   */
-  
-  public function checkBBoard() {
-    $msg = "";
-
-    $id = $this->getId();
-
-    if($id) {
-      $this->query("select count(item) from bboard");  // count all items in bboard
-
-      $row = $this->fetchrow();
-
-      $bbcount = $row[0]; // total items in bb
-
-      $this->query("select count(item) from bbsreadmsg where id='$id'"); // now count the number of items that I have read
-
-      $row = $this->fetchrow();
-
-      $bbsreadcnt = $row[0]; // items that I have read
-
-      // If there are some items in the bb
-
-      if($bbcount) {
-        // subtract the total from what I have read, this is the number
-        // of UN read items.
-
-        $cnt = $bbcount - $bbsreadcnt;
-
-        // If ther are any unread items
-
-        if($cnt) {
-          $msg = "<br/>$cnt New Post" . ($cnt == 1 ? "" : "s");
-        }
-      }
-    }
-    return $msg;
-  } 
-
-  /**
    * feedCount()
    * Count number of accesses to the rss feed.
    * Inserts into database table "feedcnt"
@@ -248,28 +134,6 @@ class GranbyRotary extends SiteClass {
   }
   
   /**
-   * newsChanged()
-   * Check if the News Page has changed since user looked last
-   * @return true or false
-   */
-  
-  public function newsChanged() {
-    $d = $this->getLastmod();
-    $this->query("select lastnews from rotarymembers where id=$this->id");
-
-    $row = $this->fetchrow();
-    $lastnews = $row['lastnews'];
-
-    //echo "d=$d, lastnews=$lastnews<br>";
-    //echo "d=" . strtotime($d) . " lastnews=" . strtotime($lastnews) . "<br>";
-
-    if(strtotime($d) > strtotime($lastnews)) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
    * lookedAtNews()
    * Set "lastnews" field in "rottarymembers" every time News Page viewed
    */
@@ -279,32 +143,6 @@ class GranbyRotary extends SiteClass {
     date_default_timezone_set('America/Denver');
     $date = date("Y-m-d H:i:s");
     $this->query("update rotarymembers set lastnews='$date' where id='$this->id'");
-  }
-
-  /**
-   * loginInfo()
-   * Login Info Functioin
-   * This is only used by the login.php
-   * when members first login.
-   */
-  
-  public function loginInfo() {
-    $agent = $this->agent;
-    $ip = $this->ip;
-
-    // save IP, ID info
-
-    $this->query("insert into logip (ip, count, id) values('$ip', '1', '$this->id')
-    on duplicate key update count=count+1, id=$this->id");
-
-    // save IP, AGENT, ID info
-
-    $this->query("insert into logagent (ip, agent, count, id) values('$ip', '$agent', '1', '$this->id')
-    on duplicate key update count=count+1, id='$this->id'");
-
-    // Now update the users visit counter
-
-    $this->query("update rotarymembers set visits=visits+1, visittime=now() where id='$this->id'");
   }
 
   /**
@@ -325,7 +163,6 @@ class GranbyRotary extends SiteClass {
    */
   
   public function getWhosBeenHereToday() {
-//    ob_start();
     $ret =<<<EOF
 <table class='who' border="1">
 <thead>
@@ -337,22 +174,16 @@ class GranbyRotary extends SiteClass {
 <tbody>
 EOF;
 
-  // NOTE the database last field has the San Diego time not our
-  // time. So use ADDTIME to add one hour to the time to get Mountain
-  // time.
-
-  $this->query("select concat(FName, ' ', LName) as name, " .
-    "date_format(addtime(visittime, '1:0'), '%H:%i:%s') as last " .
+    $this->query("select concat(FName, ' ', LName) as name, visittime " .
     "from rotarymembers where id != 0 and visits != 0 and visittime > current_date() order by visittime desc");
 
-  while($row = $this->fetchrow()) {
-    $ret .= "<tr><td>" . stripslashes($row['name']) . "</td><td>$row[last]</td></tr>\n";
-  }
+    while($row = $this->fetchrow()) {
+      $ret .= "<tr><td>" . stripslashes($row['name']) . "</td><td>{$row['visittime']}</td></tr>\n";
+    }
 
-  $ret .=<<<EOF
+    $ret .=<<<EOF
 </tbody>
 </table>
-
 EOF;
     return $ret;
   }
@@ -387,21 +218,3 @@ EOF;
     return __CLASS__;
   }
 } // End of class GranbyRotary
-
-// ********************************************************************************
-
-// Callback to get the user id for db.class.php SqlError
-
-if(!function_exists(ErrorGetId)) {
-  function ErrorGetId() {
-    $id = $_COOKIE['GrId'];
-    if(empty($id)) {
-      $id = $_COOKIE['SiteId'];
-    }
-    
-    if(empty($id)) {
-      $id = "IP={$_SERVER['REMOTE_ADDR']}, AGENT={$_SERVER['HTTP_USER_AGENT']}";
-    }
-    return $id;
-  }
-}

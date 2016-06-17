@@ -1,9 +1,9 @@
 <?php
    // Lets users check the cookies for this site.
 
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 $top = $S->getPageTop("About Our Use of Cookies", "<h2>About Our Use of Cookies</h2>");
 $footer = $S->getFooter();
 

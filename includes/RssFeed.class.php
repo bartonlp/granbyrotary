@@ -1,5 +1,6 @@
 <?php
 // Get Information from an RSS feed
+// BLP 2016-06-06 -- This is used in the news.php file to get the SkiHi rss feed.
 
 class RssFeed {
   private $tdb;
@@ -25,6 +26,7 @@ class RssFeed {
     $parser = xml_parser_create();
     xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
     xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
+    // $values and $tags are references and return data.
     xml_parse_into_struct($parser, $data, $values, $tags);
     xml_parser_free($parser);
 

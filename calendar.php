@@ -1,7 +1,7 @@
 <?php
-require_once("/var/www/includes/siteautoload.class.php");;
+$_site = require_once("/var/www/includes/siteautoload.class.php");
 
-$S = new GranbyRotary;
+$S = new $_site['className']($_site);
 
 switch(strtoupper($_SERVER['REQUEST_METHOD'])) {
   case "POST":
@@ -43,7 +43,7 @@ td {
 EOF;
 
   $top = $S->getPageTop($h);
-  $footer = $S->getFooter();
+  $footer = $S->getPageFooter();
 
 //  require_once("includes/updatesite.class.php");
 

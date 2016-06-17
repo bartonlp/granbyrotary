@@ -2,7 +2,7 @@
 
 $date = date("M d, Y H:i:s", getlastmod());
 
-$pageFooterText = <<<EOF
+return <<<EOF
 <footer>
 {$arg['msg']}
 {$arg['msg1']}

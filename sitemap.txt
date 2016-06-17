@@ -1,0 +1,8 @@
+http://www.granbyrotary.org/index.php
+http://www.granbyrotary.org/member_directory.php
+http://www.granbyrotary.org/about.php
+http://www.granbyrotary.org/news.php
+http://www.granbyrotary.org/calendar.php
+http://www.granbyrotary.org/meetings.php
+http://www.granbyrotary.org/edituserinfo.php
+http://www.granbyrotary.org/webstats.php

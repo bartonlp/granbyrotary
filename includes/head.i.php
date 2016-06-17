@@ -1,6 +1,5 @@
 <?php
-
-$pageHeadText = <<<EOF
+return <<<EOF
 <head>
   <title>{$arg['title']}</title>
   <!-- METAs -->
@@ -21,11 +20,21 @@ $pageHeadText = <<<EOF
   <link rel="stylesheet" title="Rotary Style Sheet" href="/css/rotary.css">
 {$arg['link']}
   <!-- jQuery -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <!-- Site Script -->
-  <script src="/js/tracker.js"></script>
+  <script>
+var lastId = $this->LAST_ID;
+  </script>
+  <script src="http://bartonlp.com/html/js/fingerprint2.js"></script>
+  <script src="http://bartonlp.com/html/js/fingerprint.js"></script>
+  <script src="/blp/js/tracker.js"></script>
 {$arg['extra']}
 {$arg['script']}
 {$arg['css']}
+  <style>
+div {
+  padding: 0;
+}
+  </style>
 </head>
 EOF;

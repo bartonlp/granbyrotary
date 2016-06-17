@@ -30,7 +30,7 @@ while(<>) {
 
   $url =~ /\/([^\/]*)$/;
   my $base = $1;
-  
+
   my($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
    $atime,$mtime,$ctime,$blksize,$blocks)
       = stat("$base");

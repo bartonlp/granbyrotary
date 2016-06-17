@@ -1,7 +1,7 @@
 <?php
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");
 
-$S = new GranbyRotary();  // not header etc.
+$S = new $_site['className']($_site);
 
 // Does the file exist already?
 

@@ -4,9 +4,9 @@
 // birthday.
 // BLP 2014-04-14 -- fixed weekofyear logic
 
-require_once("/var/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("HOME")."/www/includes/siteautoload.class.php");
 
-$S = new Database($dbinfo);
+$S = new Database($_site['dbinfo']);
 // Get todays week of year
 
 $S->query("select concat(fname, ' ',lname), email from rotarymembers ".

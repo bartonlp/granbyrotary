@@ -1,10 +1,8 @@
 <?php
 // Add the information from the article template to the database
-require_once("/var/www/includes/siteautoload.class.php");
-
-$s = new stdClass;
-$s->count = false;
-$S = new GranbyRotary($s);  // don't count
+$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");
+$_site['count'] = false;
+$S = new $_site['className']($_site);
 
 $S->feedCount();
 
