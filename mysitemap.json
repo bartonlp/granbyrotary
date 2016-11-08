@@ -1,0 +1,28 @@
+{
+    "siteDomain": "granbyrotary.org",
+    "siteName": "GranbyRotary",
+    "path": "/var/www/granbyrotary",
+    "className": "GranbyRotary",
+    "copyright": "2016 Granby Rotary Club",
+    "author": "Barton Phillips (bartonphillips@gmail.com)",
+    "memberTable": "rotarymembers",
+    "masterdb": "barton",
+    "dbinfo": {
+        "host": "localhost",
+        "user": "barton",
+        "password": "7098653",
+        "database": "granbyrotarydotorg",
+        "engine": "mysqli"
+    },
+    "headFile": "/var/www/granbyrotarydotorg/includes/head.i.php",
+    "bannerFile": "/var/www/granbyrotarydotorg/includes/banner.i.php",
+    "footerFile": "/var/www/granbyrotarydotorg/includes/footer.i.php",
+    "count": true,
+    "countMe": true,
+    "trackerImg1": "/images/blank.png",
+    "trackerImg2": "/images/blank.png",
+    "myUri": "bartonphillips.dyndns.org",
+    "EMAILADDRESS": "bartonphillips@gmail.com",
+    "EMAILRETURN": "bartonphillips@gmail.com",
+    "EMAILFROM": "webmaster@bartonphillips.com"
+}

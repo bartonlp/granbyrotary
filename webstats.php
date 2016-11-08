@@ -10,14 +10,13 @@
 
 // webstats-new.php sets $top and $footer and more.
 ob_start();
-$_REQUEST['x'] = 1;
 require_once("webstats-new.php");
 $content = ob_get_clean();
 
 // $content has the rendered html which has the DOCTYPE and the <header.
 // This must be removed because we want this to be an insert in this new page.
 
-$content = preg_replace('~^<!DOCTYPE.*</header>~ims', '', $content);
+$content = preg_replace('~^<!DOCTYPE.*?</header>~ims', '', $content);
 
 $sql = "select id, concat(FName, ' ', LName) from rotarymembers";
 $S->query($sql);
@@ -40,12 +39,9 @@ $jmembers = json_encode($members);
 
 // Member Hits
 
-// NOTE the last field is San Diego time so in all cases add on hour
-// via addtime().
-
 // Get the last person to access the webpage
 
-$S->query("select concat(FName, ' ', LName), addtime(visittime, '1:0') as lastvisit from rotarymembers
+$S->query("select concat(FName, ' ', LName), visittime as lastvisit from rotarymembers
 where visittime = (select max(visittime) from rotarymembers where visits != 0 and id not in ('25', '$S->id'))");
 
 list($fullName, $lastAccess) = $S->fetchrow('num');
@@ -65,7 +61,7 @@ $honoraryMembers = $ar['honorary'];
 $totalMembers = $activeMembers + $honoraryMembers;
 
 // Members Who Visited
-$query = "select id, FName, LName, visits, status,  addtime(visittime, '1:0') as lastvisit ".
+$query = "select id, FName, LName, visits, status,  visittime as lastvisit ".
          "from rotarymembers ".
          "where visits != 0 and status in('active','honorary') order by lastvisit desc";
 
@@ -85,7 +81,7 @@ $memberCnt = $S->getNumRows();
 
 // Others who visited
 
-$query = "select id, FName, LName, visits, status, addtime(visittime, '1:0') as lastvisit, club ".
+$query = "select id, FName, LName, visits, status, visittime as lastvisit, club ".
          "from rotarymembers ".
          "where visits !=0 and status not in ('active', 'honorary') ".
          "and visittime > date_sub(current_date(), interval 1 month) order by lastvisit desc";

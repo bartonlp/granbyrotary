@@ -1,6 +1,10 @@
 # Allow CORS
 Header set Access-Control-Allow-Origin "*"
 
+# HOME is only needed by siteautoload and will be removed once everything is autoload.php ready
+SetEnv HOME /var/www
+SetEnv SITELOAD /var/www/vendor/bartonlp/site-class/includes
+
 # BEGIN EXPIRES
 <IfModule mod_expires.c>
     ExpiresActive On
@@ -9,13 +13,13 @@ Header set Access-Control-Allow-Origin "*"
 </Files>
   ExpiresDefault "access plus 10 days"
   ExpiresByType text/javascript "access plus 1 days"
+  ExpiresByType application/x-javascript "access plus 1 days"
+  ExpiresByType application/javascript "access plus 1 days"
   ExpiresByType text/css "access plus 1 week"
   ExpiresByType text/plain "access plus 1 month"
   ExpiresByType image/gif "access plus 1 month"
   ExpiresByType image/png "access plus 1 month"
   ExpiresByType image/jpeg "access plus 1 month"
-  ExpiresByType application/x-javascript "access plus 1 days"
-  ExpiresByType application/javascript "access plus 1 days"
   ExpiresByType application/x-icon "access plus 1 year"
 </IfModule>
 # END EXPIRES
@@ -28,8 +32,8 @@ Header set Access-Control-Allow-Origin "*"
 RewriteEngine on
 
 # Don't allow these robots
-RewriteCond %{HTTP_USER_AGENT} "sogou|semrushbot|feedburner|ahrefsbot|baiduspider|ezooms|yandex\.com" [NC]
-RewriteRule ^.*$ http://bartonlp.com/html/badbot.php [R,L]
+RewriteCond %{HTTP_USER_AGENT} "baiduspider" [NC]
+RewriteRule (.*) - [F,L]
 
 RewriteRule ^$ index.php [L]
 RewriteRule ^rssfeed\.xml    articles/createrss.php [L]
@@ -47,3 +51,51 @@ RewriteRule ^Sitemap\.xml$ sitemap.php [L,NC]
 #<blocked ip addresses end>
 #RewriteRule .* blocked.php [L]
 # END of block logic
+
+AddType application/x-javascript .js
+AddType text/css .csst
+AddType text/xml .xml
+AddType image/jpg .jpg .jpeg
+AddType image/png .png 
+AddType image/gif .gif 
+AddType image/webp .webp
+AddType text/cache-manifest .manifest
+AddType application/x-font-woff .woff
+AddType application/x-font-ttf .ttf
+
+AddDefaultCharset UTF-8
+
+# Do compression of the followin types
+
+AddOutputFilterByType DEFLATE \
+  "application/atom+xml" \
+  "application/javascript" \
+  "application/x-javascript" \
+  "application/json" \
+  "application/ld+json" \
+  "application/manifest+json" \
+  "application/rdf+xml" \
+  "application/rss+xml" \
+  "application/schema+json" \
+  "application/vnd.geo+json" \
+  "application/vnd.ms-fontobject" \
+  "application/x-font-ttf" \
+  "application/x-web-app-manifest+json" \
+  "application/xhtml+xml" \
+  "application/xml" \
+  "font/opentype" \
+  "image/svg+xml" \
+  "image/x-icon" \
+  "text/cache-manifest" \
+  "text/css" \
+  "text/html" \
+  "text/javascript" \
+  "text/plain" \
+  "text/vtt" \
+  "text/x-component" \
+  "text/xml" \
+  "image/webp" \
+  "image/png" \
+  "image/jpg" \
+  "image/gif" 
+

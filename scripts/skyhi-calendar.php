@@ -7,17 +7,22 @@
 $calendarGirl = 'Cynthia Washburn';
 $calendarGirlEmail = "cwashburn@skyhidailynews.com";
 
-$_site = require_once(getenv("HOME")."/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("SITELOAD")."/siteload.php");
+$S = new $_site->className($_site);
 
-$S = new Database($_site['dbinfo']);
+// Get the unixdate. The cron jobs runs on THURSDAY after the Wednesday meeting
 
-list($week, $year) = explode(",", date("W,Y"));
+$date = date("U");
+//echo "date: $date\n";
 
-$date = find_first_day_ofweek($week, $year);
 $start = date("Y-m-d", $date);
 $end = date("Y-m-d", strtotime("+1 week", $date));
+//echo "start: $start, end: $end\n";
+
 $sql = "select name, date, id, subject, type ".
        "from meetings where date between '$start' and '$end'";
+
+echo "$sql\n";
 
 $n = $S->query($sql);
 
@@ -34,7 +39,11 @@ if(strlen($subject) > 80) {
   $subject = wrap($subject);
 }
 
+// NOTE $date is now from the database
+
 $meetdate = date("l M d, Y", strtotime($date));
+
+//echo "meetdate: $meetdate\n";
 
 if(empty($subject)) $subject = "To be determined";
   
@@ -66,18 +75,20 @@ EOF;
 echo $msg;
 
 mail($calendarGirlEmail, "Rotary Item for the Calendar Section", $msg,
-     "From: info@granbyrotary.org");
+     "From: info@granbyrotary.org\r\nBcc: bartonphillips@gmail.com\r\n");
 
 // BLP 2015-03-14 -- 
 // Now send a message to the presenter and to the president
 
 $sql = "select concat(FName, ' ', LName), Email ".
        "from rotarymembers where id=$id";
+
 $S->query($sql);
 list($member, $email) = $S->fetchrow('num');
 
 $sql = "select concat(FName, ' ', LName), Email ".
        "from rotarymembers where office='President'";
+
 $S->query($sql);
 list($pres, $pemail) = $S->fetchrow('num');
 
@@ -95,67 +106,6 @@ mail($email, "FYI SkyHiNews Notification of Talk", $msg2,
      "From: info@granbyrotary.org\r\nCC: $pemail\r\n");
 
 exit();
-
-/**
- * Function to find the day of a week in a year
- * @param integer $week The week number of the year
- * @param integer $year The year of the week we need to calculate on
- * @param string  $start_of_week The start day of the week you want returned
- *                Monday is the default Start Day of the Week in PHP. For
- *                example you might want to get the date for the Sunday of wk 22
- * @return integer The unix timestamp of the date is returned
- */
-
-function find_first_day_ofweek($week, $year, $start_of_week='sunday') {
-   // Get the target week of the year with reference to the starting day of
-   // the year as UNIX time.
-
-   $target_week = strtotime("+$week week +1 day", strtotime("1 January $year"));
-   // Get the date information for the day in question which
-   // is "n" number of weeks from the start of the year
-   $date_info = getdate($target_week);
-
-   // Get the day of the week (integer value)
-   $day_of_week = $date_info['wday'];
-
-   // Make an adjustment for the start day of the week because in PHP the
-   // start day of the week is Monday
-   
-   switch (strtolower($start_of_week)) {
-       case 'sunday':
-           $adjusted_date = $day_of_week;
-           break;
-       case 'monday':
-           $adjusted_date = $day_of_week-1;
-           break;
-       case 'tuesday':
-           $adjusted_date = $day_of_week-2;
-           break;
-       case 'wednesday':
-           $adjusted_date = $day_of_week-3;
-           break;
-       case 'thursday':
-           $adjusted_date = $day_of_week-4;
-           break;
-       case 'friday':
-           $adjusted_date = $day_of_week-5;
-           break;
-       case 'saturday':
-           $adjusted_date = $day_of_week-6;
-           break;
-
-       default:
-           $adjusted_date = $day_of_week-1; // monday
-           break;
-   }
-
-   // Get the first day of the weekday requested
-   $first_day = strtotime("-$adjusted_date day", $target_week);
-
-   //return date('l dS of F Y h:i:s A', $first_day);
-
-   return $first_day;
-}
 
 function wrap($line) {
   $newline = "";

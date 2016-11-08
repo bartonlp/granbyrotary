@@ -1,7 +1,13 @@
 <?php
+/*  
 $_site = require_once("/var/www/includes/siteautoload.class.php");
 $_site['count'] = false;
 $S = new $_site['className']($_site);
+*/
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site->count = false;
+$S = new $_site->className($_site);
 
 $size = $_GET['size'];
 

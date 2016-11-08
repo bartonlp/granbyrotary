@@ -4,17 +4,20 @@
 // BLP 2014-11-23 -- work on responsive scaling. Modify css/rotary.css and move some
 // stuff to here that only applies to index.php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
-
+/*
 //$AutoLoadDEBUG = true;
-
 $_site = require_once("/var/www/includes/siteautoload.class.php");
-
 $S = new $_site['className']($_site);
+*/
 
-$x = glob("../html/images/banner-photos/*");
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD") . "/siteload.php");
+$S = new $_site->className($_site);
+
+$x = glob("../bartonphillipsnet/images/banner-photos/*");
 foreach($x as $v) {
   $v = basename($v);
-  $banner_photos .= "\"/blp/images/banner-photos/$v\",";
+  $banner_photos .= "'http://bartonphillips.net/images/banner-photos/$v',";
 }
 $banner_photos = rtrim($banner_photos, ",");
 
@@ -90,49 +93,9 @@ if(isset($_GET['memberid'])) {
 
 $h->extra = <<<EOF
   <!-- local extra -->
+  <script>var banner_photos = new Array($banner_photos);</script>
   <script async src="js/dropdown.js"></script>
-EOF;
-
-$h->script = <<<EOF
-   <!-- local script -->
-   <script>
-var bannerImages = new Array, binx = 0;
-
-// Banner photos
-
-dobanner(new Array($banner_photos));
-
-function dobanner(photos) {
-  for(var i=0, l=0; i < photos.length; ++i) {
-    var image = new Image;
-    image.inx = i;
-    image.src = photos[i];
-
-    $(image).load(function() {
-      bannerImages[this.inx] = this;
-    });
-
-    $(image).error(function(err) {
-      console.log(err);
-    });
-  }
-};
-
-function bannershow() {
-  if(binx > bannerImages.length-1) {
-    binx = 0;
-  }
-
-  var image = bannerImages[binx++];
-
-  $("#slideshow").attr('src', image.src);
-  setTimeout(bannershow, 5000);
-}
-
-$(window).load(function() {
-  bannershow();
-});
-  </script>
+  <script src="js/ximage.js"></script>
 EOF;
 
 $h->css = <<<EOF
@@ -310,32 +273,24 @@ $whosBeenHereToday = $S->getWhosBeenHereToday();
 $mostart = date("Y-m-01");
 
 $n = $S->query("select concat(fname, ' ', lname) from rotarymembers ".
-               "where id!=0 and last >='$mostart' ".
+               "where id!=0 and visittime >='$mostart' ".
                "group by id, last");
 
-$namecnt = array();
+$moTotal = 0;
 
 while(list($name) = $S->fetchrow()) {
-  $namecnt[$name]++;
-}
-
-foreach($namecnt as $k=>$v) {
+  $moTotal++;
   $memlist .= <<<EOF
-<tr><td>$k</td><td>$v</td></tr>
+<tr><td>$name</td></tr>
 EOF;
 }
 
-$moTotal = count($namecnt);
 
 $whosBeenHereThisMonth = <<<EOF
 <table class="who" border="1">
 <thead>
 <tr>
 <th colspan="2">Total Members or Vistors using the site this month: $moTotal</th>
-</tr>
-<tr>
-<th>Who Visited This Month?</th>
-<th>Number of Days Visited</th>
 </tr>
 </thead>
 <tbody>
@@ -356,16 +311,17 @@ $presidentmsg
 <h2>Who We Are</h2>
 <p>The Rotary Club of Granby was chartered in 1987, and its membership includes men and women representing a wide cross-section of
 local businesses and professions. The club meets each Wednesday for fellowship, lunch, and interesting and informative programs
-dealing with topics of local and global importance.</p>
-<p>The 2015-2016 Club President is
-<a href="email.php?id=173">Lesley Janusz</a>.
+dealing with topics of local and global importance.
+The club is part of Rotary District 5450, comprised of 51 clubs and over 3,000 members.</p>
+
+<p>The 2016-2017 Club President is
+<a href="email.php?id=175">Susan Baird</a>.
 See the <a href="about.php#officerstbl">About Page</a> for a full list of officers and chair persons.</p>
-<p>The club is part of Rotary District 5450, comprised of 51 clubs and over 3,000 members.
-The 2015-2016 Rotary District Governor
-is Mary Kay Hasz</a>.</p>
-<!--<p>The 2015-2016 President of Rotary International is Gary C.K. Huang.</p>-->
+
+<p>The 2016-2017 Rotary District Governor is William (Bill) Downes.<br>
+The 2016-2017 President of Rotary International is John F. Germ.</p>
 <hr/>
-<!-- UpdateSite: Polio Info End -->
+
 <div class="center">
 <!-- Start UpdateSite: Other Stuff -->
 $otherstuff

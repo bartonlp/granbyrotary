@@ -1,8 +1,13 @@
 <?php
 // BLP 2014-08-24 -- Event Planner
+/*
 require_once("/var/www/includes/siteautoload.class.php");;
-
 $S = new GranbyRotary;
+*/
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$S = new $_site->className($_site);
+
 $S->t = new dbTables($S);
 
 $S->h->title = "Event Planner";

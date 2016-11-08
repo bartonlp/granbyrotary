@@ -2,10 +2,9 @@
 // The Administrators special page
 // BLP 2014-08-31 -- add foodlist and eventplanner
 // BLP 2014-07-17 -- Use $_REQUEST instead of $_POST so this will work with GET or POST calls
-
-$_site = require_once("/var/www/includes/siteautoload.class.php");
-
-$S = new $_site['className']($_site);
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$S = new $_site->className($_site);
 
 if($_REQUEST['key'] != "41144blp") {
   echo "<h1>Sorry. Where did you come from?</h1>";
@@ -64,26 +63,6 @@ page.</p>
 <li><a target="_blank" href="articles/createarticle.php?page=edit">Edit Existing News Articles</a></li>
 <li><a target="_blank" href="articles/admin.php">Administer the News Articles Table</a></li>
 </ul>
-<h2>Items Below are Expermental</h2>
-<p>The <i>Fool List</i> lets you add/edit items that can be ordered for an event.
-It lets you specify the
-name of the item (like 'Hamberger Patties') and the way they are sold (in packages of 20 patties)
-along with the price per package and the vendor or provider.</p>
-<p>The <i>Event Planner</i> lets you name an event (for example, '4th of July 2014') and then select
-items from the <i>Food List</i> that you want to order. Then you can indicate the number of packages
-you want for the event (for example, 100 Hamburger Patties). The program calculates the
-<i>total cost</i>
-based on the <i>Package Quantity * Package Price * Number of Packages</i> as well as the
-<i>Unit Qty</>. The final form can be printed out.</p>
-<ul>
-<li><a target="_blank" href="foodlist.php">Add/Edit Event Food List</a></li>
-<li><a target="_blank" href="eventplanner.php">Plan an Event. Using the Food List</a></li>
-</ul>
-<p>Attendance</p>
-<ul>
-<li><a target="_blank" href="attendance.php">Add/Edit Attendance Records</a></li>
-</ul>
-<p>You can also edit all of the entries on the <a target="_blank" href="meetings.php">Meetings Page</a></p>
 </div>
 <hr>
 $footer

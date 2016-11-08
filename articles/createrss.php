@@ -1,8 +1,8 @@
 <?php
 // Add the information from the article template to the database
-$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");
-$_site['count'] = false;
-$S = new $_site['className']($_site);
+$_site = require_once(getenv("SITELOAD")."/siteload.php");
+$_site->count = false;
+$S = new $_site->className($_site);
 
 $S->feedCount();
 

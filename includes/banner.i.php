@@ -11,10 +11,10 @@ return <<<EOF
 <header>
 <div id="header-image-div">
 <div id="header-image">
-<img id='slideshow' src="/blp/images/banner-photos/CIMG0001n.JPG"/>
-<img id='wheel' src='/blp/images/wheel.png'/>
-<img id='granbyrotarytext' src='/blp/images/text-granbyrotary.png'/>
-<img id='logo' src='/blp/images/blank.png'>
+<img id='slideshow' src="http://bartonphillips.net/images/banner-photos/CIMG0001n.JPG"/>
+<img id='wheel' src='http://bartonphillips.net/images/wheel.png'/>
+<img id='granbyrotarytext' src='http://bartonphillips.net/images/text-granbyrotary.png'/>
+<img id='logo' src='http://bartonphillips.net/images/blank.png'>
 <img id='dummyimg' src='/tracker.php?page=normal&id=$this->LAST_ID'/>
 </div>
 <!-- Nav bar for big screens -->

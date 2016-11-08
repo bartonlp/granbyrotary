@@ -1,6 +1,6 @@
 <?php
 
-$date = date("M d, Y H:i:s", getlastmod());
+$lastmod = date("M j, Y H:i", getlastmod());
 
 return <<<EOF
 <footer>
@@ -8,7 +8,7 @@ return <<<EOF
 {$arg['msg1']}
 $counterWigget
 <div style="text-align: center;">
-<p id='lastmodified'>Last Modified&nbsp;$date</p>
+<p id='lastmodified'>Last Modified:&nbsp;$lastmod</p>
 {$arg['msg2']}
 </div>
 </footer>

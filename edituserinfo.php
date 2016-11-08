@@ -1,7 +1,11 @@
 <?php
+/*
 $_site = require_once(getenv("HOME"). "/includes/siteautoload.class.php");
-
 $S = new $_site['className']($_site);
+*/
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$S = new $_site->className($_site);
 
 if($mid = $_GET['memberid']) {
   // The member is responding to an email with the query ?memberid=id

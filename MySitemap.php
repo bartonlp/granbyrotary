@@ -20,7 +20,8 @@
 define('TOP', '/var/www'); // on digitalocean.com and localhost
 define('INCLUDES', TOP."/includes");
 define('DATABASE_ENGINES', INCLUDES."/database-engines");
-define('SITE_INCLUDES', SITE_ROOT."/includes"); // SITE_ROOT is defined in siteautoload.class.php!
+//define('SITE_INCLUDES', SITE_ROOT."/includes"); // SITE_ROOT is defined in siteautoload.class.php!
+define('SITE_INCLUDES', __DIR__ . "/includes");
 
 // Email info
 
@@ -43,12 +44,14 @@ $dbinfo = array('host' => 'localhost',
 // This site has no members so no membertable.
 // See the SiteClass constructor for other possible values like 'count', 'emailDomain' etc.
 
+$__year = date('Y');
+
 $siteinfo = array('siteDomain' => "granbyrotary.org",
                   'siteName' => "GranbyRotary",
                   //'emailDomain' => null,
                   'path' => "/var/www/granbyrotary", // BLP 2016-01-24 -- 
                   'className' => "GranbyRotary", // BLP 2015-02-20 -- used in $S = new ...
-                  'copyright' => "2016 Granby Rotary Club", // BLP 2015-02-20 -- new used by aboutwebsite.
+                  'copyright' => "$__year Granby Rotary Club", // BLP 2015-02-20 -- new used by aboutwebsite.
                   'author' => "Barton Phillips (bartonphillips@gmail.com)",
                   'memberTable' => "rotarymembers",
                   'masterdb' => 'barton', 
@@ -58,8 +61,10 @@ $siteinfo = array('siteDomain' => "granbyrotary.org",
                   'footerFile' => SITE_INCLUDES."/footer.i.php",
                   'count' => true,
                   'countMe' => true, 
-                  'analysis' => true,
                   'trackerImg1' => '/images/blank.png', // the script image
                   'trackerImg2' => '/images/blank.png', // the normal image
-                  'myUri' => "bartonphillips.dyndns.org"
+                  'myUri' => "bartonphillips.dyndns.org",
+                  'EMAILADDRESS' => EMAILADDRESS,
+                  'EMAILRETURN' => EMAILRETURN,
+                  'EMAILFROM' => EMAILFROM,
                  );

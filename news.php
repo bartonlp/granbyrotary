@@ -1,7 +1,8 @@
 <?php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
-//$AutoLoadDEBUG = true;
-$_site = require_once("/var/www/includes/siteautoload.class.php");
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$S = new $_site->className($_site);
 
 session_cache_limiter('private');
 session_start();
@@ -14,7 +15,7 @@ $d = date("U"); // date to force uncached GETs
 // We put a message there saying that the feed is loading.
 
 if($_GET['page'] == 'rssinit') {
-  $S = new $_site['className']($_site); // to use $S->id we need to instantiate the 'className' not Database().
+  //$S = new $_site['className']($_site); // to use $S->id we need to instantiate the 'className' not Database().
 
   if($S->id) {
     // For members keep track of read news and don't show it again.
@@ -56,7 +57,10 @@ EOF;
 
   try {
     // The class is in the granbyrotary/includes directory
-    $feed = new RssFeed("http://www.skyhidailynews.com/csp/mediapool/sites/SwiftShared/assets/csp/rssCategoryFeed.csp?pub=SkyHiDaily&sectionId=817&sectionLabel=News");
+    // This was the old feed url
+    // "http://www.skyhidailynews.com/csp/mediapool/sites/SwiftShared/assets/csp/rssCategoryFeed.csp?pub=SkyHiDaily&sectionId=817&sectionLabel=News");
+    // Below is the new feed url
+    $feed = new RssFeed("http://www.skyhidailynews.com/feed/"); 
   } catch(Exception $e) {
     if($e->getCode() == 5001) {
       echo "<span style='color: red'>Can't Connect to SkyHi new feed</span>";
@@ -149,7 +153,7 @@ EOF;
 // loaded via the above Ajax call. 
 
 if($_GET['page'] == 'ajaxinx') {
-  $S = new Database($_site['dbinfo']);
+  //$S = new Database($_site['dbinfo']);
 
   //cout("date: {$_GET['date']}");
   
@@ -190,7 +194,7 @@ EOF;
 // ********************************************************************************
 // Page Logic. Above is Ajax logic this is the main flow of the page
 
-$S = new $_site['className']($_site);
+//$S = new $_site['className']($_site);
 
 // Mark All Feeds Read or Unread
 // NOTE: the two forms are method="get" not POST
@@ -300,7 +304,7 @@ jQuery(document).ready(function($) {
   // Please wait for news feed
   $("#skyhinews").html("<p style='color: red'>Please Wait While SkyHiNews Features are Loaded</p>"+
                        "<div style='text-align: center;'>"+
-                       "<img src='/blp/images/loading.gif'></div>");
+                       "<img src='http://bartonphillips.net/images/loading.gif'></div>");
 
   // Get the news feed
 

@@ -1,8 +1,8 @@
 #!/usr/bin/php -q
 <?php
-$_site = require_once(getenv("HOME")."/www/includes/siteautoload.class.php");
+$_site = require_once(getenv("SITELOAD")."/siteload.php");
+$S = new $_site->className($_site);
 
-$S = new Database($_site['dbinfo']);
 // Get todays DAY
 
 $day = date("d");

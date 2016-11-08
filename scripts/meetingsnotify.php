@@ -1,7 +1,5 @@
 #!/usr/bin/php
 <?php
-$_site = require_once(getenv("HOME")."/www/includes/siteautoload.class.php");
-
 # Designed to be run as a cron job.
 # Scan the meetings table and send emails to speakers
 
@@ -11,7 +9,8 @@ define('ONE_MONTH', 2629744);
 
 //$DEBUG = true; #debug some
 
-$S = new Database($_site['dbinfo']);
+$_site = require_once(getenv("SITELOAD")."/siteload.php");
+$S = new $_site->className($_site);
 
 $S->query("select r.FName, r.LName, r.Email, m.yes, m.name, m.date, m.subject ".
           "from rotarymembers as r " .

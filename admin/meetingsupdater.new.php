@@ -7,9 +7,9 @@
 // members.
 // We no longer ask for the number of weeks because we always use all of the members.
 
-$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");
+$_site = require_once(getenv("SITELOAD")."/siteload.php");
+$S = new $_site->className($_site);
 
-$S = new $_site['className']($_site);
 define(BUSINESS_MEETING_WEEK, 0); // first week of the month!
 
 // Generate a list of meeting dates from today for six months.

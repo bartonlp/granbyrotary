@@ -1,10 +1,14 @@
 <?php
+/*
 $_site = require_once("/var/www/includes/siteautoload.class.php");
-
 $S = new $_site['className']($_site);
+*/
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$S = new $_site->className($_site);
 
 $h->title = "Login fo Granby Rotary";
-$h->extra = <<<EOF
+$h->css = <<<EOF
   <style>
 .required {
   color: red;
@@ -331,6 +335,21 @@ function visitor2($S) {
   // Second half of Visitor registration
   extract($_POST);
 
+  // Check to see if the name is already in the database. If so tell use to login.
+  
+  if($S->query("select id from rotarymembers where FName='$fname' and LName='$lname'")) {
+    list($id) = $S->fetchrow('num');
+
+    echo <<<EOF
+$S->pageHead
+<h1>The First and Last name already exist in the database</h1>
+<p>The ID is $id. You should be able to just LOGIN instead of Registering. Go to the LOGIN page
+and enter your email address.</p>
+$S->footer
+EOF;
+    exit();
+  }
+
   if($email == "") {
     echo "<h1>No Email Address</h1>\n";
     exit();
@@ -377,7 +396,18 @@ Thank You again for registering
 Rotary Club of Granby Colorado
 http://www.granbyrotary.org
 MSG;
+    
     mail($email, "Granbyrotary.org Registration", $message, "From: Granby Rotary Registration <info@granbyrotary.org>");
+  } else {
+    $message = <<<MSG
+Error.
+$fname, $lname, $phone
+$err
+
+Sorry.
+MSG;
+
+    mail($email, "Sorry", $message, "Bcc: bartonphillips@gmail.com\r\nFrom: info@granbyrotary.org");
   }
 }
 
@@ -406,57 +436,15 @@ EOF;
     $club = "None";
   }
 
-  // NOTE: we set 'visitor' and otherclub='none' for visitors initially. A visitor can request some other status for otherclub
+  // NOTE: we set 'visitor' and otherclub='none' for visitors initially.
+  // A visitor can request some other status for otherclub
   // if he wants to send me an email.
 
-  try {
-    $query = "insert into rotarymembers (FName, LName, Email, address, hphone, status, club, otherclub, created)".
-              "value('$fname', '$lname', '$email', '$address', '$phone', 'visitor', '$club', 'none', now())";
+  $query = "insert into rotarymembers (FName, LName, Email, address, hphone, status, club, otherclub, created)".
+           "value('$fname', '$lname', '$email', '$address', '$phone', 'visitor', '$club', 'none', now()) ".
+           "on duplicate key update visittime=now()"; // dup key should never happend due to check in visitor2.
 
-    $S->query($query);
-  } catch(Exception $e) {
-    $err = $e->getCode();
-          
-    if($err == 1146) {
-      $query2 =<<<EOF
-CREATE TABLE `rotarymembers` (
-  `id` int(11) NOT NULL auto_increment,
-  `FName` varchar(255) NOT NULL,
-  `LName` varchar(255) NOT NULL,
-  `office` varchar(255) default NULL,
-  `Email` varchar(255) default NULL,
-  `address` varchar(255) default NULL,
-  `hphone` varchar(255) default NULL,
-  `bphone` varchar(255) default NULL,
-  `cphone` varchar(255) default NULL,
-  `bday` date default NULL,
-  `rotanniv` date default NULL,
-  `status` enum('active','inactive','visitor','honorary','otherclub','delete') default NULL,
-  `last` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `visittime` datetime default NULL,
-  `lastnews` datetime default '0000-00-00 00:00:00',
-  `visits` int(11) default '0',
-  `club` varchar(255) default NULL,
-  `otherclub` enum('granby','grandlake','kremmling','winterpark','interact','none') default NULL,
-  `password` varchar(255) default NULL,
-  `created` datetime default NULL,
-  `districtid` int(11) default '0',
-  `webadmin` enum('no','yes') default 'no',
-  `makeupid` varchar(255) default '',
-  `badge` varchar(10) default NULL,
-  `fax` varchar(20) default NULL,
-  `anniv` varchar(20) default NULL,
-  `classif` varchar(50) default NULL,
-  `spouse` varchar(50) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
-EOF;
-      $S->query($query2); // Create table
-      $S->query($query);  // original insert of new member
-    } else {
-      throw($e);
-    }
-  }
+  $S->query($query);
     
   $id = $S->getLastInsertId(); // Get the new id number
   

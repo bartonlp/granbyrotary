@@ -2,10 +2,13 @@
 // Administer the members database
 // BLP 2014-08-03 -- empty columns should be posted as they my be removing something. Also added
 // new logic for ctrls input selection. Add PRINT function.
-
+/*
 $_site = require_once("/var/www/includes/siteautoload.class.php");
-
 $S = new $_site['className']($_site);
+*/
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$S = new $_site->className($_site);
 
 $errorhdr = <<<EOF
 <!DOCTYPE HTML>
@@ -166,26 +169,35 @@ function post($S) {
   // Update database
   $id = $_POST['id'];
 
+  //vardump($_POST);
+
   $S->query("select * from rotarymembers where id='$id'");
   $row = $S->fetchrow('assoc');
-  $skip = "/^(id)|(last)|(visittime)|(created)$/"; // Don't update these columns
-
+  $skip = ['id', 'last', 'visits', 'visittime', 'created'];
   $set = "";
 
   foreach($row as $key=>$value) {
-    if(preg_match($skip, $key)) { // Skip id, last, created
+    if(array_intersect($skip, [$key])) {
+      //echo "Skip: $key<br>";
       continue;
     }
-    // BLP 2014-08-03 -- Empty columns should be posted 
-    //if(empty($_POST[$key])) { // Skip any columns that are empty
-    //  continue;
-    //}
-    
+    if($value == $_POST[$key]) {
+      //echo "$key: value not changes: $value, $_POST[$key]<br>";
+      continue;
+    }
+        
     // If the column has new data 
     $set .= "$key='$_POST[$key]', ";
   }
 
   $set = rtrim($set, ', ');
+
+  if(empty($set)) {
+    $msg = "NOTHING CHANGED";
+  } else {
+    $msg = "Database Updated";
+  }
+  
   $query = "update rotarymembers set $set where id='$id'";
   //echo "QUERY: $query<br>\n";
   $S->query($query);
@@ -194,7 +206,7 @@ function post($S) {
 
   echo <<<EOF
 $top
-<h2>Database Updated</h2>
+<h2>$msg</h2>
 <p>You will automatically return to the Database Admin Page in 3 seconds.</p>
 $footer
 EOF;
@@ -204,7 +216,7 @@ EOF;
 
 function insert($S) {
   // remove the extra post items 'page' and 'submit' the rest are all keys.
-  unset($_POST['page'], $_POST['submit']);
+  unset($_POST['page']);
 
   $h->title = "Database Admin -- Insert New Record";
   $h->banner = "<h2>Database Administration</h2>";
@@ -241,9 +253,9 @@ function edit($S) {
 
   list($top, $footer) = $S->getPageTopBottom($h, "<a href='$S->self'>Return to Admin Database</a><hr/>");
 
-  $dateitems = "/^(bday)|(rotanniv)|(anniv)/";
-  $skip = "/^(id)|(last)|(visittime)|(created)|(visits)$/"; // Skip these columns
-  $specialFields = "/(status)|(otherclub)|(webadmin)/"; // these need options, below
+  $dateitems = ['bday', 'rotanniv', 'anniv'];
+  $skip = ['id', 'last', 'visittime', 'created', 'visits']; // Skip these columns
+  $specialFields = ['status', 'otherclub', 'webadmin']; // these need options, below
 
   $options = array('status'=>array('active', 'inactive', 'visitor', 'honorary', 'otherclub', 'delete'),
                    'otherclub'=>array('granby','grandlake', 'kremmling', 'winterpark', 'interact'),
@@ -257,23 +269,21 @@ function edit($S) {
   $tbl = "";
 
   foreach($row as $key=>$value) {
-    if(preg_match($skip, $key)) { // Skip id, last, created. Don't edit them
+    if(array_intersect($skip, [$key])) {
       continue;
     }
 
     // check for special fields that need select options.
 
-    if(preg_match($specialFields, $key, $m)) {
+    if($m = array_intersect([$key], $specialFields)) {
       $tbl .= "<tr><th>$key</th><td><select name='$key' />\n";
-
       $a = $options[$m[0]]; // $m[0] is the match from above. We can't use $m[1] etc as that would be the paren 1, 2, or 3
-
       for($i=0; $i < count($a); ++$i) {
         $tbl .= "<option value='$a[$i]'" . (($a[$i] == $value) ? " selected" : "") . ">$a[$i]</option>\n";
       }
       $tbl .= "</td><tr>\n";
-    } elseif(preg_match($dateitems, $key, $m)) {
-      $tbl .= "<tr><th>$key (YYYY-MM-DD)</th><td><input type='text' name-'$key' value='$value' /></td></tr>\n";
+    } elseif(array_intersect($dateitems, [$key])) {
+      $tbl .= "<tr><th>$key (YYYY-MM-DD)</th><td><input type='text' name='$key' value='$value' /></td></tr>\n";
     } else {
       $tbl .= "<tr><th>$key</th><td><input type='text' name='$key' value='$value' /></td><tr>\n";
     }
@@ -287,7 +297,7 @@ $tbl
 </table>
 <input type='hidden' name='id' value='$id' />
 <input type='hidden' name='page' value='post' />
-<input type='submit' name='submit' value='Submit Change' />
+<input type='submit' value='Submit Change' />
 </form>
 <br/>
 $footer
@@ -347,7 +357,7 @@ $top
 $tbl
 </table>
 <input type='hidden' name='page' value='insert' />
-<input type='submit' name='submit' value='Submit' />
+<input type='submit' value='Submit' />
 </form>
 <br/>
 $footer

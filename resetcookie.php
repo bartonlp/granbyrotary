@@ -1,15 +1,20 @@
 <?php
+/*
 $_site = require_once("/var/www/includes/siteautoload.class.php");
-
 $S = new $_site['className']($_site);
+*/
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$S = new $_site->className($_site);
 
 $type = $_POST['type'];
 
 // Reset user Cookies
 
 $expire = time() -(60*60*24*3);  // expire at once
+error_log("expires $expire");
 
-$ref = "granbyrotary.org";
+$ref = ".granbyrotary.org";
 
 // Type is Blank on entry
 
@@ -19,15 +24,18 @@ if($type) {
   foreach($type as $v) {
     if(is_array($_COOKIE[$v])) {
       while(list($key, $val) = each($_COOKIE[$v])) {
-        setcookie("$v" . "[$key]", "", $expire, "/", ""); // This will get the PHPSESSION which would be www. without the .www
-        setcookie("$v" . "[$key]", "", $expire, "/", "$ref");
-        $ar[$key] = "Delete $v" . "[$key]";
+        $x = $v[$key];
+        error_log("value: $x, ref: $ref");
+        //setcookie("$x", "", $expire, "/", ""); // This will get the PHPSESSION which would be www. without the .www
+        setcookie("$x", "", $expire, "/", "$ref");
+        $ar[$key] = "Delete $v[$key]";
       }
       while(list($it, $itval) = each($ar)) {
         echo "$itval<br/>";
       }
     } else {
-      setcookie("$v", "", $expire, "/", "");
+      error_log("value: $v, ref: $ref");
+      //setcookie("$v", "", $expire, "/", "");
       setcookie("$v", "", $expire, "/", "$ref");
     }
     $list .= "$v<br>";

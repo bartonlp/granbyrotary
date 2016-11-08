@@ -1,5 +1,5 @@
 User-Agent: *
-Disallow: /
+Disallow:
 
 User-Agent: GoogleBot
 User-Agent: bingbot
@@ -46,3 +46,11 @@ Disallow: /newsletters/
 Disallow: /test/
 Sitemap: http://www.granbyrotary.org/Sitemap.xml
 
+User-agent: XoviBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /

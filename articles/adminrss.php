@@ -1,9 +1,7 @@
 <?php
 // Administer the articles and rssfeeds tables
-
-$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");
-
-$S = new $_site['className']($_site);
+$_site = require_once(getenv("SITELOAD")."/siteload.php");
+$S = new $_site->className($_site);
 
 if(!$S->isAdmin($S->id)) {
   echo "<h1>Sorry This Is Just For Designated Admin Members</h1>";

@@ -1,0 +1,10 @@
+{
+  "autoload": {
+    "classmap": [
+      "includes"
+    ],
+    "files": [
+      "includes/updatesite-simple-preview.i.php"
+    ]
+  }
+}

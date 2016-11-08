@@ -37,9 +37,13 @@ class GranbyRotary extends SiteClass {
     //ErrorClass::setNoEmailErrs(true); // For debugging
     //ErrorClass::setDevelopment(true); // during development
 
-    parent::__construct($x); // NOTE: parent constructor calls checkId() which uses this classes method not the parents!
+    parent::__construct($x);
 
+    $this->checkId();
+    
     // Check to see who can administer our site.
+
+    $this->trackmember();
     
     $n = $this->query("select id from rotarymembers where webadmin='yes'");
     if($n) {
@@ -66,12 +70,55 @@ class GranbyRotary extends SiteClass {
   public function setUser($user) {
     $this->grUser = $user;
   }
+  
+  /**
+   * getId()
+   * Get user id
+   */
+
+  public function getId() {
+    return $this->id;
+  }
+
+  /**
+   * setId()
+   */
+
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  /**
+   * setIdCookie()
+   * Sets the browser Cookie to user ID
+   * This is used by login logic of this sites.
+   */
+
+  public function setIdCookie($id, $cookie=null) {
+    $this->id = $id; // This is the table ID from the $membertable.
+    if(!$id) return; // If no ID then don't set any cookies
+
+    $expire = time() + 31536000;  // one year from now
+
+    // subDomain is the 'path' in the setcookie function.
+    // We raerly use subDomain.
+    
+    if($this->subDomain) {
+      $path = $this->subDomain;
+    } else {
+      $path = "/";
+    }
+
+    $siteid = (is_null($cookie)) ? "SiteId" : $cookie;
+
+    // setSiteCookie() is in SiteClass.
+    
+    $this->setSiteCookie($siteid, "$id", $expire, $path);
+  }
 
   /**
    * checkId()
    * Check ID info
-   * Override base class!
-   * This is called by the base class constructor.
    * As a side effect sets the $this->grUser, grDistrictId by reading rotarymembers table.
    * @param optional $mid. Member id.
    * @return user's id
@@ -214,6 +261,62 @@ EOF;
 EOF;
   }
 
+  /**
+   * trackmember()
+   * Track activity on site
+   * This table is in the siteName's database.
+   * By default this uses the 'logagent' and 'memberpagecnt' tables.
+   */
+
+  protected function trackmember() {
+    if($this->nodb) {
+      return;
+    }
+
+    // If there is a member 'id' then update the memberTable
+
+    if($this->id && $this->memberTable) {
+      $agent = $this->escape($this->agent);
+
+      $this->query("select count(*) from information_schema.tables ".
+                   "where (table_schema = '{$this->dbinfo->database}') and (table_name = '$this->memberTable')");
+
+      list($ok) = $this->fetchrow('num');
+
+      if($ok) {
+        // BLP 2016-05-04 -- 
+        // The fname-lname are a unique index 'name' so we will not get duplicates of our users.
+        
+        $sql = "insert into $this->memberTable (fname, lname, email, visits, visittime) ".
+               "values('$this->fname', '$this->lname', '$this->email', '1', now()) ".
+               "on duplicate key update visits=visits+1, visittime=now()";
+
+        $this->query($sql);
+      } else {
+        error_log("$this->siteName: $this->self: table $this->memberTable does not exist in the {$this->dbinfo->database} database");
+      }
+      
+      // BLP 2014-09-16 -- add nomemberpagecnt
+
+      if(!$this->nomemberpagecnt) {
+        $this->query("select count(*) from information_schema.tables ".
+                     "where (table_schema = '{$this->dbinfo->database}') and (table_name = 'memberpagecnt')");
+
+        list($ok) = $this->fetchrow('num');
+
+        if($ok) {
+          $sql = "insert into memberpagecnt (page, id, ip, agent, count, lasttime) " .
+                 "values('$this->requestUri', '$this->id', '$this->ip', '$agent', '1', now()) ".
+                 "on duplicate key update count=count+1, ip='$this->ip', agent='$agent', lasttime=now()";
+
+          $this->query($sql);
+        } else {
+          error_log("$this->siteName: $this->self: table memberpagecnt does not exist in the {$this->dbinfo->database} database");
+        }
+      }
+    }
+  }
+  
   public function __toString() {
     return __CLASS__;
   }

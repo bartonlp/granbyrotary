@@ -1,10 +1,14 @@
 <?php
 // BLP 2014-08-13 -- Any Admin can edit all of the entries. 
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
-
+/*
 $_site = require_once("/var/www/includes/siteautoload.class.php");
-
 $S = new $_site['className']($_site);
+*/
+require_once("./vendor/autoload.php");
+$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$S = new $_site->className($_site);
+
 $S->d = date("U");
 
 $s->siteclass = $S;
@@ -49,7 +53,7 @@ $h->script = <<<EOF
   <script>
 jQuery(document).ready(function($) {
   $("#print").html("<input type='image' id='printbtn' "+
-                     src='/blp/images/print.gif' " +
+                   "src='http://bartonphillips.net/images/print.gif' " +
                    "style='width: 100px'/>");
 
   $("#printbtn").click(function() {
@@ -272,7 +276,7 @@ information updated before the Wednesday meeting prior to your talk.</p>
 
 <div id="print">
 <a href="$S->self?print=1"><img
-src="/blp/images/print.gif" width="100" alt="print logo"/></a>
+src="http://bartonphillips.net/images/print.gif" width="100" alt="print logo"/></a>
 </div>
 
 <table id='assignments'>
