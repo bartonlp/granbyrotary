@@ -10,7 +10,7 @@ define('ONE_MONTH', 2629744);
 //$DEBUG = true; #debug some
 
 $_site = require_once(getenv("SITELOAD")."/siteload.php");
-$S = new $_site->className($_site);
+$S = new Database($_site);
 
 $S->query("select r.FName, r.LName, r.Email, m.yes, m.name, m.date, m.subject ".
           "from rotarymembers as r " .

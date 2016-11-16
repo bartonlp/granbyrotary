@@ -8,7 +8,7 @@ $calendarGirl = 'Cynthia Washburn';
 $calendarGirlEmail = "cwashburn@skyhidailynews.com";
 
 $_site = require_once(getenv("SITELOAD")."/siteload.php");
-$S = new $_site->className($_site);
+$S = new Database($_site);
 
 // Get the unixdate. The cron jobs runs on THURSDAY after the Wednesday meeting
 

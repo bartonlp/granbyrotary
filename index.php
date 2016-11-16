@@ -1,16 +1,7 @@
 <?php
-// BLP 2015-06-13 -- remove current granby weather  
-// BLP 2015-03-15 -- Add "Current Granby Weather"
-// BLP 2014-11-23 -- work on responsive scaling. Modify css/rotary.css and move some
-// stuff to here that only applies to index.php
-// BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
-/*
-//$AutoLoadDEBUG = true;
-$_site = require_once("/var/www/includes/siteautoload.class.php");
-$S = new $_site['className']($_site);
-*/
-
+// Get the GranbyRotary class
 require_once("./vendor/autoload.php");
+
 $_site = require_once(getenv("SITELOAD") . "/siteload.php");
 $S = new $_site->className($_site);
 

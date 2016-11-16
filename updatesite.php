@@ -12,11 +12,8 @@
 // 4) the preview include 'updatesite-preview.php' which can be in the $nextfilename file.
 // Item 4 is not manditory and can either be ignored or replaced by your own function updatesite_preview(...).
 // I have a simpler version of the preview 'updatesite-simple-preview.php' that can be used instead.
-/*
-$_site = require_once("/var/www/includes/siteautoload.class.php");
-$S = new $_site['className']($_site);
-*/
-require_once("./vendor/autoload.php");
+
+require_once("./vendor/autoload.php"); // get GranbyRotary class
 $_site = require_once(getenv("SITELOAD"). "/siteload.php");
 $S = new $_site->className($_site);
 

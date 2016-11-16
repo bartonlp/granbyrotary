@@ -1,9 +1,5 @@
 <?php
-/*
-$_site = require_once("/var/www/includes/siteautoload.class.php");
-$S = new $_site['className']($_site);
-*/
-require_once("./vendor/autoload.php");
+require_once("./vendor/autoload.php"); // Get GranbyRotary class
 $_site = require_once(getenv("SITELOAD"). "/siteload.php");
 $S = new $_site->className($_site);
 

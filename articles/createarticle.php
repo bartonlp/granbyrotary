@@ -4,6 +4,7 @@
 // Create an article or edit an article
 // To create an article either NO 'query' or ?page=
 // To edit an article ?page=edit
+require_once("../vendor/autoload.php");
 $_site = require_once(getenv("SITELOAD")."/siteload.php");
 $S = new $_site->className($_site);
 

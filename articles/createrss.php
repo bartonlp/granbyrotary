@@ -1,5 +1,6 @@
 <?php
 // Add the information from the article template to the database
+require_once("../vendor/autoload.php");
 $_site = require_once(getenv("SITELOAD")."/siteload.php");
 $_site->count = false;
 $S = new $_site->className($_site);

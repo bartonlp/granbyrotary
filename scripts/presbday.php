@@ -5,7 +5,7 @@
 // BLP 2014-04-14 -- fixed weekofyear logic
 
 $_site = require_once(getenv("SITELOAD")."/siteload.php");
-$S = new $_site->className($_site);
+$S = new Database($_site);
 
 // Get todays week of year
 

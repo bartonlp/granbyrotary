@@ -1,8 +1,4 @@
 <?php
-/*
-$_site = require_once("/var/www/includes/siteautoload.class.php");
-$S = new $_site['className']($_site);
-*/
 require_once("./vendor/autoload.php");
 $_site = require_once(getenv("SITELOAD"). "/siteload.php");
 $S = new $_site->className($_site);
@@ -12,7 +8,6 @@ $type = $_POST['type'];
 // Reset user Cookies
 
 $expire = time() -(60*60*24*3);  // expire at once
-error_log("expires $expire");
 
 $ref = ".granbyrotary.org";
 

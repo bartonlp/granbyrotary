@@ -6,16 +6,9 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit5131fbdaac644cbb83f0319fe96e8fee
 {
-    public static $files = array (
-        'b310d48bdb32284a871c9db821a806dc' => __DIR__ . '/../..' . '/includes/updatesite-simple-preview.i.php',
-    );
-
     public static $classMap = array (
-        'Email' => __DIR__ . '/../..' . '/includes/Email.class.php',
         'GranbyRotary' => __DIR__ . '/../..' . '/includes/GranbyRotary.class.php',
         'RssFeed' => __DIR__ . '/../..' . '/includes/RssFeed.class.php',
-        'SendEmails' => __DIR__ . '/../..' . '/includes/SendEmails.class.php',
-        'UpdateSite' => __DIR__ . '/../..' . '/includes/UpdateSite.class.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

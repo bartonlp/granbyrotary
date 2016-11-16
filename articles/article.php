@@ -1,4 +1,5 @@
 <?php
+require_once("../vendor/autoload.php");
 $_site = require_once(getenv("SITELOAD")."/siteload.php");
 $S = new $_site->className($_site);
 
