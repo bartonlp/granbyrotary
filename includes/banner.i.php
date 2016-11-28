@@ -27,7 +27,7 @@ return <<<EOF
 <li><a href="calendar.php">Club&nbsp;Calendar</a></li>
 <li><a href="meetings.php">Meetings</a></li>
 <li><a href="edituserinfo.php">User&nbsp;Profile</a></li>
-<li><a href="webstats.php">Web&nbsp;Stats</a></li>$adminText
+<!--<li><a href="webstats.php">Web&nbsp;Stats</a></li>-->$adminText
 </ul>
 </div>
 <!-- Nav bar for small screens -->
@@ -42,7 +42,7 @@ return <<<EOF
 <li><a href="calendar.php">Club&nbsp;Calendar</a></li>
 <li><a href="meetings.php">Meetings</a></li>
 <li><a href="edituserinfo.php">User&nbsp;Profile</a></li>
-<li><a href="webstats.php">Web&nbsp;Stats</a></li>$adminText
+<!--<li><a href="webstats.php">Web&nbsp;Stats</a></li>-->$adminText
 	</ul>
 </div>
 </div>

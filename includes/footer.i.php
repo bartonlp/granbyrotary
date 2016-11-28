@@ -1,17 +1,6 @@
 <?php
 
-$lastmod = date("M j, Y H:i", getlastmod());
-
-return <<<EOF
-<footer>
-{$arg['msg']}
-{$arg['msg1']}
-$counterWigget
-<div style="text-align: center;">
-<p id='lastmodified'>Last Modified:&nbsp;$lastmod</p>
-{$arg['msg2']}
-</div>
-</footer>
+$statcounter = <<<EOF
 <!-- Start of StatCounter Code for Default Guide -->
 <script>
 var sc_project=10201350; 
@@ -29,6 +18,20 @@ target="_blank"><img class="statcounter"
 src="http://c.statcounter.com/10201350/0/e9d09be3/0/"
 alt="site stats"></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
+EOF;
+  
+$lastmod = date("M j, Y H:i", getlastmod());
+
+return <<<EOF
+<footer>
+{$arg['msg']}
+{$arg['msg1']}
+$counterWigget
+<div style="text-align: center;">
+<p id='lastmodified'>Last Modified:&nbsp;$lastmod</p>
+{$arg['msg2']}
+</div>
+</footer>
 </body>
 </html>
 EOF;
