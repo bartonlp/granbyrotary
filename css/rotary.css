@@ -47,14 +47,14 @@ body {
 /* New Years 
         background: url('http://www.granbyrotary.org/images/happy6.gif');
 */
-/* Xmas 
-        background-image: url(/images/xmassnow.jpg);
+/*Xmas*/
+        background-image: url(http://bartonphillips.net/images/bksnoscene.jpg);
         background-repeat: repeat-y;
         background-position:top; 
         background-size: 100%;
         background-attachment: fixed;
-*/        
-        background-color: #FFEFD5; /*#93bbc8; lightblue; */
+/**/
+        background-color: #FFEFD5; 
         margin: 0;
         padding: 0 0.625rem;
 
@@ -210,6 +210,8 @@ a:hover {
   top: 4.0625rem;
   left: 5.3125rem;
   z-index: 300;
+  width: 162px;
+  height: 162px;
 }
 #granbyrotarytext {
   position: absolute;

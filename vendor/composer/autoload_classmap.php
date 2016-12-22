@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'GranbyRotary' => $baseDir . '/includes/GranbyRotary.class.php',
-    'RssFeed' => $baseDir . '/includes/RssFeed.class.php',
 );

@@ -1,5 +1,8 @@
 <?php
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
+
+use bartonlp\RssFeed; // Using NEW RssFeed in /var/www/vendor/
+
 require_once("./vendor/autoload.php");
 $_site = require_once(getenv("SITELOAD"). "/siteload.php");
 $S = new $_site->className($_site);
@@ -57,10 +60,8 @@ EOF;
 
   try {
     // The class is in the granbyrotary/includes directory
-    // This was the old feed url
-    // "http://www.skyhidailynews.com/csp/mediapool/sites/SwiftShared/assets/csp/rssCategoryFeed.csp?pub=SkyHiDaily&sectionId=817&sectionLabel=News");
-    // Below is the new feed url
-    $feed = new RssFeed("http://www.skyhidailynews.com/feed/"); 
+
+    $feed = new RssFeed("http://www.skyhidailynews.com/feed/");
   } catch(Exception $e) {
     if($e->getCode() == 5001) {
       echo "<span style='color: red'>Can't Connect to SkyHi new feed</span>";

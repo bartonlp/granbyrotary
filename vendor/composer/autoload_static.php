@@ -8,7 +8,6 @@ class ComposerStaticInit5131fbdaac644cbb83f0319fe96e8fee
 {
     public static $classMap = array (
         'GranbyRotary' => __DIR__ . '/../..' . '/includes/GranbyRotary.class.php',
-        'RssFeed' => __DIR__ . '/../..' . '/includes/RssFeed.class.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

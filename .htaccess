@@ -32,7 +32,7 @@ SetEnv SITELOAD /var/www/vendor/bartonlp/site-class/includes
 RewriteEngine on
 
 # Don't allow these robots
-RewriteCond %{HTTP_USER_AGENT} "baiduspider" [NC]
+RewriteCond %{HTTP_USER_AGENT} "baiduspider|semrush" [NC]
 RewriteRule (.*) - [F,L]
 
 RewriteRule ^$ index.php [L]
