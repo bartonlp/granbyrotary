@@ -3,7 +3,7 @@
     "siteName": "GranbyRotary",
     "path": "/var/www/granbyrotary",
     "className": "GranbyRotary",
-    "copyright": "2016 Granby Rotary Club",
+    "copyright": "2017 Granby Rotary Club",
     "author": "Barton Phillips (bartonphillips@gmail.com)",
     "memberTable": "rotarymembers",
     "masterdb": "barton",
