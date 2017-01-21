@@ -15,7 +15,7 @@
         "engine": "mysqli"
     },
     "headFile": "/var/www/granbyrotarydotorg/includes/head.i.php",
-    "bannerFile": "/var/www/granbyrotarydotorg/includes/banner.i.php",
+    "bannerFile": "/var/www/granbyrotarydotorg/admin/banner.i.php",
     "footerFile": "/var/www/granbyrotarydotorg/includes/footer.i.php",
     "count": true,
     "countMe": true,

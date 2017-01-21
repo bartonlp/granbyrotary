@@ -135,13 +135,13 @@ $footer = $S->getPageFooter();
 // The top and body of the page
 
 if($date = $_GET['date']) {
-  Edit($date);
+  Edit($S, $date);
 } elseif($_GET['print']) {
   PrintIt($S);
 } elseif($date = $_POST['post']) {
-  Post($date);
+  Post($S, $date);
 } else {
-  Show($message);
+  Show($S, $message);
 }
 
 // Bottom of page
@@ -164,11 +164,8 @@ EOF;
 
 // Show
 
-function Show($message) {
-  global $S;
-
+function Show($S, $message) {
   $banner = $S->getPageBanner("<h2>Program Assignments</h2>");
-
 
   if($S->id != 0) {
     echo <<<EOF
@@ -189,9 +186,7 @@ There is a lot more to see if you <a href='login.php?return=$S->self'>Login</a>!
 </h3>
 <p style='text-align: center'>Not a Grand County Rotarian? You can <b>Register</b> as a visitor.
 <a href="login.php?return=$S->self&page=visitor">Register</a></p>
-
 <hr/>
-
 EOF;
   }
 
@@ -239,21 +234,13 @@ EOF;
   // then I would not need to do the % delimiter stuff and $r=false for the reference. But this is a good
   // test of the logic.
 
-  $query = "select r.id, date as Date, concat(FName, ' ', LName) as Owner, yes as Status, name as Presenter, subject as Subject, " .
+  $query = "select date as Date, concat(FName, ' ', LName) as Owner, yes as Status, name as Presenter, subject as Subject, " .
            "type as Edit from meetings as m ".
-           "left join rotarymembers as r on r.id=m.id where date_add(date, interval 1 day) > now() order by date";
+           "left join rotarymembers as r on r.id=m.id where date + interval 1 day > now() order by date";
 
-  $rowdesc = "<tr><td class='date'>%Date%</td><td>%Owner%</td><td>%Status%</td><td>%Presenter%</td><td>%Subject%</td>".
-             "<td>%Edit%</td></tr>";
+  $T = new dbTables($S);
 
-  $header = "<thead><tr>%<th>*</th>%</tr></thead>";
-  $t = new dbTables($S);
-  list($table, $r, $n, $hdr) = $t->makeresultrows($query, $rowdesc,
-    array('return'=>true, 'callback'=>'callback', 'delim'=>"%", 'header'=>$header));
-
-  // This is a bit of a klug as I need the 'id' but I don't want it in the <thead>
-  
-  $hdr = preg_replace("/<th>id<\/th>/", '', $hdr);
+  list($tbl) = $T->maketable($query, array('callback'=>'callback', 'attr'=>array('id'=>'assignments', 'border'=>'1')));
   
   echo <<<EOF
 <main>
@@ -273,18 +260,11 @@ the Friday before our meeting. If you don't have your information updated by the
 Thursday before your talk the email goes out with your name and &quot;TBD&quot; which
 looks dumb and usually does not get into the paper. Please try to get your talk
 information updated before the Wednesday meeting prior to your talk.</p>
-
 <div id="print">
 <a href="$S->self?print=1"><img
 src="http://bartonphillips.net/images/print.gif" width="100" alt="print logo"/></a>
 </div>
-
-<table id='assignments'>
-$hdr
-<tbody>
-$table
-</tbody>
-</table>
+$tbl
 </main>
 EOF;
 }
@@ -292,9 +272,7 @@ EOF;
 //--------------------
 // Edit
 
-function Edit($date) {
-  global $S;
-
+function Edit($S, $date) {
   $S->query("select m.*, r.FName, r.LName from meetings as m ".
             "left join rotarymembers as r on m.id=r.id where m.date='$date'");
 
@@ -391,9 +369,7 @@ EOF;
 // FUNCTION
 // Post
 
-function Post($date) {
-  global $S;
-
+function Post($S, $date) {
   extract($_POST);
 
   // If I am editing then blp_id is set and use it rather than id
@@ -514,20 +490,17 @@ function PrintIt($S) {
      return false;
   }
     
-  $query = "select * from meetings where date_add(date, interval 1 day) > now() order by date";
-  $rowdesc = "<tr><td>date</td><td>name</td><td>subject</td></tr>";
-  $table = $T->makeresultrows($query, $rowdesc, array('callback'=>'callback2'));
+  //$query = "select * from meetings where date_add(date, interval 1 day) > now() order by date";
+  //$rowdesc = "<tr><td>date</td><td>name</td><td>subject</td></tr>";
+  //$table = $T->makeresultrows($query, $rowdesc, array('callback'=>'callback2'));
+  $query = "select date as Date, concat(FName, ' ', LName) as Owner, name as Presenter, subject as Subject ".
+           "from meetings as m left join rotarymembers as r on r.id=m.id where date + interval 1 day > now() order by date";
   
+  list($tbl) = $T->maketable($query, array('callback'=>'callback2', 'attr'=>array('id'=>'assignments','border'=>'1')));
+
   echo <<<EOF
 $S->top
-<table id='assignments'>
-<thead>
-<tr><th>Date</th><th>Name</th><th>Subject</th></tr>
-</thead>
-<tbody>
-$table
-</tbody>
-</table>
+$tbl
 </body>
 </html>
 EOF;
