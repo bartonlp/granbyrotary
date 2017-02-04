@@ -24,6 +24,10 @@ $lastmod = date("M j, Y H:i", getlastmod());
 
 return <<<EOF
 <footer>
+<address>
+  Copyright &copy; $this->copyright
+</address>
+<br>
 {$arg['msg']}
 {$arg['msg1']}
 $counterWigget
