@@ -14,9 +14,9 @@
         "database": "granbyrotarydotorg",
         "engine": "mysqli"
     },
-    "headFile": "/var/www/granbyrotarydotorg/includes/head.i.php",
-    "bannerFile": "/var/www/granbyrotarydotorg/includes/banner.i.php",
-    "footerFile": "/var/www/granbyrotarydotorg/includes/footer.i.php",
+    "headFile": "/var/www/granbyrotary.org/includes/head.i.php",
+    "bannerFile": "/var/www/granbyrotary.org/includes/banner.i.php",
+    "footerFile": "/var/www/granbyrotary.org/includes/footer.i.php",
     "count": true,
     "countMe": true,
     "ctrmsg": "Counter Reset: Feb. 4, 2017",
