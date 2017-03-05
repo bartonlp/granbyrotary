@@ -11,7 +11,7 @@
         "host": "localhost",
         "user": "barton",
         "password": "7098653",
-        "database": "granbyrotarydotorg",
+        "database": "granbyrotary",
         "engine": "mysqli"
     },
     "headFile": "/var/www/granbyrotary.org/includes/head.i.php",

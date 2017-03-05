@@ -349,17 +349,21 @@ jQuery(document).ready(function($) {
   </script>
 EOF;
 
-$h->style = <<<EOF
+$h->css = <<<EOF
   <!-- local style -->
   <style>
 h1 {
   text-align: center;
 }
-
+button[name='markread'] {
+  font-size: 1rem;
+  border-radius: .3rem;
+  margin-bottom: .5rem;
+}
 #skyhinewstbl tbody tr td:nth-child(2) {
   font-family: Verdana;
-  font-size: 10px;
-  width: 120px;
+  font-size: .8rem;
+  width: 8rem;
 }
 
 #skyhinewstbl td {

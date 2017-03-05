@@ -62,7 +62,7 @@ body {
         font-size: 1.5rem;
 
         background-clip:content-box;
-        -webkit-background-clip:content-box; /* Safari */
+        /*-webkit-background-clip:content-box;*/ /* Safari */
         background-position:top;
         background-origin:content-box;
 }
@@ -296,7 +296,7 @@ a:hover {
         color: rgb(123, 16, 66);
 }
 /* media queries */
-@media (min-width: 1600px) {
+@media (min-width: 1200px) {
         html {
                 font-size: 20px;
         }
