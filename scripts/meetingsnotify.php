@@ -3,7 +3,6 @@
 # Designed to be run as a cron job.
 # Scan the meetings table and send emails to speakers
 
-
 define('ONE_WEEK',604800);
 define('ONE_MONTH', 2629744);
 

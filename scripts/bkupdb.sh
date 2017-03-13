@@ -28,3 +28,4 @@ mysqldump --user=barton --add-drop-table --password=7098653 granbyrotary >$dir/$
 
 gzip $dir/$filename
 
+echo "bkupdb.sh for granbyrotary.org Done"
