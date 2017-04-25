@@ -20,7 +20,7 @@ return <<<EOF
   <link rel="stylesheet" title="Rotary Style Sheet" href="/css/rotary.css">
 {$arg['link']}
   <!-- jQuery -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <!-- Site Script -->
   <script>
 var lastId = $this->LAST_ID;
