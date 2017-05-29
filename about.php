@@ -382,6 +382,7 @@ E-mail: sean@mavericksgrille.com
 <a name="MapToMeetingPlace" ></a>
 <hr/>
 <h2><a href="cookieinfo.php">Our Use of Browser <i>COOKIES</i></a></h2>
+<h2><a href="rotary-webstats.php">Rotary Web Stats</a></h2>
 <hr/>
 $footer
 EOF;

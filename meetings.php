@@ -9,6 +9,9 @@ require_once("./vendor/autoload.php");
 $_site = require_once(getenv("SITELOAD"). "/siteload.php");
 $S = new $_site->className($_site);
 
+// blp
+//$S->id = 120; // Linke
+
 $S->d = date("U");
 
 $s->siteclass = $S;
@@ -195,7 +198,7 @@ EOF;
   function callback(&$row, &$desc) {
     global $S;
     
-    $row[Status] = preg_replace("/-/", " ", $row['Status']);
+    $row['Status'] = preg_replace("/-/", " ", $row['Status']);
     switch($row['Edit']) {
       case 'business':
         $row['Presenter'] = "<span class='bis' style='border: 0'>Business Meeting</span>";
@@ -221,8 +224,10 @@ EOF;
       $row['Owner'] = "&nbsp;";
     }
 
+    //echo "id: $S->id, ".$row['id']. "<br>";
+    
     if(($row['id'] == $S->id && $S->id != 0) || ($S->isAdmin($S->id))) {
-      $row['Edit'] = "<a href='$S->self?date=$row[Date]&d=$S->d'>EDIT</a>";
+      $row['Edit'] = "<a href='$S->self?date={$row['Date']}&d=$S->d'>EDIT</a>";
     } else {
       $row['Edit'] = "";
     }
@@ -230,11 +235,7 @@ EOF;
     return false;
   }
 
-  // Could make the FName, LName into an as membername
-  // then I would not need to do the % delimiter stuff and $r=false for the reference. But this is a good
-  // test of the logic.
-
-  $query = "select date as Date, concat(FName, ' ', LName) as Owner, yes as Status, name as Presenter, subject as Subject, " .
+  $query = "select r.id, date as Date, concat(FName, ' ', LName) as Owner, yes as Status, name as Presenter, subject as Subject, " .
            "type as Edit from meetings as m ".
            "left join rotarymembers as r on r.id=m.id where date + interval 1 day > now() order by date";
 
