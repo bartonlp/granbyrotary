@@ -1,4 +1,6 @@
 <?php
+// For 2017-2018 Pres: Bog Saint, Tres: Wayne, Sec: Wiese, Pres Elect: Christian Hornbaker
+
 // Get the GranbyRotary class
 require_once("./vendor/autoload.php");
 

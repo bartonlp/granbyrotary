@@ -1,7 +1,7 @@
 {
     "siteDomain": "granbyrotary.org",
     "siteName": "GranbyRotary",
-    "path": "/var/www/granbyrotary",
+    "path": "/var/www/granbyrotary.org",
     "className": "GranbyRotary",
     "copyright": "2017 Granby Rotary Club",
     "author": "Barton Phillips (bartonphillips@gmail.com)",

@@ -1,11 +1,7 @@
 #!/usr/bin/php -q
 <?php
 // Email the SkyHiNews with info for their calendar section.
-// BLP 2014-12-02 -- update to change email for Cynthia
-// BLP 2014-07-17 -- remove business meeting stuff
-
-$calendarGirl = 'Cynthia Washburn';
-$calendarGirlEmail = "cwashburn@skyhidailynews.com";
+// BLP 2017-06-23 -- add multiple email recipients
 
 $_site = require_once(getenv("SITELOAD")."/siteload.php");
 $S = new Database($_site);
@@ -22,7 +18,7 @@ $end = date("Y-m-d", strtotime("+1 week", $date));
 $sql = "select name, date, id, subject, type ".
        "from meetings where date between '$start' and '$end'";
 
-echo "$sql\n";
+//echo "$sql\n";
 
 $n = $S->query($sql);
 
@@ -46,9 +42,18 @@ $meetdate = date("l M d, Y", strtotime($date));
 //echo "meetdate: $meetdate\n";
 
 if(empty($subject)) $subject = "To be determined";
-  
-$msg = <<<EOF
-Dear $calendarGirl
+
+// BLP 2017-06-23 -- Add multiple recipients
+
+$emailaddress = array(array('name'=>"Sawyer D'argone", 'email'=>'sdargonne@skyhinews.com'),
+                      array('name'=>'Bryce Martin', 'email'=>'bmartin@skyhinews.com'));
+
+foreach($emailaddress as $inx) {
+  $name = $inx['name'];
+  $email = "{$inx['name']} <{$inx['email']}>";
+
+  $msg = <<<EOF
+Dear $name,
 
 The Rotary Club of Granby is having its weekly meeting on $meetdate.
 Our guest speaker will be $name and the subject of the talk is:
@@ -72,11 +77,11 @@ Thank you
 Barton Phillips
 EOF;
 
-echo $msg;
-
-mail($calendarGirlEmail, "Rotary Item for the Calendar Section", $msg,
-     "From: info@granbyrotary.org\r\nBcc: bartonphillips@gmail.com\r\n");
-
+  echo $msg;
+   
+  mail($email, "Rotary Item for the Calendar Section", $msg,
+       "From: info@granbyrotary.org\r\nBcc: bartonphillips@gmail.com\r\n");
+}
 // BLP 2015-03-14 -- 
 // Now send a message to the presenter and to the president
 
@@ -84,6 +89,9 @@ $sql = "select concat(FName, ' ', LName), Email ".
        "from rotarymembers where id=$id";
 
 $S->query($sql);
+
+// Get new $email from rotarymembers
+
 list($member, $email) = $S->fetchrow('num');
 
 $sql = "select concat(FName, ' ', LName), Email ".
@@ -100,11 +108,10 @@ This was sent to the SkyHiNews publisizing your upcoming talk.
 $msg
 EOF;
 
-//echo "\n$msg2";
-
+echo "$msg2\n";
 mail($email, "FYI SkyHiNews Notification of Talk", $msg2,
      "From: info@granbyrotary.org\r\nCC: $pemail\r\n");
-
+  
 exit();
 
 function wrap($line) {
