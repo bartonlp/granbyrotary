@@ -49,6 +49,18 @@ EOF;
 // To get subsequent sections just set the itemname and call getItem with the $s with the new
 // itemname set.
 
+$s->itemname = "WhoWeAre";
+// START UpdateSite WhoWeAre
+$item = $u->getItem($s);
+// END UpdateSite WhoWeAre
+
+if($item !== false) {
+  $whoWeAre = <<<EOF
+<h2>{$item['title']}</h2>
+<div>{$item['bodytext']}</div>
+EOF;
+}
+
 $s->itemname ="OtherStuff";
 
 // START UpdateSite OtherStuff
@@ -292,11 +304,6 @@ $memlist
 </table>
 EOF;
 
-// Check number of active members
-
-$S->query("select count(*) from rotarymembers where status='active' and otherclub='granby'");
-list($memberCnt) = $S->fetchrow('num');
-
 // ***************
 // Render the page
 // ***************
@@ -306,20 +313,10 @@ $top
 <!-- START UpdateSite: PresidentMsg -->
 $presidentmsg
 <!-- UpdateSite: PresidentMsg End -->
-<h2>Who We Are</h2>
-<p>The Rotary Club of Granby was chartered in 1987, and its membership includes men and women representing a wide cross-section of
-local businesses and professions. The club meets each Wednesday for fellowship, lunch, and interesting and informative programs
-dealing with topics of local and global importance.</p>
-<p>The club is part of Rotary District 5450, comprised of 51 clubs and over 3,000 members. There are <b>$memberCnt</b> active members
-in the Granby Rotary Club.</p>
 
-<p>The 2016-2017 Club President is
-<a href="email.php?id=175">Susan Baird</a>.
-See the <a href="about.php#officerstbl">About Page</a> for a full list of officers and chair persons.</p>
-
-<p>The 2016-2017 Rotary District Governor is William (Bill) Downes.<br>
-The 2016-2017 President of Rotary International is John F. Germ.</p>
-<hr/>
+<!-- START UpdateSite: WhoWeAre -->
+$whoWeAre
+<!-- UpdateSite: WhoWeAre End -->
 
 <div class="center">
 <!-- Start UpdateSite: Other Stuff -->

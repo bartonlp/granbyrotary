@@ -4,22 +4,20 @@
 
 if($this->isAdmin($this->id)) {
   $adminText = "\n<li><a style='color: red; background-color: white; border: 1px solid black' ".
-               "href='admintext.php?key=41144blp&sender=$this->self&d=$d'>Admin</a></li>";
+               "href='admintext.php?key=41144blp&sender=$this->self'>Admin</a></li>";
 }
 
 return <<<EOF
 <header>
 <img id='the-real-rotary-logo' src='https://bartonphillips.net/images/RotaryLogo.png'
  alt='This is the REAL Rotary Logo. Oh Boy' width="200">
-
-
 <div id="header-image-div">
 <div id="header-image">
-<img id='slideshow' src="http://bartonphillips.net/images/banner-photos/CIMG0001n.JPG"/>
-<img id='wheel' src='http://bartonphillips.net/images/granbyrotary/960-mark-of-excellence.png'/>
-<img id='granbyrotarytext' src='http://bartonphillips.net/images/text-granbyrotary.png'/>
-<img id='logo' src='http://bartonphillips.net/images/blank.png'>
-<img id='dummyimg' src='tracker.php?page=normal&id=$this->LAST_ID'/>
+<img id='slideshow' src="https://bartonphillips.net/images/banner-photos/CIMG0001n.JPG"/>
+<img id='wheel' src='https://bartonphillips.net/images/granbyrotary/960-mark-of-excellence.png'/>
+<img id='granbyrotarytext' src='https://bartonphillips.net/images/text-granbyrotary.png'/>
+<img id='logo' src='https://bartonphillips.net/images/blank.png'>
+<img id='dummyimg' src='/tracker.php?page=normal&id=$this->LAST_ID'/>
 </div>
 <!-- Nav bar for big screens -->
 <div id="navMap">
@@ -30,8 +28,7 @@ return <<<EOF
 <li><a href="news.php">News</a></li>
 <li><a href="calendar.php">Club&nbsp;Calendar</a></li>
 <li><a href="meetings.php">Meetings</a></li>
-<li><a href="edituserinfo.php">User&nbsp;Profile</a></li>
-<!--<li><a href="webstats.php">Web&nbsp;Stats</a></li>-->$adminText
+<li><a href="edituserinfo.php">User&nbsp;Profile</a></li>$adminText
 </ul>
 </div>
 <!-- Nav bar for small screens -->
@@ -45,8 +42,7 @@ return <<<EOF
 <li><a href="news.php">News</a></li>
 <li><a href="calendar.php">Club&nbsp;Calendar</a></li>
 <li><a href="meetings.php">Meetings</a></li>
-<li><a href="edituserinfo.php">User&nbsp;Profile</a></li>
-<!--<li><a href="webstats.php">Web&nbsp;Stats</a></li>-->$adminText
+<li><a href="edituserinfo.php">User&nbsp;Profile</a></li>$adminText
 	</ul>
 </div>
 </div>

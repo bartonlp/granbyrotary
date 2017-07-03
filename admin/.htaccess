@@ -5,8 +5,6 @@ Deny from All
 
 AuthName "Granby Rotary Admin"
 AuthType Basic
-AuthUserFile /var/www/granbyrotarydotorg/admin/.htpasswd
+AuthUserFile /var/www/granbyrotary.org/admin/.htpasswd
 require valid-user
 Satisfy Any
-
-

@@ -1,5 +1,5 @@
 <?php
-// BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
+// BLP 2017-06-25 -- remove article logic
 
 use bartonlp\RssFeed; // Using NEW RssFeed in /var/www/vendor/
 
@@ -18,8 +18,6 @@ $d = date("U"); // date to force uncached GETs
 // We put a message there saying that the feed is loading.
 
 if($_GET['page'] == 'rssinit') {
-  //$S = new $_site['className']($_site); // to use $S->id we need to instantiate the 'className' not Database().
-
   if($S->id) {
     // For members keep track of read news and don't show it again.
     // We create the $readfeeds array which has the title of the article as the key and the value
@@ -154,10 +152,6 @@ EOF;
 // loaded via the above Ajax call. 
 
 if($_GET['page'] == 'ajaxinx') {
-  //$S = new Database($_site['dbinfo']);
-
-  //cout("date: {$_GET['date']}");
-  
   header("Content-type: text/plain");
   
   $rssFeed = $_SESSION['rssFeed'];
@@ -194,9 +188,6 @@ EOF;
 
 // ********************************************************************************
 // Page Logic. Above is Ajax logic this is the main flow of the page
-
-//$S = new $_site['className']($_site);
-
 // Mark All Feeds Read or Unread
 // NOTE: the two forms are method="get" not POST
 
@@ -257,45 +248,20 @@ if($item !== false) {
 EOF;
 }
 
-$page = "";
-$hdr = "";
+$s->itemname = 'webdesign';
 
-// Read news from database
-  
-$S->query("select article, rssfeed, articleInclude, created, expired, header, " .
-          "left(created, 10) as creat, left(expired, 10) as exp " .
-          "from articles where expired > now() order by pageorder, created desc");
-
-while($row = $S->fetchrow("assoc")) {
-  extract($row);
-  switch($articleInclude ) {
-    case "article":
-      $story = $article;
-      break;
-    case "rss":
-      $story = $rssfeed;
-      break;
-    case "both":
-      $story = "$rssfeed\n$article";
-      break;
-  }
-  if($exp == "2020-01-01") {
-    $exp = "NEVER";
-  }
-    
-  $page .= <<<EOF
+// START UpdateSite WebDesign
+$item = $u->getItem($s);
+// END UpdateSite WebDesign
+if($item !== false) {
+  $webdesign = <<<EOF
 <div>
-$story 
+<h2>{$item['title']}</h2>
+<div>{$item['bodytext']}</div>
+<p class="itemdate">Created: {$item['date']}</p>
 </div>
-<p style="color: brown; font-size: 10px; font-style: italic">Creation date: $creat, Expires: $exp</p>
-
 <hr>
-
 EOF;
-
-  // $header is possible script/styles that should be added to the <head> section
-
-  $hdr .= "$header";
 }
 
 $h->script = <<<EOF
@@ -409,16 +375,6 @@ $h->banner = $greet;
 
 list($top, $footer) = $S->getPageTopBottom($h);
 
-/* BLP 2014-07-17 -- 
-// Check to see if this member is a web administrator
-
-if($S->isAdmin($S->id)) {
-  // Make the Administrator's greeting
-  
-  $top .= $S->adminText();
-}
-*/
-
 // Echo the UpdateSite message if one
 echo <<<EOF
 $top
@@ -437,7 +393,9 @@ EOF;
 include("upcomingmeetings.php");
 
 echo <<<EOF
-$page
+<!-- Start UpdateSite: Webdesign -->
+$webdesign
+<!-- UpdateSite: Webdesign End -->
 <h2>Sky Hi News Feeds</h2>
 <div id="skyhinewsitem">
 <a name="skyhianchor"></a>

@@ -23,9 +23,9 @@ return <<<EOF
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <!-- Site Script -->
   <script>
-var lastId = $this->LAST_ID;
+var lastId = $this->LAST_ID, localPath = '/';
   </script>
-  <script src="http://bartonphillips.net/js/tracker.js"></script>
+  <script src="https://bartonphillips.net/js/tracker.js"></script>
 {$arg['extra']}
 {$arg['script']}
 {$arg['css']}

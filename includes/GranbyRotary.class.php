@@ -193,17 +193,6 @@ class GranbyRotary extends SiteClass {
   }
 
   /**
-   * getLastmod()
-   * @access private
-   */
-  
-  private function getLastmod() {
-    $this->query("select max(lasttime) as date from articles");
-    $row = $this->fetchrow();
-    return $row['date'];    
-  }
-
-  /**
    * getWhosBeenHereToday()
    * define here as we need different table semantics
    * Override base class
@@ -248,7 +237,7 @@ EOF;
    * adminText()
    * @return string
    */
-
+/*
   public function adminText() {
     return <<<EOF
 <div style="text-align: center;">
@@ -260,64 +249,5 @@ EOF;
 </div>
 EOF;
   }
-
-  /**
-   * trackmember()
-   * Track activity on site
-   * This table is in the siteName's database.
-   * By default this uses the 'logagent' and 'memberpagecnt' tables.
-   */
-
-  protected function trackmember() {
-    if($this->nodb) {
-      return;
-    }
-
-    // If there is a member 'id' then update the memberTable
-
-    if($this->id && $this->memberTable) {
-      $agent = $this->escape($this->agent);
-
-      $this->query("select count(*) from information_schema.tables ".
-                   "where (table_schema = '{$this->dbinfo->database}') and (table_name = '$this->memberTable')");
-
-      list($ok) = $this->fetchrow('num');
-
-      if($ok) {
-        // BLP 2016-05-04 -- 
-        // The fname-lname are a unique index 'name' so we will not get duplicates of our users.
-        
-        $sql = "insert into $this->memberTable (fname, lname, email, visits, visittime) ".
-               "values('$this->fname', '$this->lname', '$this->email', '1', now()) ".
-               "on duplicate key update visits=visits+1, visittime=now()";
-
-        $this->query($sql);
-      } else {
-        error_log("$this->siteName: $this->self: table $this->memberTable does not exist in the {$this->dbinfo->database} database");
-      }
-      
-      // BLP 2014-09-16 -- add nomemberpagecnt
-
-      if(!$this->nomemberpagecnt) {
-        $this->query("select count(*) from information_schema.tables ".
-                     "where (table_schema = '{$this->dbinfo->database}') and (table_name = 'memberpagecnt')");
-
-        list($ok) = $this->fetchrow('num');
-
-        if($ok) {
-          $sql = "insert into memberpagecnt (page, id, ip, agent, count, lasttime) " .
-                 "values('$this->requestUri', '$this->id', '$this->ip', '$agent', '1', now()) ".
-                 "on duplicate key update count=count+1, ip='$this->ip', agent='$agent', lasttime=now()";
-
-          $this->query($sql);
-        } else {
-          error_log("$this->siteName: $this->self: table memberpagecnt does not exist in the {$this->dbinfo->database} database");
-        }
-      }
-    }
-  }
-  
-  public function __toString() {
-    return __CLASS__;
-  }
+*/  
 } // End of class GranbyRotary

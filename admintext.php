@@ -1,9 +1,8 @@
 <?php
 // The Administrators special page
-// BLP 2014-08-31 -- add foodlist and eventplanner
-// BLP 2014-07-17 -- Use $_REQUEST instead of $_POST so this will work with GET or POST calls
+
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 if($_REQUEST['key'] != "41144blp") {
@@ -54,14 +53,6 @@ members we know about in the four Grand County Rotary Clubs. New members can be 
 member's information can be edited and updated.</p>
 <ul>
 <li><a target="_blank" href="admindb.php">Administer the Members Table</a></li>
-</ul>
-<h2>News Articles</h2>
-<p><i>News Articles</i> can be added or edited. These are articles that appear on the <b>News</b>
-page.</p>
-<ul>
-<li><a target="_blank" href="articles/createarticle.php">Create News Articles</a></li>
-<li><a target="_blank" href="articles/createarticle.php?page=edit">Edit Existing News Articles</a></li>
-<li><a target="_blank" href="articles/admin.php">Administer the News Articles Table</a></li>
 </ul>
 </div>
 <hr>
