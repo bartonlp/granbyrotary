@@ -373,7 +373,7 @@ function startpage($S) {
   $h->link =<<<EOF
 <style>
 #datatable {
-font-size: .75rem;
+  font-size: .75rem;
   border-collapse: collapse;
   background: white;
   width: 4000px;

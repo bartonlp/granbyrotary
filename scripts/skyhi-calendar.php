@@ -49,11 +49,11 @@ $emailaddress = array(array('name'=>"Sawyer D'argone", 'email'=>'sdargonne@skyhi
                       array('name'=>'Bryce Martin', 'email'=>'bmartin@skyhinews.com'));
 
 foreach($emailaddress as $inx) {
-  $name = $inx['name'];
+  $newsname = $inx['name'];
   $email = "{$inx['name']} <{$inx['email']}>";
 
   $msg = <<<EOF
-Dear $name,
+Dear $newsname,
 
 The Rotary Club of Granby is having its weekly meeting on $meetdate.
 Our guest speaker will be $name and the subject of the talk is:
