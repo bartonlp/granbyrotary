@@ -1,10 +1,6 @@
 <?php
-/*
-$_site = require_once(getenv("HOME")."/includes/siteautoload.class.php");;
-$S = new $_site['className']($_site);
-*/
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 //vardump($_REQUEST);
@@ -60,7 +56,7 @@ exit();
 
 // Start: This handles both Single and Multiple recipients.
 // $S->page is either 'single' or 'multi'
-// $S->id; TO id or ids a string if only one or an array if several
+// $S->idTo; TO id or ids a string if only one or an array if several
 
 function start($S) {
   $memberTable = $S->memberTable;

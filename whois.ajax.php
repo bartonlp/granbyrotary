@@ -7,9 +7,12 @@
 $ret = array();
 
 $ip = $_GET['ip'];
-
 $email = $_GET['email'];
-Header("Content-type: text/plain");
+
+if(!$_GET['web']) {
+  Header("Content-type: text/plain");
+}
+
 $errorhdr = <<<EOF
 <!DOCTYPE HTML>
 <html lang="en">
@@ -70,5 +73,3 @@ EOF;
   $ret[] = "</pre>";
   echo implode("\n", $ret);
 }
-  
-

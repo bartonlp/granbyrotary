@@ -381,12 +381,6 @@ $top
 <!-- Start UpdateSite: Important Message -->
 $message
 <!-- UpdateSite: Importand Message End -->
-<div style="text-align: center; margin-top: 10px;">
-<a target="_blank" href="http://www.wunderground.com/US/CO/Granby.html?bannertypeclick=miniStates">
-<img src="http://weathersticker.wunderground.com/weathersticker/miniStates_both/language/www/US/CO/Granby.gif"
-alt="Click for Granby, Colorado Forecast" border="0" height="100" width="150" /></a>
-</div>
-
 EOF;
 
 // Upcoming meetings

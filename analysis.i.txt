@@ -34,7 +34,6 @@
 <li>www.endpolio.com</li>
 <li>www.mountainmessiah.com</li>
 <li>www.applitec.com</li>
-<li>www.conejoskiclub.org</li>
 </ul>
 
 <div id="siteanalysis">
