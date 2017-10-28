@@ -1,10 +1,6 @@
 <?php
-/*
-$_site = require_once(getenv("HOME"). "/includes/siteautoload.class.php");
-$S = new $_site['className']($_site);
-*/
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 if($mid = $_GET['memberid']) {

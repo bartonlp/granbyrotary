@@ -1,6 +1,6 @@
 <?php
 require_once("./vendor/autoload.php"); // Get GranbyRotary class
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 $errorhdr = <<<EOF

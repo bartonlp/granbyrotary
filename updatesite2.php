@@ -10,7 +10,7 @@
 // I have a simpler version of the preview 'updatesite-simple-preview.i.php' that can be used instead
 
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 $errorhdr = <<<EOF

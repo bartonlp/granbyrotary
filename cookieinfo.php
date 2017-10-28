@@ -1,11 +1,7 @@
 <?php
 // Lets users check the cookies for this site.
-/*
-$_site = require_once("/var/www/includes/siteautoload.class.php");
-$S = new $_site['className']($_site);
-*/
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 $top = $S->getPageTop("About Our Use of Cookies", "<h2>About Our Use of Cookies</h2>");

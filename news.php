@@ -4,7 +4,7 @@
 use bartonlp\RssFeed; // Using NEW RssFeed in /var/www/vendor/
 
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 session_cache_limiter('private');

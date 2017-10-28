@@ -1,16 +1,9 @@
 <?php
 // BLP 2014-08-13 -- Any Admin can edit all of the entries. 
 // BLP 2014-07-17 -- removed admin from here and added it to includes/banner.i.php
-/*
-$_site = require_once("/var/www/includes/siteautoload.class.php");
-$S = new $_site['className']($_site);
-*/
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
-
-// blp
-//$S->id = 120; // Linke
 
 $S->d = date("U");
 

@@ -2,12 +2,8 @@
 // Administer the members database
 // BLP 2014-08-03 -- empty columns should be posted as they my be removing something. Also added
 // new logic for ctrls input selection. Add PRINT function.
-/*
-$_site = require_once("/var/www/includes/siteautoload.class.php");
-$S = new $_site['className']($_site);
-*/
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 $errorhdr = <<<EOF

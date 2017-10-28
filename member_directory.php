@@ -1,7 +1,7 @@
 <?php
 //BLP 2015-02-22 -- changed to use symlink email.php (/var/www/html/email.php)
 require_once("./vendor/autoload.php");
-$_site = require_once(getenv("SITELOAD"). "/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new $_site->className($_site);
 
 $h->script = <<<EOF

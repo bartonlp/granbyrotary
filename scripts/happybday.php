@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-$_site = require_once(getenv("SITELOAD")."/siteload.php");
+$_site = require_once(getenv("SITELOADNAME"));
 $S = new Database($_site);
 
 // Get todays DAY
