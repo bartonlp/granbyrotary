@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-$_site = require_once(getenv("SITELOADNAME"));
+$_site = require_once("/var/www/vendor/bartonlp/site-class/includes/siteload.php");
 $S = new Database($_site);
 
 // Get todays DAY

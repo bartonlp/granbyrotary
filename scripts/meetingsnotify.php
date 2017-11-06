@@ -8,7 +8,7 @@ define('ONE_MONTH', 2629744);
 
 //$DEBUG = true; #debug some
 
-$_site = require_once(getenv("SITELOADNAME"));
+$_site = require_once("/var/www/vendor/bartonlp/site-class/includes/siteload.php");
 $S = new Database($_site);
 
 $S->query("select r.FName, r.LName, r.Email, m.yes, m.name, m.date, m.subject ".

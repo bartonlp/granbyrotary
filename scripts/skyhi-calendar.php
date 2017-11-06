@@ -3,7 +3,7 @@
 // Email the SkyHiNews with info for their calendar section.
 // BLP 2017-06-23 -- add multiple email recipients
 
-$_site = require_once(getenv("SITELOADNAME"));
+$_site = require_once("/var/www/vendor/bartonlp/site-class/includes/siteload.php");
 $S = new Database($_site);
 
 // Get the unixdate. The cron jobs runs on THURSDAY after the Wednesday meeting

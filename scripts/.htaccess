@@ -1,5 +1,6 @@
 XBitHack on
 Options +Indexes +Includes
+SetEnv SITELOADNAME /var/www/vendor/bartonlp/site-class/includes/siteload.php
 
 Order Deny,Allow
 Deny from All

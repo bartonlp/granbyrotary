@@ -3,8 +3,7 @@
 // BLP 2014-06-09 -- fix weekofyear logic again. We wan the week for this year not the year of the
 // birthday.
 // BLP 2014-04-14 -- fixed weekofyear logic
-
-$_site = require_once(getenv("SITELOADNAME"));
+$_site = require_once("/var/www/vendor/bartonlp/site-class/includes/siteload.php");
 $S = new Database($_site);
 
 // Get todays week of year
@@ -54,5 +53,3 @@ if($n) {
 } else {
   echo "No birthdays this week.\n";
 }
-
-?>
