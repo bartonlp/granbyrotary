@@ -2,7 +2,6 @@
 <?php
 // Email the SkyHiNews with info for their calendar section.
 // BLP 2017-06-23 -- add multiple email recipients
-
 $_site = require_once("/var/www/vendor/bartonlp/site-class/includes/siteload.php");
 $S = new Database($_site);
 
