@@ -53,8 +53,3 @@ if($n) {
 } else {
   echo "No birthdays this week.\n";
 }
-<<<<<<< HEAD
-=======
-
-?>
->>>>>>> 0fa7426c157e08f9c47cae3247faaa2ce13d9883
