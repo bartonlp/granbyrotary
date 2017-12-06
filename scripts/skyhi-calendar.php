@@ -44,7 +44,8 @@ if(empty($subject)) $subject = "To be determined";
 
 // BLP 2017-06-23 -- Add multiple recipients
 
-$emailaddress = array(array('name'=>"Sawyer D'argone", 'email'=>'sdargonne@skyhinews.com'),
+$emailaddress = array(array('name'=>"Calendar", 'email'=>'calendar@skyhinews.com'),
+                      array('name'=>"Sawyer D'argone", 'email'=>'sdargonne@skyhinews.com'),
                       array('name'=>'Bryce Martin', 'email'=>'bmartin@skyhinews.com'));
 
 foreach($emailaddress as $inx) {

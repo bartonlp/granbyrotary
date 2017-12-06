@@ -206,11 +206,17 @@ There is a lot more to see if you <a href='login.php?return=$S->self'>Login</a>!
 EOF;
 }
 
+if($S->query("select Email from rotarymembers where office='President'")) {
+  list($presEmail) = $S->fetchrow('num');
+} else {
+  $presEmail = 'bartonphillips@gmail.com';
+}
+
 $h->banner = <<<EOF
       <p>PO Box 1430<br/>
       Granby, CO 80446<br/>
       e-mail:
-      <a href='mailto:info@granbyrotary.org'>info@granbyrotary.org</a><br/>
+      <a href='mailto:$presEmail'>Granby President</a><br/>
 
       Meets Wednesday 12:00 PM at<br/>
       <a target="_blank" href='http://www.mavericksgrille.com/'>Maverick's Grille</a><br>
