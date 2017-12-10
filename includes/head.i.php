@@ -15,7 +15,7 @@ return <<<EOF
   <meta name="google-site-verification" content="FtWTx_Hn0ie5lTF42jPm5zjVtsDtBFC1MC7kyDJ99AU">
   <meta name="verify-v1" content="dgAIXuJJft+YWGYjqA2g/NbkCkbfkMdqtAjtx3E4nkc="/>
   <!-- FAVICON.ICO -->
-  <link rel="shortcut icon" href="http://www.granbyrotary.org/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="https://www.granbyrotary.org/favicon.ico" type="image/x-icon">
   <!-- CSS -->
   <link rel="stylesheet" title="Rotary Style Sheet" href="/css/rotary.css">
 {$arg['link']}

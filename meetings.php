@@ -49,7 +49,7 @@ $h->script = <<<EOF
   <script>
 jQuery(document).ready(function($) {
   $("#print").html("<input type='image' id='printbtn' "+
-                   "src='http://bartonphillips.net/images/print.gif' " +
+                   "src='https://bartonphillips.net/images/print.gif' " +
                    "style='width: 100px'/>");
 
   $("#printbtn").click(function() {
@@ -256,7 +256,7 @@ looks dumb and usually does not get into the paper. Please try to get your talk
 information updated before the Wednesday meeting prior to your talk.</p>
 <div id="print">
 <a href="$S->self?print=1"><img
-src="http://bartonphillips.net/images/print.gif" width="100" alt="print logo"/></a>
+src="https://bartonphillips.net/images/print.gif" width="100" alt="print logo"/></a>
 </div>
 $tbl
 </main>

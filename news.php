@@ -59,7 +59,7 @@ EOF;
   try {
     // The class is in the granbyrotary/includes directory
 
-    $feed = new RssFeed("http://www.skyhidailynews.com/feed/");
+    $feed = new RssFeed("https://www.skyhidailynews.com/feed/");
   } catch(Exception $e) {
     if($e->getCode() == 5001) {
       echo "<span style='color: red'>Can't Connect to SkyHi new feed</span>";
@@ -271,7 +271,7 @@ jQuery(document).ready(function($) {
   // Please wait for news feed
   $("#skyhinews").html("<p style='color: red'>Please Wait While SkyHiNews Features are Loaded</p>"+
                        "<div style='text-align: center;'>"+
-                       "<img src='http://bartonphillips.net/images/loading.gif'></div>");
+                       "<img src='https://bartonphillips.net/images/loading.gif'></div>");
 
   // Get the news feed
 

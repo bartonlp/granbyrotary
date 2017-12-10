@@ -32,7 +32,7 @@ EOF;
   // BLP 2015-03-16 -- because we are running from www.granbyrotary.org/admin and the images
   // in banner.i.php are relative we need to set the base.
   $h->extra = <<<EOF
-  <base href='http://www.granbyrotary.org'>
+  <base href='https://www.granbyrotary.org'>
   <style>
 tbody th {
   text-align: right;

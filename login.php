@@ -381,16 +381,16 @@ EOF;
 
   if(!$err) {
     $message = <<<MSG
-Thank you for registering at http://www.granbyrotary.org. If you did not register please disregard this email.
+Thank you for registering at https://www.granbyrotary.org. If you did not register please disregard this email.
 To complete your registration follow this link:
-http://www.granbyrotary.org/login.php?page=visitoremail&fname=$fname&lname=$lname&email=$email&club=$club&phone=$phone&code=Ab77J95Bc
+https://www.granbyrotary.org/login.php?page=visitoremail&fname=$fname&lname=$lname&email=$email&club=$club&phone=$phone&code=Ab77J95Bc
 
 or cut and past the above link into your browser.
 Thank You again for registering
 
 --
 Rotary Club of Granby Colorado
-http://www.granbyrotary.org
+https://www.granbyrotary.org
 MSG;
     
     mail($email, "Granbyrotary.org Registration", $message, "From: Granby Rotary Registration <info@granbyrotary.org>");

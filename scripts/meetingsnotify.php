@@ -30,7 +30,7 @@ while(list($fname, $lname, $email, $yes, $name, $date, $talkSubject) = $S->fetch
   $message =<<<MSG
 $fname $lname your are scheduled to give a Meeting Presentation on $date.
 You have not CONFIRMED your talk on the meeting page of our web site
-(http://www.granbyrotary.org/meetings.php). If you are going to make your presentation 
+(https://www.granbyrotary.org/meetings.php). If you are going to make your presentation 
 please fill in the subject and presenters name if other than yours. If you can not make
 the presentation please contact me ASAP so I can arrange for someone else to talk.
 You can just email me (bartonphillips@gmail.com) and I will fill in the meeting subject
@@ -50,7 +50,7 @@ MSG;
   $footer = <<<MSG
 --
 The Rotary Club of Granby
-http://www.granbyrotary.org
+https://www.granbyrotary.org
 
 This is an automated message.
 MSG;

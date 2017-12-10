@@ -9,7 +9,7 @@ $S = new $_site->className($_site);
 $x = glob("../bartonphillipsnet/images/banner-photos/*");
 foreach($x as $v) {
   $v = basename($v);
-  $banner_photos .= "'http://bartonphillips.net/images/banner-photos/$v',";
+  $banner_photos .= "'https://bartonphillips.net/images/banner-photos/$v',";
 }
 $banner_photos = rtrim($banner_photos, ",");
 
@@ -223,7 +223,7 @@ $h->banner = <<<EOF
       15 E. Agate Avenue (US Highway 40)<br>
       Granby, Colorado 80446<br>
       Phone: (970) 887-9000<br>
-      <a target="_blank" href="http://maps.google.com/maps?hl=en&amp;q=Maverick's%20Grille%2015%20E.%20Agate%20Ave.%20Granby%20CO%2080446">Map</a>
+      <a target="_blank" href="https://maps.google.com/maps?hl=en&amp;q=Maverick's%20Grille%2015%20E.%20Agate%20Ave.%20Granby%20CO%2080446">Map</a>
       </p>
 $memberOrLogin$AdminText
 EOF;

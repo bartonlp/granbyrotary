@@ -427,7 +427,7 @@ jQuery(document).ready(function($) {
                    '.page-break {page-break-before: always;}</style>'+
 // This next line has to have the / seperated from the script. If not then the browser thinks it is
 // the end of a script tag and gets all screwed up!
-                   '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">'+
+                   '<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">'+
                    '</'+'script>'+
                    '<script src="splitForPrint.js"><'+'/'+'script>'+
                    '</head>'+
