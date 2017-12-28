@@ -18,6 +18,9 @@ return <<<EOF
   <link rel="shortcut icon" href="https://www.granbyrotary.org/favicon.ico" type="image/x-icon">
   <!-- CSS -->
   <link rel="stylesheet" title="Rotary Style Sheet" href="/css/rotary.css">
+  <!-- css is not css but a link to tracker via .htaccess RewriteRule. -->
+  <link rel="stylesheet" href="/csstest.css?id=$this->LAST_ID" title="blp test">
+
 {$arg['link']}
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
