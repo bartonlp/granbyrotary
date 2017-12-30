@@ -45,9 +45,11 @@ html {
 
 body {
 /* New Years 
-        background: url('http://www.granbyrotary.org/images/happy6.gif');
-*/
-/*Xmas */
+        background-image: url('https://bartonphillips.net/images/happy6.png');
+        background-position: 5px 80px;
+        background-repeat: no-repeat;
+/**/
+/*Xmas
         background-image: url(http://bartonphillips.net/images/bksnoscene.jpg);
         background-repeat: repeat-y;
         background-position:top; 
@@ -63,11 +65,17 @@ body {
 
         background-clip:content-box;
         /*-webkit-background-clip:content-box;*/ /* Safari */
-        background-position:top;
+        /*background-position:top;*/
         background-origin:content-box;
 }
 img, form *, pre, div, table {
         max-width: 100%;
+}
+#rotarylogo {
+        position: absolute;
+        top: 0;
+        left: 20px;
+        width: 200px;
 }
 .itemdate {
         font-size: 0.66rem; /* 8pt */
@@ -296,7 +304,14 @@ a:hover {
         color: rgb(123, 16, 66);
 }
 /* media queries */
-@media (min-width: 1200px) {
+@media (max-width: 1438px) {
+        #rotarylogo {
+                position: static;
+                width: 100px;
+                height: 40px;
+        }
+}
+@media (max-width: 1200px) {
         html {
                 font-size: 20px;
         }
@@ -323,6 +338,10 @@ a:hover {
         }
 }
 @media (max-width: 500px) {
+        #rotarylogo {
+                width: 50px;
+                height: 30px;
+        }
         #header-image-div {
                 height: 10rem;
         }

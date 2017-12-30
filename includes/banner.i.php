@@ -9,8 +9,11 @@ if($this->isAdmin($this->id)) {
 
 return <<<EOF
 <header>
+<div id="rotarylogo">
 <img id='the-real-rotary-logo' src='https://bartonphillips.net/images/RotaryLogo.png'
- alt='This is the REAL Rotary Logo. Oh Boy' width="200">
+ alt='This is the REAL Rotary Logo. Oh Boy'><br>
+</p>
+</div>
 <div id="header-image-div">
 <div id="header-image">
 <img id='slideshow' src="https://bartonphillips.net/images/banner-photos/CIMG0001n.JPG"/>
