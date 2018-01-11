@@ -18,7 +18,7 @@
     "bannerFile": "/var/www/granbyrotary.org/includes/banner.i.php",
     "footerFile": "/var/www/granbyrotary.org/includes/footer.i.php",
     "count": true,
-    "countMe": true,
+    "countMe": false,
     "ctrmsg": "Counter Reset: Feb. 4, 2017",
     "trackerImg1": "/images/blank.png",
     "trackerImg2": "/images/blank.png",
