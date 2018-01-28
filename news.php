@@ -57,7 +57,7 @@ EOF;
   }
 
   try {
-    // The class is in the granbyrotary/includes directory
+    // The class is in the '/var/www/vendor/' directory
 
     $feed = new RssFeed("https://www.skyhidailynews.com/feed/");
   } catch(Exception $e) {

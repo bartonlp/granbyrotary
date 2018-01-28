@@ -43,7 +43,8 @@ RewriteRule ^robots\.txt$ robots.php [L,NC]
 RewriteRule ^Sitemap\.xml$ sitemap.php [L,NC]
 
 # rewrite the address of csstest.css to tracker.php?csstest
-RewriteRule ^csstest\.css(.*)(.*)$ tracker.php?$2&csstest [L,QSA]
+#RewriteRule ^csstest\.css(.*)(.*)$ tracker.php?$2&csstest [L,QSA]
+RewriteRule ^csstest-(.*)\.css$ tracker.php?id=$1&csstest [L,QSA]
 
 # START of block logic
 # blocked ip addresses. Add each IP. All but the last should have the [OR] flag. The last one should not have it.
