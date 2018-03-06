@@ -108,17 +108,7 @@ EOF;
 }
 
 $h->extra = <<<EOF
-   <!-- rssnews.js has the generic news rotator logic -->
-   <script src="js/rssnews.js"></script>
-
-   <script>
-jQuery(document).ready(function($) {
-  // Only get twenty days of feed not all of it
-  $("#news-feed").newsFeed("proxy.rss.php?feed=http://feeds2.feedburner.com/rotary/PBqj", 20);
-});
-   </script>
-
-   <style type="text/css">
+  <style type="text/css">
 #news-feed {
         position: relative;
         /* this height must match the value in .headline below */
@@ -136,18 +126,6 @@ jQuery(document).ready(function($) {
         top: 210px;
         overflow: hidden;
         padding: 0 5px;
-}
-#news-feed h4 {
-        margin-top: .5em;
-        margin-bottom: .25em;
-        font-size: 1em;
-}
-#news-feed h4 a {
-        color: #006;
-}
-#news-feed .publication-date {
-        margin-bottom: 1em;
-        font-style: italic;
 }
 .news-wait {
         position: absolute;
@@ -207,7 +185,7 @@ jQuery(document).ready(function($) {
 #officerstbl td {
         padding: 5px;
 }
-   </style>
+  </style>
 EOF;
 
 $h->title = "About Rotary";

@@ -2,9 +2,9 @@
 /* CSS that is in every page */
 
 html {
-        max-width: 1800px;
-        font-size: 16px;
-        margin: auto;
+  max-width: 1800px;
+  font-size: 16px;
+  margin: auto;
 }
 
 /* This is the icon.fonts for the menu icon. */
@@ -44,174 +44,174 @@ html {
 }
 
 body {
-/* New Years 
-        background-image: url('https://bartonphillips.net/images/happy6.png');
-        background-position: 5px 80px;
-        background-repeat: no-repeat;
-/**/
-/* Xmas
-        background-image: url(http://bartonphillips.net/images/bksnoscene.jpg);
-        background-repeat: repeat-y;
-        background-position:top; 
-        background-size: 100%;
-        background-attachment: fixed;
-/**/
-        background-color: #FFEFD5; 
-        margin: 0;
-        padding: 0 0.625rem;
+  /* New Years 
+  background-image: url('https://bartonphillips.net/images/happy6.png');
+  background-position: 5px 80px;
+  background-repeat: no-repeat;
+  /**/
+  /* Xmas
+  background-image: url(http://bartonphillips.net/images/bksnoscene.jpg);
+  background-repeat: repeat-y;
+  background-position:top; 
+  background-size: 100%;
+  background-attachment: fixed;
+  /**/
+  background-color: #FFEFD5; 
+  margin: 0;
+  padding: 0 0.625rem;
 
-        font-family: Garamond, Georgia, Times, "Times New Roman", serif;
-        font-size: 1.5rem;
+  font-family: Garamond, Georgia, Times, "Times New Roman", serif;
+  font-size: 1.5rem;
 
-        background-clip:content-box;
-        /*-webkit-background-clip:content-box;*/ /* Safari */
-        /*background-position:top;*/
-        background-origin:content-box;
+  background-clip:content-box;
+  /*-webkit-background-clip:content-box;*/ /* Safari */
+  /*background-position:top;*/
+  background-origin:content-box;
 }
 img, form *, pre, div, table {
-        max-width: 100%;
+  max-width: 100%;
 }
 #rotarylogo {
-        position: absolute;
-        top: 0;
-        left: 20px;
-        width: 200px;
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 200px;
 }
 .itemdate {
-        font-size: 0.66rem; /* 8pt */
-        color: gray;
+  font-size: 0.66rem; /* 8pt */
+  color: gray;
 }
 .center {
-        text-align: center;
+  text-align: center;
 }
 .floatleft {
-        float: left;
+  float: left;
 }
 .floatright {
-        float: right;
+  float: right;
 }
 .clearboth {
-        clear: both;
+  clear: both;
 }
 address {
-        text-align: center;
+  text-align: center;
 }
 a {
-        text-decoration: underline;
+  text-decoration: underline;
 }
 a:hover {
-        color: blue;
-        text-decoration: underline;
+  color: blue;
+  text-decoration: underline;
 }
 
 /* Button */
 
 .button {
-        font-size: 120%;
-        line-height: 170%;
-        text-decoration: none;
-        border-bottom: 0.125rem solid black;
-        border-right: 0.125rem solid black;
-        border-top: 0.0625rem solid white;
-        padding: 0.25rem 0.375rem 0.25rem 0.375rem;
+  font-size: 120%;
+  line-height: 170%;
+  text-decoration: none;
+  border-bottom: 0.125rem solid black;
+  border-right: 0.125rem solid black;
+  border-top: 0.0625rem solid white;
+  padding: 0.25rem 0.375rem 0.25rem 0.375rem;
 }
 .button a {
-        line-height: 100%;
-        text-decoration: none;
+  line-height: 100%;
+  text-decoration: none;
 }
 
 /* Hit Counter in footer */
 
 #hitCounter {
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-        text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  text-align: center;
 }
 #hitCountertbl {
-        border: 0.5rem ridge yellow !important;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
+  border: 0.5rem ridge yellow !important;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
 }
 #hitCountertbl * {
-        border: 0;
-        background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
+  border: 0;
+  background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
 }
 #ctrnumbers { /* the img inside the table */
-        background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
+background-color: #F5DEB3 !important; /* wheat, rgb=245,222,179 hex=#F5DEB3 */
 }
 
 /* The last modified is in the footer.php */
 
 #lastmodified {
-        text-align: center;
+  text-align: center;
 }
 #contactUs {
-        text-align: center;
-        margin-top: -1.25rem;
+  text-align: center;
+  margin-top: -1.25rem;
 }
 
 /* Nav Bar at top */
 #pagetitle {
-        text-align: center;
+  text-align: center;
 }
 #navMap {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 1.25rem; /* !important;  /* try to make sure the navbar fits OK even if the browser is set up for a larger default */
-        margin-left: auto;
-        margin-right: auto; 
-        margin-top: 0.3125rem;
-        padding-bottom: 0.25rem;
-        width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.25rem; /* !important;  /* try to make sure the navbar fits OK even if the browser is set up for a larger default */
+  margin-left: auto;
+  margin-right: auto; 
+  margin-top: 0.3125rem;
+  padding-bottom: 0.25rem;
+  width: 100%;
 }
 #navMap ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-        width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: 100%;
 }
 #navMap li {
-        display: inline;
+  display: inline;
 }
 #navMap a:link, #navMap a:visited {
-        color: white;
-        background-color: #003984;
-        text-decoration: none;
+  color: white;
+  background-color: #003984;
+  text-decoration: none;
 }
 #navMap a:hover {
-        color: #FFFF00;
+  color: #FFFF00;
 }
 #navMap li a {
-        width: 23%;
-        padding: 0 .5% 0 .5%;
-        border: 0.0625rem solid white;
+  width: 23%;
+  padding: 0 .5% 0 .5%;
+  border: 0.0625rem solid white;
 }
 #header-image-div {
-        position: relative;
-        border: 0.6rem solid #3739b0; /* dark blue */
-        border-bottom-left-radius: 1.25rem;
-        border-bottom-right-radius: 1.25rem;
-        width: 60rem;
-        margin: auto;
-        background-color: #7AC5CD; /* light blue */
+  position: relative;
+  border: 0.6rem solid #3739b0; /* dark blue */
+  border-bottom-left-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+  width: 60rem;
+  margin: auto;
+  background-color: #7AC5CD; /* light blue */
 }
 #header-image {
-        position: relative;
-        width: 100%;
-        height: 15.8rem;
-        border-bottom: 0.9375rem solid #3739b0;
+  position: relative;
+  width: 100%;
+  height: 15.8rem;
+  border-bottom: 0.9375rem solid #3739b0;
 }
 /* the images in header-image are
-   1) photo of granby,
-   2) wheel and
-   3) rotary club text
+1) photo of granby,
+2) wheel and
+3) rotary club text
 */
 #header-image img:first-of-type { /* this is the photo of granby */
-  width: 100%;
-  height: 100%;
-  z-index: 100;
+width: 100%;
+height: 100%;
+z-index: 100;
 }
 #wheel {
   position: absolute;
@@ -231,27 +231,27 @@ a:hover {
 
 /* Rotary Links drop down menu */
 #rotary-links {
-        margin: 20px 0px;
+  margin: 20px 0px;
 }
 #rotary-links label {
-        border-radius: 10px;
-        background-color: red;
-        color: white;
-        padding: 10px;
-        font-size: 1.2rem;
-        cursor: pointer;
+  border-radius: 10px;
+  background-color: red;
+  color: white;
+  padding: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 #rotary-links-menu {
-        display: none;
-        width: 20rem;
-        background-color: #ebb076;
-        line-height: 2rem;
-        padding: 10px;
-        list-style: none;
-        border: 3px groove yellow;
+  display: none;
+  width: 20rem;
+  background-color: #ebb076;
+  line-height: 2rem;
+  padding: 10px;
+  list-style: none;
+  border: 3px groove yellow;
 }
 #rotary-links-menu a {
-        color: black;
+  color: black;
 }
 #rotary-links input[type=checkbox] {
   display: none;
@@ -264,130 +264,129 @@ a:hover {
 /* For webstats-new.php */
 #memberpagecnt, #memberHits, #memberNot, .who, #otherMemberHits, #blpid, #daycount,
 #blpmembers, #logip, #logagent, #counter, #counter2, #tracker, #robots, #robots2 {
-        background-color: white;
+  background-color: white;
 }
 .left {
-        float:left;
-        width:48%;
+  float:left;
+  width:48%;
 }
 .right {
-        float:right;
-        width:48%;
+  float:right;
+  width:48%;
 }
 /*
-  The #hitCounter... are for the SiteClass::getCounterWigget() which can be at the bottom of the page.
-  #F5DEB3==rgb(245,222,179) is 'wheat' for the background
-  rgb(123, 16, 66) is a burgundy for the number
+The #hitCounter... are for the SiteClass::getCounterWigget() which can be at the bottom of the page.
+#F5DEB3==rgb(245,222,179) is 'wheat' for the background
+rgb(123, 16, 66) is a burgundy for the number
 */  
 #hitCounter {
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-        text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  text-align: center;
 }
 #hitCountertbl {
-        font-size: 1em;
-        width: 0;
-        border: 8px ridge yellow;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #F5DEB3
+  font-size: 1em;
+  width: 0;
+  border: 8px ridge yellow;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #F5DEB3
 }
 #hitCountertr {
-        width: 0;
-        border: 8px ridge yellow;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #F5DEB3
+  width: 0;
+  border: 8px ridge yellow;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #F5DEB3
 }
 #hitCounterth {
-        color: rgb(123, 16, 66);
+  color: rgb(123, 16, 66);
 }
 /* media queries */
 @media (max-width: 1438px) {
-        #rotarylogo {
-                position: static;
-                width: 100px;
-                height: 40px;
-        }
+  #rotarylogo {
+    position: static;
+    width: 100px;
+    height: 40px;
+  }
 }
 @media (max-width: 1200px) {
-        html {
-                font-size: 20px;
-        }
+  html {
+    font-size: 20px;
+  }
 }
 @media (max-width: 1141px) {
-        #granbyrotarytext {
-                left: 6.25rem;
-        }
-        #wheel {
-                top: 5.8rem;
-                width: 5.625rem;
-                height: 5.626rem;
-                left: 0.625rem;
-        }
-        #navMap {
-                display: none;
-        }
-        #header-image-div {
-                height: 19.6875rem;
-                width: 95%;
-        }
-        #smallnavbar {
-                display: block;
-        }
+  #granbyrotarytext {
+    left: 6.25rem;
+  }
+  #wheel {
+    top: 5.8rem;
+    width: 5.625rem;
+    height: 5.626rem;
+    left: 0.625rem;
+  }
+  #navMap {
+    display: none;
+  }
+  #header-image-div {
+    height: 19.6875rem;
+    width: 95%;
+  }
+  #smallnavbar {
+    display: block;
+  }
 }
 @media (max-width: 500px) {
-        #rotarylogo {
-                width: 50px;
-                height: 30px;
-        }
-        #header-image-div {
-                height: 10rem;
-        }
-        #navMap a {
-                font-size: 1rem;
-        }
-        #navMap li a {
-                padding: 0 0.625rem 0 0.625rem;
-        }
-        #header-image {
-                height: 6.25rem;
-                border-bottom: 0.3125rem solid #3739b0;
-        }
-        #header-image img:first-child {
-                width: 100%;
-                height: 100%;
-        }
-        #wheel {
-                top: 0.625rem;
-                left: 0.3125rem;
-                width: 4.5rem;
-                height: 4.5rem;
-        } 
-        #granbyrotarytext {
-                top: 2.5rem;
-                left: 4.7rem;
-                width: 16rem;
-        }
-        #header-image-div {
-                position: relative;
-                border: 0.3rem solid #3739b0;
-        }
+  #rotarylogo {
+    width: 50px;
+    height: 30px;
+  }
+  #header-image-div {
+    height: 10rem;
+  }
+  #navMap a {
+    font-size: 1rem;
+  }
+  #navMap li a {
+    padding: 0 0.625rem 0 0.625rem;
+  }
+  #header-image {
+    height: 6.25rem;
+    border-bottom: 0.3125rem solid #3739b0;
+  }
+  #header-image img:first-child {
+    width: 100%;
+    height: 100%;
+  }
+  #wheel {
+    top: 0.625rem;
+    left: 0.3125rem;
+    width: 4.5rem;
+    height: 4.5rem;
+  } 
+  #granbyrotarytext {
+    top: 2.5rem;
+    left: 4.7rem;
+    width: 16rem;
+  }
+  #header-image-div {
+    position: relative;
+    border: 0.3rem solid #3739b0;
+  }
 
 }
 @media (max-width: 420px) {
-        #granbyrotarytext {
-                top: 2.5rem;
-                left: 4.7rem;
-                width: 11rem;
-        }
-        #rotary-links-menu {
-                width: 100%;
-        }
-        #wheel {
-                width: 4rem;
-                height: 4rem;
-        } 
+  #granbyrotarytext {
+    top: 2.5rem;
+    left: 4.7rem;
+    width: 11rem;
+  }
+  #rotary-links-menu {
+    width: 100%;
+  }
+  #wheel {
+    width: 4rem;
+    height: 4rem;
+  } 
 }
-  

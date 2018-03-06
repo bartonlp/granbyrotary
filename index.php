@@ -98,7 +98,6 @@ if(isset($_GET['memberid'])) {
 $h->extra = <<<EOF
   <!-- local extra -->
   <script>var banner_photos = new Array($banner_photos);</script>
-  <script async src="js/dropdown.js"></script>
   <script src="js/ximage.js"></script>
 EOF;
 

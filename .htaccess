@@ -42,8 +42,7 @@ RewriteRule ^rotary\.css css/rotary.css [L]
 RewriteRule ^robots\.txt$ robots.php [L,NC]
 RewriteRule ^Sitemap\.xml$ sitemap.php [L,NC]
 
-# rewrite the address of csstest.css to tracker.php?csstest
-#RewriteRule ^csstest\.css(.*)(.*)$ tracker.php?$2&csstest [L,QSA]
+# rewrite the address of csstest-{lastId}.css to tracker.php?id=$1&csstest
 RewriteRule ^csstest-(.*)\.css$ tracker.php?id=$1&csstest [L,QSA]
 
 # START of block logic

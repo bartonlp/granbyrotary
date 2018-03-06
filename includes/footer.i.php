@@ -16,6 +16,7 @@ $counterWigget
 {$arg['msg2']}
 </div>
 </footer>
+{$arg['script']}
 </body>
 </html>
 EOF;
