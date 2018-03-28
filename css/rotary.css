@@ -1,20 +1,33 @@
 /* CSS for GranbyRotary.Org */
 /* CSS that is in every page */
 
-html {
-  max-width: 1800px;
-  font-size: 16px;
-  margin: auto;
+:root {
+  --granbyFontSize: calc(14px + (26 - 14) * ((100vw - 320px) / (1800 - 320)));
 }
 
+html {
+  max-width: 1800px;
+  font-size: var(--granbyFontSize);
+  margin: auto;
+}
+h1 {
+  font-size: 1.5rem;
+}
+h2 {
+  font-size: 1.3rem;
+}
+h3 {
+  font-size: 1.2rem;
+}
 /* This is the icon.fonts for the menu icon. */
 /* Small menu bar */
 #smallnavbar {
   position: absolute;
   width: 11.25rem;
+  font-size: 1rem;
   display: none;
   margin-left: 2%;
-  padding-top: 0.9375rem;
+  padding-top: 0.15rem;
 }
 #smenu {
   display: none;
@@ -32,6 +45,11 @@ html {
 }
 .icon-menu {
   cursor: pointer;
+  color: white;
+  background-color: blue;
+  padding: 0 .2rem;
+  border-radius: .2rem;
+  margin-left: 1rem;
 }
 /* Hide checkbox. Used to toggle the smenu */
 #smallnavbar input[type=checkbox] {
@@ -42,7 +60,6 @@ html {
 #smallnavbar input[type=checkbox]:checked ~ #smenu {
   display: block;
 }
-
 body {
   /* New Years 
   background-image: url('https://bartonphillips.net/images/happy6.png');
@@ -59,23 +76,16 @@ body {
   background-color: #FFEFD5; 
   margin: 0;
   padding: 0 0.625rem;
-
   font-family: Garamond, Georgia, Times, "Times New Roman", serif;
-  font-size: 1.5rem;
-
-  background-clip:content-box;
-  /*-webkit-background-clip:content-box;*/ /* Safari */
-  /*background-position:top;*/
-  background-origin:content-box;
+  font-size: 1rem;
+  background-clip: content-box;
+  background-origin: content-box;
 }
 img, form *, pre, div, table {
   max-width: 100%;
 }
 #rotarylogo {
-  position: absolute;
-  top: 0;
-  left: 20px;
-  width: 200px;
+  width: 10rem;
 }
 .itemdate {
   font-size: 0.66rem; /* 8pt */
@@ -304,19 +314,18 @@ rgb(123, 16, 66) is a burgundy for the number
   color: rgb(123, 16, 66);
 }
 /* media queries */
-@media (max-width: 1438px) {
+@media (max-width: 1750px) {
   #rotarylogo {
     position: static;
-    width: 100px;
-    height: 40px;
-  }
-}
-@media (max-width: 1200px) {
-  html {
-    font-size: 20px;
+    width: 8rem;
+    height: 3rem;
   }
 }
 @media (max-width: 1141px) {
+  #rotarylogo {
+    width: 5rem;
+    height: 2rem;
+  }
   #granbyrotarytext {
     left: 6.25rem;
   }
@@ -330,20 +339,38 @@ rgb(123, 16, 66) is a burgundy for the number
     display: none;
   }
   #header-image-div {
-    height: 19.6875rem;
+    height: 10rem; /*19.6875rem;*/
     width: 95%;
+  }
+  #header-image {
+    height: 8rem; /*6.25rem;*/
+    border-bottom: 0.3125rem solid #3739b0;
   }
   #smallnavbar {
     display: block;
   }
+  #wheel {
+    top: 2rem;
+    left: 2rem;
+    width: 4rem;
+    height: 4rem;
+  }
+  /* This is the text that is in the header image */
+  #granbyrotarytext {
+    top: 3.3rem;
+    left: 6rem;
+    width: 25rem;
+  }
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   #rotarylogo {
     width: 50px;
     height: 30px;
   }
   #header-image-div {
-    height: 10rem;
+    height: 5.5rem;
+    position: relative;
+    border: 0.3rem solid #3739b0;
   }
   #navMap a {
     font-size: 1rem;
@@ -352,7 +379,7 @@ rgb(123, 16, 66) is a burgundy for the number
     padding: 0 0.625rem 0 0.625rem;
   }
   #header-image {
-    height: 6.25rem;
+    height: 3.8rem; /*6.25rem;*/
     border-bottom: 0.3125rem solid #3739b0;
   }
   #header-image img:first-child {
@@ -361,32 +388,15 @@ rgb(123, 16, 66) is a burgundy for the number
   }
   #wheel {
     top: 0.625rem;
-    left: 0.3125rem;
-    width: 4.5rem;
-    height: 4.5rem;
-  } 
+    left: 0.01rem;
+    width: 3rem;
+    height: 3rem;
+  }
+  /* This is the text that is in the header image */
   #granbyrotarytext {
-    top: 2.5rem;
-    left: 4.7rem;
+    top: 1.5rem;
+    left: 2.7rem;
     width: 16rem;
   }
-  #header-image-div {
-    position: relative;
-    border: 0.3rem solid #3739b0;
-  }
+}
 
-}
-@media (max-width: 420px) {
-  #granbyrotarytext {
-    top: 2.5rem;
-    left: 4.7rem;
-    width: 11rem;
-  }
-  #rotary-links-menu {
-    width: 100%;
-  }
-  #wheel {
-    width: 4rem;
-    height: 4rem;
-  } 
-}
