@@ -336,8 +336,6 @@ $otherstuff
     <li><a target="_blank" href="http://www.rotary.org/">Rotary International Web Site</a>
     <li><a target="_blank" href='http://rmryla.org'>RYLA</a>
     <li><a target="_blank" href='http://WinterparkFraserRotary.org'>Winter Park Rotary Club</a>
-    <li><a target="_blank" href='http://www.grandlakerotary.org/'>Grand Lake Rotary Club</a>
-    <li><a target="_blank" href='http://escuelaminga.org/Minga/Rotary.html'>The Equator Project</a>
   </ul>
 </div>
 </div>
