@@ -60,7 +60,7 @@ Our guest speaker will be $name and the subject of the talk is:
 $subject.
 
 All Rotarians, as well as the general public, are invited. Maverick's provides a wonderful
-lunch for \$12 but purchasing lunch is not required.
+lunch for \$13.50 but purchasing lunch is not required.
 
 Our meetings start at 12 noon every Wednesday and are held at
 Maverick's Grille
